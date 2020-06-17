@@ -12,11 +12,11 @@ class ObjectCell: UITableViewCell {
     
     @IBOutlet weak var cellView: UIView!
     @IBOutlet weak var coverImgView: UIImageView!
-    @IBOutlet weak var titleButton: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
     
     func setObjectCell(sourceObj: FavObject){
         coverImgView.image = sourceObj.coverImage
-        titleButton.setTitle(sourceObj.title, for: .normal)
+        titleLabel.text = sourceObj.title
         
     }
     override func awakeFromNib() {
