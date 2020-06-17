@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		21BD64DA2499B1080024B510 /* EditObjectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BD64D92499B1080024B510 /* EditObjectVC.swift */; };
+		21BD64DC2499B4010024B510 /* ContactsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BD64DB2499B4010024B510 /* ContactsVC.swift */; };
+		21BD64DE2499B8F50024B510 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BD64DD2499B8F50024B510 /* SettingsVC.swift */; };
 		7D92A10424968056004210F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D92A10324968056004210F3 /* AppDelegate.swift */; };
 		7D92A10624968056004210F3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D92A10524968056004210F3 /* SceneDelegate.swift */; };
 		7D92A10824968056004210F3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D92A10724968056004210F3 /* ViewController.swift */; };
@@ -24,6 +27,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		21BD64D92499B1080024B510 /* EditObjectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditObjectVC.swift; sourceTree = "<group>"; };
+		21BD64DB2499B4010024B510 /* ContactsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsVC.swift; sourceTree = "<group>"; };
+		21BD64DD2499B8F50024B510 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		7D92A10024968056004210F3 /* draft1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = draft1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D92A10324968056004210F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7D92A10524968056004210F3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -93,6 +99,9 @@
 				7D92A1272496D64A004210F3 /* AddObjectVC.swift */,
 				7D92A1292496D6EC004210F3 /* AddGroupVC.swift */,
 				7D92A12D2496EAD1004210F3 /* ShowObjectVC.swift */,
+				21BD64D92499B1080024B510 /* EditObjectVC.swift */,
+				21BD64DB2499B4010024B510 /* ContactsVC.swift */,
+				21BD64DD2499B8F50024B510 /* SettingsVC.swift */,
 			);
 			path = VCs;
 			sourceTree = "<group>";
@@ -184,11 +193,14 @@
 				7D92A1202496C877004210F3 /* ObjectController.swift in Sources */,
 				7D92A12E2496EAD1004210F3 /* ShowObjectVC.swift in Sources */,
 				7D92A10424968056004210F3 /* AppDelegate.swift in Sources */,
+				21BD64DC2499B4010024B510 /* ContactsVC.swift in Sources */,
 				7D92A12C2496D890004210F3 /* GroupTableVC.swift in Sources */,
 				7D92A1242496CA08004210F3 /* ObjectCell.swift in Sources */,
 				7D92A11824968AB2004210F3 /* CollectionViewCell.swift in Sources */,
 				7D92A1262496CE12004210F3 /* FavObject.swift in Sources */,
 				7D92A10624968056004210F3 /* SceneDelegate.swift in Sources */,
+				21BD64DA2499B1080024B510 /* EditObjectVC.swift in Sources */,
+				21BD64DE2499B8F50024B510 /* SettingsVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,19 +1,18 @@
 //
-//  ShowObjectVC.swift
+//  SettingsVC.swift
 //  draft1
 //
-//  Created by Claire Mo on 6/14/20.
+//  Created by Kevin Diep on 6/16/20.
 //  Copyright © 2020 Zongying Mo. All rights reserved.
 //
 
 import UIKit
 
-class ShowObjectVC: UIViewController {
+class SettingsVC: UIViewController {
 
-    var selectedImage: String?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+
         // Do any additional setup after loading the view.
     }
     
