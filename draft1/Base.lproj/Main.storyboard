@@ -126,7 +126,7 @@
                                 <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <state key="normal" title="Add "/>
                                 <connections>
-                                    <segue destination="iCH-Nu-FfO" kind="show" id="8gf-k1-G2g"/>
+                                    <segue destination="iCH-Nu-FfO" kind="show" identifier="toAddGroup" id="8gf-k1-G2g"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OXw-p7-Au3">
@@ -151,6 +151,9 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="avp-ah-AVM"/>
+                    <connections>
+                        <outlet property="groupsBook" destination="2gy-CI-mWh" id="h4V-yP-lfh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -165,11 +168,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="raD-vU-vyZ">
-                                <rect key="frame" x="161" y="732" width="92" height="30"/>
-                                <state key="normal" title="Create Group"/>
+                                <rect key="frame" x="184" y="732" width="46" height="30"/>
+                                <state key="normal" title="Create"/>
+                                <connections>
+                                    <action selector="createPressed:" destination="iCH-Nu-FfO" eventType="touchUpInside" id="mDk-uJ-8mE"/>
+                                </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qAl-1s-wkd">
-                                <rect key="frame" x="20" y="129" width="34" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="New Category: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qAl-1s-wkd">
+                                <rect key="frame" x="20" y="129" width="119" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -190,6 +196,10 @@
                         <viewLayoutGuide key="safeArea" id="6Pg-z0-Pq2"/>
                     </view>
                     <navigationItem key="navigationItem" id="Nz7-LE-GhU"/>
+                    <connections>
+                        <outlet property="newGroupTF" destination="6rY-kf-fsS" id="76O-s1-pOj"/>
+                        <outlet property="newTitleLabel" destination="qAl-1s-wkd" id="9oe-jr-JIf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4CE-Um-cOg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

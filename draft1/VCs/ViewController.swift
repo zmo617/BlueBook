@@ -10,13 +10,18 @@ import UIKit
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
+    @IBOutlet weak var groupsBook: UICollectionView!
     var groups = ["Restaurants", "Classes", "Markets"]
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        // Do any additional setup after loading the view.
+//    }
 
+    override func viewWillAppear(_ animated: Bool) {
+        groupsBook.reloadData()
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return groups.count
     }
@@ -29,6 +34,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath.row)
+    }
+    
+    func addGroup(newTitle: String){
+        groups.append(newTitle)
+    }
+    
+    //prepare for segue, set delegates
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toAddGroup",
+            let addGroupVC = segue.destination as? AddGroupVC{//as? is casting
+            addGroupVC.mainVCDelegate = self
+        }
     }
 }
 

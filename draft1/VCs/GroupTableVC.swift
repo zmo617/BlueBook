@@ -30,6 +30,7 @@ class GroupTableVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         groupTable.reloadData()
     }
+    
    func addObject(newCoverImg: UIImage, newTitle: String, newContent: String){
         //create new object
         let newObject = FavObject(coverImage: newCoverImg, title: newTitle, content: newContent)
