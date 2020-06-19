@@ -9,7 +9,9 @@
 import UIKit
 
 class ShowObjectVC: UIViewController {
-
+    
+    
+    //MARK:LOCAL PROPERTIES
     var selectedImage: String?
     
     override func viewDidLoad() {

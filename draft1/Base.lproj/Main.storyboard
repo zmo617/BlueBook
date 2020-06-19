@@ -107,27 +107,19 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="woe-0A-nnd" userLabel="deleteBtn" customClass="RoundBtn" customModule="draft1" customModuleProvider="target">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FJW-0P-2Hx">
                                                                 <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                                                 <state key="normal" image="xmark" catalog="system"/>
-                                                                <userDefinedRuntimeAttributes>
-                                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                                        <real key="value" value="15"/>
-                                                                    </userDefinedRuntimeAttribute>
-                                                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                                        <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                    </userDefinedRuntimeAttribute>
-                                                                </userDefinedRuntimeAttributes>
                                                                 <connections>
-                                                                    <action selector="deletePressed:" destination="OA8-WF-vYB" eventType="touchUpInside" id="Bww-Ti-L8Q"/>
+                                                                    <action selector="deletePressed:" destination="OA8-WF-vYB" eventType="touchUpInside" id="TsN-4v-uss"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
                                                         <constraints>
-                                                            <constraint firstItem="woe-0A-nnd" firstAttribute="top" secondItem="RDI-LB-ZJh" secondAttribute="top" id="TVo-OC-YjV"/>
-                                                            <constraint firstAttribute="trailing" secondItem="woe-0A-nnd" secondAttribute="trailing" id="YUx-6o-pmg"/>
-                                                            <constraint firstAttribute="bottom" secondItem="woe-0A-nnd" secondAttribute="bottom" id="cyc-M7-DYs"/>
-                                                            <constraint firstItem="woe-0A-nnd" firstAttribute="leading" secondItem="RDI-LB-ZJh" secondAttribute="leading" id="fZ0-Ms-vlp"/>
+                                                            <constraint firstItem="FJW-0P-2Hx" firstAttribute="top" secondItem="RDI-LB-ZJh" secondAttribute="top" id="3cf-JA-agg"/>
+                                                            <constraint firstAttribute="bottom" secondItem="FJW-0P-2Hx" secondAttribute="bottom" id="8Tq-a4-3VL"/>
+                                                            <constraint firstAttribute="trailing" secondItem="FJW-0P-2Hx" secondAttribute="trailing" id="ISs-ep-6fp"/>
+                                                            <constraint firstItem="FJW-0P-2Hx" firstAttribute="leading" secondItem="RDI-LB-ZJh" secondAttribute="leading" id="g1l-wM-Taz"/>
                                                         </constraints>
                                                     </view>
                                                     <constraints>
@@ -146,7 +138,7 @@
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
-                                            <outlet property="deleteBtn" destination="woe-0A-nnd" id="Iu0-CD-5Ow"/>
+                                            <outlet property="deleteBtn" destination="FJW-0P-2Hx" id="hrH-4t-CNx"/>
                                             <outlet property="deleteView" destination="0eb-6K-io0" id="eSq-RF-7qg"/>
                                             <outlet property="groupButton" destination="rFg-RQ-gsh" id="75K-XC-m3b"/>
                                         </connections>
@@ -189,15 +181,8 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="avp-ah-AVM">
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="ODL-QR-n9o">
-                            <connections>
-                                <action selector="editPressed:" destination="BYZ-38-t0r" id="l9i-3U-FTK"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="avp-ah-AVM"/>
                     <connections>
-                        <outlet property="editBtn" destination="ODL-QR-n9o" id="KZU-Fw-h3q"/>
                         <outlet property="groupsBook" destination="2gy-CI-mWh" id="h4V-yP-lfh"/>
                     </connections>
                 </viewController>
@@ -355,7 +340,7 @@
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dCm-9K-pU2">
-                                <rect key="frame" x="20" y="387" width="200" height="130"/>
+                                <rect key="frame" x="20" y="432" width="200" height="130"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="A7I-qN-nCD"/>
                                     <constraint firstAttribute="height" constant="130" id="W0H-Q3-jxx"/>
@@ -396,7 +381,7 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XCF-0j-G22">
-                                <rect key="frame" x="20" y="537" width="75" height="30"/>
+                                <rect key="frame" x="20" y="582" width="75" height="30"/>
                                 <color key="backgroundColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="addPicture">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -405,20 +390,33 @@
                                     <action selector="importImg:" destination="9IQ-Mp-Iy7" eventType="touchUpInside" id="sVi-Wn-kOw"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BwJ-Ng-6uW">
+                                <rect key="frame" x="30" y="387" width="53" height="25"/>
+                                <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="yCl-3I-OgS"/>
+                                </constraints>
+                                <state key="normal" title="record"/>
+                                <connections>
+                                    <action selector="recordPressed:" destination="9IQ-Mp-Iy7" eventType="touchUpInside" id="Uo2-u0-63H"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="tyG-lc-VQl" firstAttribute="centerX" secondItem="7xt-5C-vLu" secondAttribute="centerX" id="1EC-mf-QCw"/>
                             <constraint firstItem="DGl-BD-Fd9" firstAttribute="trailing" secondItem="S03-jt-o2N" secondAttribute="trailing" constant="20" id="5Dv-Dh-jcn"/>
                             <constraint firstItem="XCF-0j-G22" firstAttribute="leading" secondItem="DGl-BD-Fd9" secondAttribute="leading" constant="20" id="8L6-V0-Z1g"/>
+                            <constraint firstItem="dCm-9K-pU2" firstAttribute="top" secondItem="BwJ-Ng-6uW" secondAttribute="bottom" constant="20" id="DKN-MU-Lqg"/>
                             <constraint firstItem="XCF-0j-G22" firstAttribute="top" secondItem="dCm-9K-pU2" secondAttribute="bottom" constant="20" id="K2T-ju-ape"/>
                             <constraint firstItem="S03-jt-o2N" firstAttribute="top" secondItem="DGl-BD-Fd9" secondAttribute="top" constant="25" id="LOq-IZ-5fY"/>
+                            <constraint firstItem="BwJ-Ng-6uW" firstAttribute="leading" secondItem="DGl-BD-Fd9" secondAttribute="leading" constant="30" id="NcA-Da-ATi"/>
                             <constraint firstItem="S03-jt-o2N" firstAttribute="leading" secondItem="DGl-BD-Fd9" secondAttribute="leading" constant="20" id="Rsm-4A-idh"/>
                             <constraint firstItem="DGl-BD-Fd9" firstAttribute="trailing" secondItem="ZEK-8t-70Z" secondAttribute="trailing" constant="20" id="W70-NM-2gs"/>
-                            <constraint firstItem="dCm-9K-pU2" firstAttribute="top" secondItem="ZEK-8t-70Z" secondAttribute="bottom" constant="20" id="Wbl-d8-8aJ"/>
                             <constraint firstItem="ZEK-8t-70Z" firstAttribute="leading" secondItem="DGl-BD-Fd9" secondAttribute="leading" constant="20" id="rM9-3W-yxU"/>
                             <constraint firstItem="ZEK-8t-70Z" firstAttribute="top" secondItem="S03-jt-o2N" secondAttribute="bottom" constant="20" id="sFM-Qo-LWK"/>
                             <constraint firstItem="DGl-BD-Fd9" firstAttribute="bottom" secondItem="tyG-lc-VQl" secondAttribute="bottom" constant="50" id="sUP-q5-sBY"/>
+                            <constraint firstItem="BwJ-Ng-6uW" firstAttribute="top" secondItem="ZEK-8t-70Z" secondAttribute="bottom" constant="20" id="svx-yl-TTK"/>
                             <constraint firstItem="dCm-9K-pU2" firstAttribute="leading" secondItem="DGl-BD-Fd9" secondAttribute="leading" constant="20" id="utw-Ue-E6v"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="DGl-BD-Fd9"/>
@@ -429,6 +427,7 @@
                         <outlet property="contentTxtView" destination="ZEK-8t-70Z" id="NeJ-hM-zfy"/>
                         <outlet property="coverImgView" destination="dCm-9K-pU2" id="a2Z-0f-Cln"/>
                         <outlet property="createBtn" destination="tyG-lc-VQl" id="T1z-dy-o5D"/>
+                        <outlet property="recordBtn" destination="BwJ-Ng-6uW" id="XCK-lC-eYl"/>
                         <outlet property="titleTxtField" destination="Vor-aj-qaE" id="9qa-ff-d8F"/>
                     </connections>
                 </viewController>

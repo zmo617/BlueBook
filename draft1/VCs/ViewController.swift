@@ -8,32 +8,30 @@
 
 import UIKit
 
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, DataCollectionProtocol {
     
-   
-    @IBOutlet weak var editBtn: UIBarButtonItem!
+    //***temp delete group
+    func deleteData(index: Int) {
+        groups.remove(at: index)
+        groupsBook.reloadData()
+    }
+    
+    //***temp delete group
+    enum Mode {
+        case view
+        case select
+    }
+    
     @IBOutlet weak var groupsBook: UICollectionView!
-   
     
-    //var longPressRecognizer: UILongPressGestureRecognizer!
-    
+    //MARK:LOCAL PROPERTIES
     var groups = ["Restaurants", "Classes", "Markets"]
-    
-    //    override func viewDidLoad() {
-    //        super.viewDidLoad()
-    //        // Do any additional setup after loading the view.
-    //    }
     
     override func viewWillAppear(_ animated: Bool) {
         groupsBook.reloadData()
-        navigationItem.rightBarButtonItem = editBtn
     }
     
-    @IBAction func editPressed(_ sender: Any) {
-        
-    }
-    
-    
+    //MARK: SETUP collection view "groupsBook" ------------
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return groups.count
     }
@@ -41,6 +39,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "groupCell", for: indexPath as IndexPath) as! CollectionViewCell
         cell.groupButton.setTitle(groups[indexPath.row], for: .normal)
+        cell.index = indexPath//***temp delete group
+        cell.delegate = self//***temp delete group
         return cell
     }
     
@@ -52,15 +52,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         groups.append(newTitle)
     }
     
-    
-    //prepare for segue, set delegates
+    //MARK: Segues, set delegates
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toAddGroup",
             let addGroupVC = segue.destination as? AddGroupVC{//as? is casting
             addGroupVC.mainVCDelegate = self
         }
     }
-    
-    
 }
 

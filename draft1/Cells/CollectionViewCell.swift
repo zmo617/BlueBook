@@ -8,26 +8,23 @@
 
 import UIKit
 
-@IBDesignable
+protocol DataCollectionProtocol{
+    //func passData(index: Int)
+    func deleteData(index: Int)
+}
+
 class CollectionViewCell: UICollectionViewCell {
+    //MARK:LOCAL PROPERTIES
+    var delegate: DataCollectionProtocol!
+    var index: IndexPath!
     
     @IBOutlet weak var deleteBtn: UIButton!
     @IBOutlet weak var groupButton: UIButton!
     @IBOutlet weak var deleteView: UIVisualEffectView!
-    
-    
-    
-    
-    var editMode: Bool = true{
-        didSet{
-            deleteView.isHidden = !editMode
-            deleteView.layer.cornerRadius = deleteView.bounds.width/2.0
-            deleteView.layer.masksToBounds = true
-        }
-        
-    }
+
+    //***Temp implementation of delete group
     @IBAction func deletePressed(_ sender: Any) {
-        
+         delegate.deleteData(index: index.row)
     }
-    
 }
+
