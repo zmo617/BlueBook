@@ -101,14 +101,53 @@
                                                         <segue destination="5lQ-UD-B1i" kind="show" id="G37-w1-qSZ"/>
                                                     </connections>
                                                 </button>
+                                                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0eb-6K-io0">
+                                                    <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="RDI-LB-ZJh">
+                                                        <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <subviews>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="woe-0A-nnd" userLabel="deleteBtn" customClass="RoundBtn" customModule="draft1" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                                                <state key="normal" image="xmark" catalog="system"/>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                        <real key="value" value="15"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                                        <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                                <connections>
+                                                                    <action selector="deletePressed:" destination="OA8-WF-vYB" eventType="touchUpInside" id="Bww-Ti-L8Q"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="woe-0A-nnd" firstAttribute="top" secondItem="RDI-LB-ZJh" secondAttribute="top" id="TVo-OC-YjV"/>
+                                                            <constraint firstAttribute="trailing" secondItem="woe-0A-nnd" secondAttribute="trailing" id="YUx-6o-pmg"/>
+                                                            <constraint firstAttribute="bottom" secondItem="woe-0A-nnd" secondAttribute="bottom" id="cyc-M7-DYs"/>
+                                                            <constraint firstItem="woe-0A-nnd" firstAttribute="leading" secondItem="RDI-LB-ZJh" secondAttribute="leading" id="fZ0-Ms-vlp"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="vsC-TP-Shf"/>
+                                                        <constraint firstAttribute="width" constant="30" id="yfy-SY-Yah"/>
+                                                    </constraints>
+                                                    <blurEffect style="regular"/>
+                                                </visualEffectView>
                                             </subviews>
                                             <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
+                                                <constraint firstItem="0eb-6K-io0" firstAttribute="leading" secondItem="C0a-40-AL5" secondAttribute="leading" id="2RB-ks-jcf"/>
+                                                <constraint firstItem="0eb-6K-io0" firstAttribute="top" secondItem="C0a-40-AL5" secondAttribute="top" id="710-nr-7XO"/>
                                                 <constraint firstItem="rFg-RQ-gsh" firstAttribute="height" secondItem="C0a-40-AL5" secondAttribute="height" id="BNj-NK-Yma"/>
                                                 <constraint firstItem="rFg-RQ-gsh" firstAttribute="width" secondItem="C0a-40-AL5" secondAttribute="width" id="rru-Dd-vPz"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
+                                            <outlet property="deleteBtn" destination="woe-0A-nnd" id="Iu0-CD-5Ow"/>
+                                            <outlet property="deleteView" destination="0eb-6K-io0" id="eSq-RF-7qg"/>
                                             <outlet property="groupButton" destination="rFg-RQ-gsh" id="75K-XC-m3b"/>
                                         </connections>
                                     </collectionViewCell>
@@ -150,14 +189,21 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="avp-ah-AVM"/>
+                    <navigationItem key="navigationItem" id="avp-ah-AVM">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="ODL-QR-n9o">
+                            <connections>
+                                <action selector="editPressed:" destination="BYZ-38-t0r" id="l9i-3U-FTK"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="editBtn" destination="ODL-QR-n9o" id="KZU-Fw-h3q"/>
                         <outlet property="groupsBook" destination="2gy-CI-mWh" id="h4V-yP-lfh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="859" y="134"/>
+            <point key="canvasLocation" x="857.97101449275374" y="133.92857142857142"/>
         </scene>
         <!--Add GroupVC-->
         <scene sceneID="zse-ty-60c">
@@ -576,4 +622,7 @@
             <point key="canvasLocation" x="2257.971014492754" y="815.625"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="xmark" catalog="system" width="128" height="113"/>
+    </resources>
 </document>

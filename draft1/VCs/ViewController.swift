@@ -10,17 +10,29 @@ import UIKit
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
+   
+    @IBOutlet weak var editBtn: UIBarButtonItem!
     @IBOutlet weak var groupsBook: UICollectionView!
+   
+    
+    //var longPressRecognizer: UILongPressGestureRecognizer!
+    
     var groups = ["Restaurants", "Classes", "Markets"]
     
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        // Do any additional setup after loading the view.
-//    }
-
+    //    override func viewDidLoad() {
+    //        super.viewDidLoad()
+    //        // Do any additional setup after loading the view.
+    //    }
+    
     override func viewWillAppear(_ animated: Bool) {
         groupsBook.reloadData()
+        navigationItem.rightBarButtonItem = editBtn
     }
+    
+    @IBAction func editPressed(_ sender: Any) {
+        
+    }
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return groups.count
@@ -40,6 +52,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         groups.append(newTitle)
     }
     
+    
     //prepare for segue, set delegates
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toAddGroup",
@@ -47,5 +60,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             addGroupVC.mainVCDelegate = self
         }
     }
+    
+    
 }
 
