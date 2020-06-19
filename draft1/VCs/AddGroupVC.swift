@@ -9,7 +9,12 @@
 import UIKit
 
 class AddGroupVC: UIViewController {
-
+    
+    var mainVCDelegate: UIViewController!
+    
+    @IBOutlet weak var newTitleLabel: UILabel!
+    @IBOutlet weak var newGroupTF: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -17,6 +22,10 @@ class AddGroupVC: UIViewController {
     }
     
 
+    @IBAction func createPressed(_ sender: Any) {
+        let mainVC = mainVCDelegate as! ViewController
+        mainVC.addGroup(newTitle: newGroupTF.text!)
+    }
     /*
     // MARK: - Navigation
 

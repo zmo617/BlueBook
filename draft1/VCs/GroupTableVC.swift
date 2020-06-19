@@ -8,18 +8,12 @@
 
 import UIKit
 
-class GroupTableVC: UIViewController {
+class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
 
     @IBOutlet weak var groupTable: UITableView!
     
-    
-    
     var favObjects: Array<FavObject> = []
        
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(true)
-//    }
-//
     override func viewDidLoad() {
         super.viewDidLoad()
          sampleObjects()
@@ -30,6 +24,7 @@ class GroupTableVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         groupTable.reloadData()
     }
+    
    func addObject(newCoverImg: UIImage, newTitle: String, newContent: String){
         //create new object
         let newObject = FavObject(coverImage: newCoverImg, title: newTitle, content: newContent)
@@ -54,8 +49,6 @@ class GroupTableVC: UIViewController {
 
     }
 
-}
-extension GroupTableVC: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("size = \(favObjects.count)")
         return favObjects.count
@@ -70,6 +63,13 @@ extension GroupTableVC: UITableViewDataSource, UITableViewDelegate{
         return cell
     }
     
+    //swipe to delete object
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete{
+            favObjects.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .bottom)
+        }
+    }
     //prepare for segue, set delegates
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toAddObject",

@@ -24,6 +24,7 @@
 		7D92A12A2496D6EC004210F3 /* AddGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D92A1292496D6EC004210F3 /* AddGroupVC.swift */; };
 		7D92A12C2496D890004210F3 /* GroupTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D92A12B2496D890004210F3 /* GroupTableVC.swift */; };
 		7D92A12E2496EAD1004210F3 /* ShowObjectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D92A12D2496EAD1004210F3 /* ShowObjectVC.swift */; };
+		7D92A17C249C6067004210F3 /* RoundBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D92A17B249C6067004210F3 /* RoundBtn.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		7D92A1292496D6EC004210F3 /* AddGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGroupVC.swift; sourceTree = "<group>"; };
 		7D92A12B2496D890004210F3 /* GroupTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupTableVC.swift; sourceTree = "<group>"; };
 		7D92A12D2496EAD1004210F3 /* ShowObjectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowObjectVC.swift; sourceTree = "<group>"; };
+		7D92A17B249C6067004210F3 /* RoundBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundBtn.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				7D92A11724968AB2004210F3 /* CollectionViewCell.swift */,
 				7D92A1232496CA08004210F3 /* ObjectCell.swift */,
 				7D92A1252496CE12004210F3 /* FavObject.swift */,
+				7D92A17B249C6067004210F3 /* RoundBtn.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -193,6 +196,7 @@
 				7D92A1202496C877004210F3 /* ObjectController.swift in Sources */,
 				7D92A12E2496EAD1004210F3 /* ShowObjectVC.swift in Sources */,
 				7D92A10424968056004210F3 /* AppDelegate.swift in Sources */,
+				7D92A17C249C6067004210F3 /* RoundBtn.swift in Sources */,
 				21BD64DC2499B4010024B510 /* ContactsVC.swift in Sources */,
 				7D92A12C2496D890004210F3 /* GroupTableVC.swift in Sources */,
 				7D92A1242496CA08004210F3 /* ObjectCell.swift in Sources */,
