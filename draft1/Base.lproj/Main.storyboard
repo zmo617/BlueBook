@@ -107,27 +107,19 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="woe-0A-nnd" userLabel="deleteBtn" customClass="RoundBtn" customModule="draft1" customModuleProvider="target">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FJW-0P-2Hx">
                                                                 <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                                                 <state key="normal" image="xmark" catalog="system"/>
-                                                                <userDefinedRuntimeAttributes>
-                                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                                        <real key="value" value="15"/>
-                                                                    </userDefinedRuntimeAttribute>
-                                                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                                        <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                    </userDefinedRuntimeAttribute>
-                                                                </userDefinedRuntimeAttributes>
                                                                 <connections>
-                                                                    <action selector="deletePressed:" destination="OA8-WF-vYB" eventType="touchUpInside" id="Bww-Ti-L8Q"/>
+                                                                    <action selector="deletePressed:" destination="OA8-WF-vYB" eventType="touchUpInside" id="TsN-4v-uss"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
                                                         <constraints>
-                                                            <constraint firstItem="woe-0A-nnd" firstAttribute="top" secondItem="RDI-LB-ZJh" secondAttribute="top" id="TVo-OC-YjV"/>
-                                                            <constraint firstAttribute="trailing" secondItem="woe-0A-nnd" secondAttribute="trailing" id="YUx-6o-pmg"/>
-                                                            <constraint firstAttribute="bottom" secondItem="woe-0A-nnd" secondAttribute="bottom" id="cyc-M7-DYs"/>
-                                                            <constraint firstItem="woe-0A-nnd" firstAttribute="leading" secondItem="RDI-LB-ZJh" secondAttribute="leading" id="fZ0-Ms-vlp"/>
+                                                            <constraint firstItem="FJW-0P-2Hx" firstAttribute="top" secondItem="RDI-LB-ZJh" secondAttribute="top" id="3cf-JA-agg"/>
+                                                            <constraint firstAttribute="bottom" secondItem="FJW-0P-2Hx" secondAttribute="bottom" id="8Tq-a4-3VL"/>
+                                                            <constraint firstAttribute="trailing" secondItem="FJW-0P-2Hx" secondAttribute="trailing" id="ISs-ep-6fp"/>
+                                                            <constraint firstItem="FJW-0P-2Hx" firstAttribute="leading" secondItem="RDI-LB-ZJh" secondAttribute="leading" id="g1l-wM-Taz"/>
                                                         </constraints>
                                                     </view>
                                                     <constraints>
@@ -146,7 +138,7 @@
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
-                                            <outlet property="deleteBtn" destination="woe-0A-nnd" id="Iu0-CD-5Ow"/>
+                                            <outlet property="deleteBtn" destination="FJW-0P-2Hx" id="hrH-4t-CNx"/>
                                             <outlet property="deleteView" destination="0eb-6K-io0" id="eSq-RF-7qg"/>
                                             <outlet property="groupButton" destination="rFg-RQ-gsh" id="75K-XC-m3b"/>
                                         </connections>
@@ -189,15 +181,8 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="avp-ah-AVM">
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="ODL-QR-n9o">
-                            <connections>
-                                <action selector="editPressed:" destination="BYZ-38-t0r" id="l9i-3U-FTK"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="avp-ah-AVM"/>
                     <connections>
-                        <outlet property="editBtn" destination="ODL-QR-n9o" id="KZU-Fw-h3q"/>
                         <outlet property="groupsBook" destination="2gy-CI-mWh" id="h4V-yP-lfh"/>
                     </connections>
                 </viewController>
