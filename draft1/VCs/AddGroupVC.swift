@@ -9,11 +9,12 @@
 import UIKit
 
 class AddGroupVC: UIViewController {
-    
-    var mainVCDelegate: UIViewController!
-    
+   
     @IBOutlet weak var newTitleLabel: UILabel!
     @IBOutlet weak var newGroupTF: UITextField!
+    
+    //MARK:LOCAL PROPERTIES
+    var mainVCDelegate: UIViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -12,12 +12,12 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
 
     @IBOutlet weak var groupTable: UITableView!
     
+    //MARK:LOCAL PROPERTIES
     var favObjects: Array<FavObject> = []
        
     override func viewDidLoad() {
         super.viewDidLoad()
          sampleObjects()
-        print("after sample objects(), size = \(favObjects.count)")
         // Do any additional setup after loading the view.
     }
 
@@ -34,9 +34,6 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         print("add object, size = \(favObjects.count)")
     }
     
-    //func removeObject
-    //func changeObject
-    
     //before implementing getImage from phone, just for table view testing
     func sampleObjects(){
         //var tempFavObjects: [FavObject] = []
@@ -49,6 +46,7 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
 
     }
 
+    //MARK: SETUP tableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("size = \(favObjects.count)")
         return favObjects.count
@@ -70,7 +68,8 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             tableView.deleteRows(at: [indexPath], with: .bottom)
         }
     }
-    //prepare for segue, set delegates
+    
+    //MARK: Segues, set delegates
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toAddObject",
             let addObjectVC = segue.destination as? AddObjectVC{//as? is casting

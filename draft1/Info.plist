@@ -6,6 +6,10 @@
 	<string>Allow the app to access your photo library.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Allow the app to take photos with your phone.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Allow the app to use microphone to record.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Allow the app to do speech recognition</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

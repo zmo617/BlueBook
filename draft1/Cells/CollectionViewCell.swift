@@ -14,19 +14,17 @@ protocol DataCollectionProtocol{
 }
 
 class CollectionViewCell: UICollectionViewCell {
+    //MARK:LOCAL PROPERTIES
     var delegate: DataCollectionProtocol!
     var index: IndexPath!
     
     @IBOutlet weak var deleteBtn: UIButton!
     @IBOutlet weak var groupButton: UIButton!
     @IBOutlet weak var deleteView: UIVisualEffectView!
-    
-    
+
+    //***Temp implementation of delete group
     @IBAction func deletePressed(_ sender: Any) {
          delegate.deleteData(index: index.row)
     }
-    
-   
-   
 }
 

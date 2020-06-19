@@ -7,8 +7,11 @@
 //
 
 import UIKit
-
+//Class for objects. Stores data for object properties.
+//Separate from ObjectCell for better data management.
 class FavObject: NSObject {
+    
+    //MARK:LOCAL PROPERTIES
     var coverImage: UIImage
     var title: String
     var content: String
