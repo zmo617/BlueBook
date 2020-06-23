@@ -14,6 +14,8 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     
     //MARK:LOCAL PROPERTIES
     var favObjects: Array<FavObject> = []
+    
+    let showObjectSegueIdentifier = "toShowObject"
        
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +76,13 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         if segue.identifier == "toAddObject",
             let addObjectVC = segue.destination as? AddObjectVC{//as? is casting
             addObjectVC.groupTableDelegate = self
+        } else if segue.identifier == showObjectSegueIdentifier,
+            let showObjectVC = segue.destination as? ShowObjectVC,
+            let objectIndex = groupTable.indexPathForSelectedRow?.row {
+            showObjectVC.currentObject = favObjects[objectIndex]
+            
         }
     }
+    
+    
 }

@@ -10,13 +10,23 @@ import UIKit
 
 class ShowObjectVC: UIViewController {
     
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var descriptionLabel: UILabel!
     
     //MARK:LOCAL PROPERTIES
     var selectedImage: String?
     
+    var currentObject: FavObject!
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        titleLabel.text = currentObject.title
+        imageView.image = currentObject.coverImage
+        descriptionLabel.text = currentObject.content
+        descriptionLabel.sizeToFit()
     }
     
 

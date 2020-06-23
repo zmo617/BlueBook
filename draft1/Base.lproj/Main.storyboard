@@ -281,7 +281,7 @@
                                             <outlet property="cellView" destination="t4D-dg-5RE" id="DbA-vg-6Ha"/>
                                             <outlet property="coverImgView" destination="hRS-AJ-Qjc" id="PIt-El-GZK"/>
                                             <outlet property="titleLabel" destination="pxR-4o-CVy" id="eAc-Or-pH1"/>
-                                            <segue destination="6xK-tg-8R7" kind="show" id="uta-GT-lXY"/>
+                                            <segue destination="6xK-tg-8R7" kind="show" identifier="toShowObject" id="uta-GT-lXY"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -482,7 +482,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="boF-b6-oDS">
-                                <rect key="frame" x="20" y="184" width="34" height="21"/>
+                                <rect key="frame" x="20" y="184" width="365" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -493,7 +493,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VGe-sj-1yb">
-                                <rect key="frame" x="20" y="492" width="88" height="21"/>
+                                <rect key="frame" x="20" y="468" width="365" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -508,6 +508,11 @@
                         <viewLayoutGuide key="safeArea" id="gK5-qf-BRq"/>
                     </view>
                     <navigationItem key="navigationItem" id="OnM-gU-gey"/>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="VGe-sj-1yb" id="27G-uL-0DD"/>
+                        <outlet property="imageView" destination="lQH-1K-OBL" id="jvt-ct-HbO"/>
+                        <outlet property="titleLabel" destination="boF-b6-oDS" id="5HL-WO-4i1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZwW-6w-LUf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
