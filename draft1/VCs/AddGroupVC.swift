@@ -14,7 +14,7 @@ class AddGroupVC: UIViewController {
     @IBOutlet weak var newGroupTF: UITextField!
     
     //MARK:LOCAL PROPERTIES
-    var mainVCDelegate: UIViewController!
+    var mainVCDelegate: UIViewController!//homeVC
     
     override func viewDidLoad() {
         super.viewDidLoad()
