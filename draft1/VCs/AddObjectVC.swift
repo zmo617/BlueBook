@@ -100,7 +100,6 @@ class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigati
         let imgPickerController = UIImagePickerController()
         imgPickerController.delegate = self
         
-        
         let actionSheet = UIAlertController(title: "Photo Source", message: "Choose a source", preferredStyle: .actionSheet)
         
         actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action: UIAlertAction) in
