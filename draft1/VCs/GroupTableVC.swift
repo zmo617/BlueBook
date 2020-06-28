@@ -7,50 +7,65 @@
 //
 
 import UIKit
+import FirebaseUI
+import Firebase
+import FirebaseFirestore
+import FirebaseStorage
+import FirebaseFirestoreSwift
 
 class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
-
+    
     @IBOutlet weak var groupTable: UITableView!
     
     //MARK:LOCAL PROPERTIES
-    var favObjects: Array<FavObject> = []
-    
+    var favObjects = [FavObject]()
+    let db = Firestore.firestore()
+    let storageRef = Storage.storage().reference()
     let showObjectSegueIdentifier = "toShowObject"
-       
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-         sampleObjects()
-        // Do any additional setup after loading the view.
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
+        let docRef = db.collection("FavObjects")
+        docRef.getDocuments{(snapshot, error) in
+            if let error = error {
+                print("Error getting documents: \(error)")
+            } else {
+                var userObjects = [FavObject]()
+                //self.favObjects = userObjects
+                //print("will appear: obejcts.count = \(self.favObjects.count)")
+                for document in snapshot!.documents {
+                    let obj = try! document.data(as: FavObject.self)
+                    userObjects.append(obj!)
+                }
+                self.favObjects = userObjects
+                print("will appear: objects.count = \(self.favObjects.count)")
+            }
+        }
         groupTable.reloadData()
     }
     
-   func addObject(newCoverImg: UIImage, newTitle: String, newContent: String){
+    func addObject(newCoverImgPath: String, newTitle: String, newContent: String){
         //create new object
-        let newObject = FavObject(coverImage: newCoverImg, title: newTitle, content: newContent)
+        let newObj = FavObject(title: newTitle,
+                               coverImgPath: newCoverImgPath,
+                               content: newContent)
+        
+        do {
+            try db.collection("FavObjects").document("\(newTitle)").setData(from: newObj)
+        } catch let error {
+            print("Error writing city to Firestore: \(error)")
+        }
+        
         //add it to objects
-        favObjects.append(newObject)
+        favObjects.append(newObj)
         //create new ObjectCell
-        print("add object, size = \(favObjects.count)")
     }
     
-    //before implementing getImage from phone, just for table view testing
-    func sampleObjects(){
-        //var tempFavObjects: [FavObject] = []
-
-        let object1 = FavObject(coverImage: UIImage(named: "Torchy's")!, title: "Torchy's tacos", content: "have tacos")
-        let object2 = FavObject(coverImage: UIImage(named:"RaisingCanes")!, title: "Raising Cane's", content: "Chicken strips")
-
-        favObjects.append(object1)
-        favObjects.append(object2)
-
-    }
-
     //MARK: SETUP tableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("size = \(favObjects.count)")
         return favObjects.count
     }
     
@@ -66,6 +81,22 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     //swipe to delete object
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete{
+            let obj = favObjects[indexPath.row]
+            db.collection("FavObjects").document(obj.title).delete() { err in
+                if let err = err {
+                    print("Error removing document: \(err)")
+                } else {
+                    print("Document successfully removed!")
+                }
+            }
+            let imgRef = storageRef.child(obj.coverImgPath)
+            imgRef.delete{ error in
+              if let error = error {
+                print("Error deleting img from Firebase Storage(): \(error)")
+              } else {
+                 print("img deleted from Firebase Storage().")
+              }
+            }
             favObjects.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .bottom)
         }

@@ -7,7 +7,8 @@
 //
 
 import UIKit
-
+import Firebase
+import FirebaseUI
 class ObjectCell: UITableViewCell {
     
     @IBOutlet weak var cellView: UIView!
@@ -15,9 +16,10 @@ class ObjectCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     
     func setObjectCell(sourceObj: FavObject){
-        coverImgView.image = sourceObj.coverImage
+        let storageRef = Storage.storage().reference()
+        let imgRef = storageRef.child(sourceObj.coverImgPath)
+        coverImgView.sd_setImage(with: imgRef)
         titleLabel.text = sourceObj.title
-        
     }
     override func awakeFromNib() {
         super.awakeFromNib()
