@@ -53,7 +53,7 @@ class LoginVC: UIViewController {
     
     @IBAction func loginBtnPressed(_ sender: Any) {
         let error = validateFields();
-        let queue = DispatchQueue(label: "dispatchQ")
+        let queue = DispatchQueue(label: "dispatchQ", qos: .userInteractive)
         
         queue.sync {
             if error == nil{
@@ -63,21 +63,9 @@ class LoginVC: UIViewController {
                 Auth.auth().signIn(withEmail: self.cEmail, password: self.cPw, completion: {(rst, err) in
                     if err == nil{
                         //set curUser
-                        let docRef = self.db.collection("users").document("123456@utexas.edu")
-                        print("\n\n docRef = \(docRef == nil), \(docRef.documentID)")
-                        docRef.getDocument{(snapshot, error) in
-                            print("\n\n snapshot nil ? \(snapshot == nil), \(snapshot?.data())")
-                            if error != nil{
-                                print("\n\n")
-                                print(error?.localizedDescription ?? "Error in getting user from firebase")
-                                print("\n\n")
-                            }else{
-                                //let tempUser = try! snapshot!.data(as: User.self)
-                                let tempUser = try! snapshot!.data(as: User.self)
-                                print("\n\n tempUser nil ? \(tempUser == nil), \(tempUser?.firstname ?? "nil no email")")
-                                self.curUser = tempUser
-                            }
-                        }
+//                        let homeVC = ViewController()
+//                        homeVC.userID = self.cEmail
+                        self.performSegue(withIdentifier: "toHomeVC", sender: nil)
                     }else{
                         self.showError(errMsg: "\(err?.localizedDescription ?? "Error signing in.")")
                     }
@@ -85,24 +73,13 @@ class LoginVC: UIViewController {
             }else{
                 self.showError(errMsg: error!)
             }
-            
-        }
-        
-        // does not wait. But the code in notify() gets run
-        // after enter() and leave() calls are balanced
-        
-        performSegue(withIdentifier: "toHomeVC", sender: nil)
+        }//sync ends
     }
-    
-    //    func signIn(){
-    //
-    //    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toHomeVC"{
             let homeVC = segue.destination as! ViewController
-            homeVC.curUser = self.curUser
-            print("\n\n curUser name: \(self.curUser?.firstname ?? "")")
+            homeVC.userID = cEmail
         }
     }
     

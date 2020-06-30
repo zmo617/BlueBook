@@ -187,9 +187,6 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rFg-RQ-gsh">
                                                     <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                     <state key="normal" title="Button"/>
-                                                    <connections>
-                                                        <segue destination="5lQ-UD-B1i" kind="show" identifier="toGroupTable" id="G37-w1-qSZ"/>
-                                                    </connections>
                                                 </button>
                                                 <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0eb-6K-io0">
                                                     <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
@@ -233,6 +230,7 @@
                                             <outlet property="deleteBtn" destination="FJW-0P-2Hx" id="hrH-4t-CNx"/>
                                             <outlet property="deleteView" destination="0eb-6K-io0" id="eSq-RF-7qg"/>
                                             <outlet property="groupButton" destination="rFg-RQ-gsh" id="75K-XC-m3b"/>
+                                            <segue destination="5lQ-UD-B1i" kind="show" id="XiK-qx-S50"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

@@ -34,14 +34,32 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     var curUser: User!
+    var userID: String!
+    var groupsRef: CollectionReference!
+    var nextGroup: String!
+    //var loginDelegate: UIViewController!
     
     override func viewDidAppear(_ animated: Bool) {
-        welcomeLabel.text = "\(curUser.firstname)'s Favorites"
-       
-        let docRef = db.collection("users").document(curUser.email).collection("favGroups")
-        docRef.getDocuments{(snapshot, error) in
-            let tempGroups: [FavGroup] = try! snapshot!.decoded()
-            self.groups = tempGroups
+        let queue = DispatchQueue(label: "dispatchQ")
+        //setting up curUser
+        queue.sync {
+            let docRef = self.db.collection("users").document(userID)
+            docRef.getDocument{(snapshot, error) in
+                if error != nil{
+                    print(error?.localizedDescription ?? "Error in getting user from firebase")
+                }else{
+                    //let tempUser = try! snapshot!.data(as: User.self)
+                    let tempUser = try! snapshot!.data(as: User.self)
+                    //self.curUser = tempUser
+                    self.welcomeLabel.text = "\(tempUser!.firstname)'s Favorites"
+                    self.groupsRef = self.db.collection("users").document(tempUser!.email).collection("favGroups")
+                    self.groupsRef.getDocuments{(snapshot, error) in
+                        let tempGroups: [FavGroup] = try! snapshot!.decoded()
+                        self.groups = tempGroups
+                    }
+                    self.curUser = tempUser
+                }
+            }
         }
     }
     
@@ -75,24 +93,34 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if segue.identifier == "toAddGroup",
             let addGroupVC = segue.destination as? AddGroupVC{//as? is casting
             addGroupVC.mainVCDelegate = self
+            
         }else if segue.identifier == "toGroupTable"{
-                let groupVC = segue.destination as! GroupTableVC
-            let docRef = groupVC.db.collection("FavObjects")
-            docRef.getDocuments{(snapshot, error) in
-                if let error = error {
-                    print("Error getting documents: \(error)")
-                } else {
-                    let userObjects: [FavObject] = try! snapshot!.decoded()
-                    //self.favObjects = userObjects
-                    //print("will appear: obejcts.count = \(self.favObjects.count)")
-//                    for document in snapshot!.documents {
-//                        let obj = try! document.data(as: FavObject.self)
-//                        userObjects.append(obj!)
-//                    }
-                    groupVC.favObjects = userObjects
-                    print("will appear: objects.count = \(groupVC.favObjects.count)")
-                }
+            
+            if(groupsBook.indexPathsForSelectedItems!.count <= 0){
+                print("\n not selected \n")
+                return
             }
+            let index = groupsBook.indexPathsForSelectedItems![0]
+            let groupName = groups[index.row].title
+            //what's in groupTable is the objects in this group
+            let objectsRef = groupsRef.document(groupName).collection("favObjects")
+            let groupVC = segue.destination as! GroupTableVC
+            groupVC.favObjRef = objectsRef
+            //            groupVC.groupRef.getDocuments{(snapshot, error) in
+//                if let error = error {
+//                    print("Error getting documents: \(error)")
+//                } else {
+//                    let userObjects: [FavObject] = try! snapshot!.decoded()
+//                    //self.favObjects = userObjects
+//                    //print("will appear: obejcts.count = \(self.favObjects.count)")
+//                    //                    for document in snapshot!.documents {
+//                    //                        let obj = try! document.data(as: FavObject.self)
+//                    //                        userObjects.append(obj!)
+//                    //                    }
+//                    groupVC.favObjects = userObjects
+//                    print("will appear: objects.count = \(groupVC.favObjects.count)")
+//                }
+//            }
         }
         
     }
