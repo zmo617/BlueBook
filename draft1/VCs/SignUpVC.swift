@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseAuth
-
+import FirebaseFirestore
 class SignUpVC: UIViewController {
     
     @IBOutlet weak var firstNameTF: UITextField!
@@ -65,9 +65,9 @@ class SignUpVC: UIViewController {
                 if err == nil{
                     //no errors creating the user
                     let db = Firestore.firestore()
-                    let newUser = User(firstname: cEmail,
+                    let newUser = User(email: cLastName,
+                                       firstname: cEmail,
                                        lastname: cFirstName,
-                                       email: cLastName,
                                        password: cPw)
                     
                     do {

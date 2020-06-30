@@ -161,8 +161,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="John's Favorites" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gF2-eZ-qcW">
-                                <rect key="frame" x="45" y="158" width="167" height="29"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Favorites" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gF2-eZ-qcW">
+                                <rect key="frame" x="45" y="158" width="94" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -188,7 +188,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                     <state key="normal" title="Button"/>
                                                     <connections>
-                                                        <segue destination="5lQ-UD-B1i" kind="show" id="G37-w1-qSZ"/>
+                                                        <segue destination="5lQ-UD-B1i" kind="show" identifier="toGroupTable" id="G37-w1-qSZ"/>
                                                     </connections>
                                                 </button>
                                                 <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0eb-6K-io0">
@@ -276,6 +276,7 @@
                     <navigationItem key="navigationItem" id="avp-ah-AVM"/>
                     <connections>
                         <outlet property="groupsBook" destination="2gy-CI-mWh" id="h4V-yP-lfh"/>
+                        <outlet property="welcomeLabel" destination="gF2-eZ-qcW" id="YOh-2d-5bk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -820,7 +821,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="GMk-49-0N6"/>
+        <segue reference="FsV-Hg-OLO"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="xmark" catalog="system" width="128" height="113"/>

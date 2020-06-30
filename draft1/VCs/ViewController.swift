@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseFirestoreSwift
+import FirebaseFirestore
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, DataCollectionProtocol {
     
@@ -23,13 +26,26 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     @IBOutlet weak var groupsBook: UICollectionView!
+    @IBOutlet weak var welcomeLabel: UILabel!
+    
     
     //MARK:LOCAL PROPERTIES
-    var groups = ["Restaurants", "Classes", "Markets"]
+    var groups = [FavGroup]()
+    let db = Firestore.firestore()
+    let storageRef = Storage.storage().reference()
+    var curUser: User!
+    
+    override func viewDidAppear(_ animated: Bool) {
+        welcomeLabel.text = "\(curUser.firstname)'s Favorites"
+       
+        let docRef = db.collection("users").document(curUser.email).collection("favGroups")
+        docRef.getDocuments{(snapshot, error) in
+            let tempGroups: [FavGroup] = try! snapshot!.decoded()
+            self.groups = tempGroups
+        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
         groupsBook.reloadData()
     }
     
@@ -40,7 +56,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "groupCell", for: indexPath as IndexPath) as! CollectionViewCell
-        cell.groupButton.setTitle(groups[indexPath.row], for: .normal)
+        cell.groupButton.setTitle(groups[indexPath.row].title, for: .normal)
         cell.index = indexPath//***temp delete group
         cell.delegate = self//***temp delete group
         return cell
@@ -51,7 +67,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func addGroup(newTitle: String){
-        groups.append(newTitle)
+        groups.append(FavGroup(title: "newTitle"))
     }
     
     //MARK: Segues, set delegates
@@ -59,7 +75,26 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if segue.identifier == "toAddGroup",
             let addGroupVC = segue.destination as? AddGroupVC{//as? is casting
             addGroupVC.mainVCDelegate = self
+        }else if segue.identifier == "toGroupTable"{
+                let groupVC = segue.destination as! GroupTableVC
+            let docRef = groupVC.db.collection("FavObjects")
+            docRef.getDocuments{(snapshot, error) in
+                if let error = error {
+                    print("Error getting documents: \(error)")
+                } else {
+                    let userObjects: [FavObject] = try! snapshot!.decoded()
+                    //self.favObjects = userObjects
+                    //print("will appear: obejcts.count = \(self.favObjects.count)")
+//                    for document in snapshot!.documents {
+//                        let obj = try! document.data(as: FavObject.self)
+//                        userObjects.append(obj!)
+//                    }
+                    groupVC.favObjects = userObjects
+                    print("will appear: objects.count = \(groupVC.favObjects.count)")
+                }
+            }
         }
+        
     }
 }
 
