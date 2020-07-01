@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseFirestoreSwift
+import FirebaseFirestore
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, DataCollectionProtocol {
     
@@ -23,13 +26,44 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     @IBOutlet weak var groupsBook: UICollectionView!
+    @IBOutlet weak var welcomeLabel: UILabel!
+    
     
     //MARK:LOCAL PROPERTIES
-    var groups = ["Restaurants", "Classes", "Markets"]
+    var groups = [FavGroup]()
+    let db = Firestore.firestore()
+    let storageRef = Storage.storage().reference()
+    var curUser: User!
+    var userID: String!
+    var groupsRef: CollectionReference!
+    var nextGroup: String!
+    //var loginDelegate: UIViewController!
+    
+    override func viewDidAppear(_ animated: Bool) {
+        let queue = DispatchQueue(label: "dispatchQ")
+        //setting up curUser
+        queue.sync {
+            let docRef = self.db.collection("users").document(userID)
+            docRef.getDocument{(snapshot, error) in
+                if error != nil{
+                    print(error?.localizedDescription ?? "Error in getting user from firebase")
+                }else{
+                    //let tempUser = try! snapshot!.data(as: User.self)
+                    let tempUser = try! snapshot!.data(as: User.self)
+                    //self.curUser = tempUser
+                    self.welcomeLabel.text = "\(tempUser!.firstname)'s Favorites"
+                    self.groupsRef = self.db.collection("users").document(tempUser!.email).collection("favGroups")
+                    self.groupsRef.getDocuments{(snapshot, error) in
+                        let tempGroups: [FavGroup] = try! snapshot!.decoded()
+                        self.groups = tempGroups
+                    }
+                    self.curUser = tempUser
+                }
+            }
+        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
         groupsBook.reloadData()
     }
     
@@ -40,7 +74,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "groupCell", for: indexPath as IndexPath) as! CollectionViewCell
-        cell.groupButton.setTitle(groups[indexPath.row], for: .normal)
+        cell.groupButton.setTitle(groups[indexPath.row].title, for: .normal)
         cell.index = indexPath//***temp delete group
         cell.delegate = self//***temp delete group
         return cell
@@ -51,7 +85,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func addGroup(newTitle: String){
-        groups.append(newTitle)
+        groups.append(FavGroup(title: "newTitle"))
     }
     
     //MARK: Segues, set delegates
@@ -59,7 +93,36 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if segue.identifier == "toAddGroup",
             let addGroupVC = segue.destination as? AddGroupVC{//as? is casting
             addGroupVC.mainVCDelegate = self
+            
+        }else if segue.identifier == "toGroupTable"{
+            
+            if(groupsBook.indexPathsForSelectedItems!.count <= 0){
+                print("\n not selected \n")
+                return
+            }
+            let index = groupsBook.indexPathsForSelectedItems![0]
+            let groupName = groups[index.row].title
+            //what's in groupTable is the objects in this group
+            let objectsRef = groupsRef.document(groupName).collection("favObjects")
+            let groupVC = segue.destination as! GroupTableVC
+            groupVC.favObjRef = objectsRef
+            //            groupVC.groupRef.getDocuments{(snapshot, error) in
+//                if let error = error {
+//                    print("Error getting documents: \(error)")
+//                } else {
+//                    let userObjects: [FavObject] = try! snapshot!.decoded()
+//                    //self.favObjects = userObjects
+//                    //print("will appear: obejcts.count = \(self.favObjects.count)")
+//                    //                    for document in snapshot!.documents {
+//                    //                        let obj = try! document.data(as: FavObject.self)
+//                    //                        userObjects.append(obj!)
+//                    //                    }
+//                    groupVC.favObjects = userObjects
+//                    print("will appear: objects.count = \(groupVC.favObjects.count)")
+//                }
+//            }
         }
+        
     }
 }
 

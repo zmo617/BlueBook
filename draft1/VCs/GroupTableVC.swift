@@ -22,25 +22,23 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     let showObjectSegueIdentifier = "toShowObject"
+    var favObjRef: CollectionReference!
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        let docRef = db.collection("FavObjects")
-        docRef.getDocuments{(snapshot, error) in
+        print("\n\n favObjRef = nil ? \(favObjRef == nil)")
+        favObjRef.getDocuments{(snapshot, error) in
             if let error = error {
                 print("Error getting documents: \(error)")
             } else {
-                var userObjects = [FavObject]()
+                let tempObjects: [FavObject] = try! snapshot!.decoded()
                 //self.favObjects = userObjects
                 //print("will appear: obejcts.count = \(self.favObjects.count)")
-                for document in snapshot!.documents {
-                    let obj = try! document.data(as: FavObject.self)
-                    userObjects.append(obj!)
-                }
-                self.favObjects = userObjects
+                
+                self.favObjects = tempObjects
                 print("will appear: objects.count = \(self.favObjects.count)")
             }
         }

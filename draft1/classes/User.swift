@@ -11,15 +11,15 @@ import FirebaseFirestoreSwift
 
 struct User: Codable{
     //for getting data from Firebase, not logging in/signing up
+    var email: String
     var firstname: String
     var lastname: String
-    var email: String
     var password: String
     
     enum CodingKeys: String, CodingKey{
+        case email
         case firstname
         case lastname
-        case email
         case password
     }
     

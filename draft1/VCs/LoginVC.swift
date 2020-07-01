@@ -9,14 +9,19 @@
 import UIKit
 import Firebase
 import FirebaseAuth
-
+import FirebaseFirestore
 class LoginVC: UIViewController {
-
+    
     @IBOutlet weak var emailTF: UITextField!
     @IBOutlet weak var pwTF: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
     
-    var userUid: String!
+    let db = Firestore.firestore()
+    let storageRef = Storage.storage().reference()
+    var cEmail: String!
+    var cPw: String!
+    var curUser: User!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         errorLabel.alpha = 0
@@ -40,40 +45,43 @@ class LoginVC: UIViewController {
         errorLabel.alpha = 1
     }
     
-//    func goToHomeVC(){
-//        let homeVC = storyboard?.instantiateViewController(identifier: "homeVC") as? ViewController
-//        view.window?.rootViewController = homeVC
-//        view.window?.makeKeyAndVisible()
-//    }
+    //    func goToHomeVC(){
+    //        let homeVC = storyboard?.instantiateViewController(identifier: "homeVC") as? ViewController
+    //        view.window?.rootViewController = homeVC
+    //        view.window?.makeKeyAndVisible()
+    //    }
     
     @IBAction func loginBtnPressed(_ sender: Any) {
         let error = validateFields();
-        if error == nil{
-            //get clean versions of the login info
-            let cEmail = emailTF.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-            let cPw = pwTF.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-            
-            Auth.auth().signIn(withEmail: cEmail, password: cPw, completion: {(rst, err) in
-                if err == nil{
-                    self.performSegue(withIdentifier: "toHomeVC", sender: nil)
-                }else{
-                    self.showError(errMsg: "Error signing in: \(err?.localizedDescription)")
-                }
-            })
-        }else{
-            showError(errMsg: error!)
-        }
+        let queue = DispatchQueue(label: "dispatchQ", qos: .userInteractive)
         
+        queue.sync {
+            if error == nil{
+                //get clean versions of the login info
+                cEmail = emailTF.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+                cPw = pwTF.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+                Auth.auth().signIn(withEmail: self.cEmail, password: self.cPw, completion: {(rst, err) in
+                    if err == nil{
+                        //set curUser
+//                        let homeVC = ViewController()
+//                        homeVC.userID = self.cEmail
+                        self.performSegue(withIdentifier: "toHomeVC", sender: nil)
+                    }else{
+                        self.showError(errMsg: "\(err?.localizedDescription ?? "Error signing in.")")
+                    }
+                })
+            }else{
+                self.showError(errMsg: error!)
+            }
+        }//sync ends
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "toHomeVC"{
+            let homeVC = segue.destination as! ViewController
+            homeVC.userID = cEmail
+        }
     }
-    */
-
+    
+    
 }
