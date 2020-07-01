@@ -230,7 +230,6 @@
                                             <outlet property="deleteBtn" destination="FJW-0P-2Hx" id="hrH-4t-CNx"/>
                                             <outlet property="deleteView" destination="0eb-6K-io0" id="eSq-RF-7qg"/>
                                             <outlet property="groupButton" destination="rFg-RQ-gsh" id="75K-XC-m3b"/>
-                                            <segue destination="5lQ-UD-B1i" kind="show" id="XiK-qx-S50"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -275,6 +274,7 @@
                     <connections>
                         <outlet property="groupsBook" destination="2gy-CI-mWh" id="h4V-yP-lfh"/>
                         <outlet property="welcomeLabel" destination="gF2-eZ-qcW" id="YOh-2d-5bk"/>
+                        <segue destination="5lQ-UD-B1i" kind="show" identifier="toGroupTable" id="Wb9-iG-114"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

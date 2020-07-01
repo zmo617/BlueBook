@@ -36,7 +36,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var curUser: User!
     var userID: String!
     var groupsRef: CollectionReference!
-    var nextGroup: String!
+    var selectedGroup: String!
     //var loginDelegate: UIViewController!
     
     override func viewDidAppear(_ animated: Bool) {
@@ -75,9 +75,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "groupCell", for: indexPath as IndexPath) as! CollectionViewCell
         cell.groupButton.setTitle(groups[indexPath.row].title, for: .normal)
+        cell.groupButton.addTarget(self, action: #selector(self.groupTapped), for: .touchUpInside)
         cell.index = indexPath//***temp delete group
         cell.delegate = self//***temp delete group
         return cell
+    }
+    
+    @objc func groupTapped(sender: UIButton){
+        selectedGroup = sender.currentTitle
+        performSegue(withIdentifier: "toGroupTable", sender: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -95,15 +101,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             addGroupVC.mainVCDelegate = self
             
         }else if segue.identifier == "toGroupTable"{
-            
-            if(groupsBook.indexPathsForSelectedItems!.count <= 0){
-                print("\n not selected \n")
-                return
-            }
-            let index = groupsBook.indexPathsForSelectedItems![0]
-            let groupName = groups[index.row].title
+        
             //what's in groupTable is the objects in this group
-            let objectsRef = groupsRef.document(groupName).collection("favObjects")
+            let objectsRef = groupsRef.document(selectedGroup).collection("favObjects")
+            print("\n [prepare] selectedGroup: \(selectedGroup ?? "nil")")
             let groupVC = segue.destination as! GroupTableVC
             groupVC.favObjRef = objectsRef
             //            groupVC.groupRef.getDocuments{(snapshot, error) in

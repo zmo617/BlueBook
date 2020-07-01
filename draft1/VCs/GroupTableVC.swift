@@ -29,7 +29,6 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("\n\n favObjRef = nil ? \(favObjRef == nil)")
         favObjRef.getDocuments{(snapshot, error) in
             if let error = error {
                 print("Error getting documents: \(error)")
