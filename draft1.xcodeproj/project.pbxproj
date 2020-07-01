@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		21BD64DA2499B1080024B510 /* EditObjectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BD64D92499B1080024B510 /* EditObjectVC.swift */; };
 		21BD64DC2499B4010024B510 /* ContactsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BD64DB2499B4010024B510 /* ContactsVC.swift */; };
 		21BD64DE2499B8F50024B510 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BD64DD2499B8F50024B510 /* SettingsVC.swift */; };
 		4B899495EC557D4F3188C115 /* Pods_draft1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 998C7031AE90BCD4170ACB88 /* Pods_draft1.framework */; };
@@ -36,7 +35,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		21BD64D92499B1080024B510 /* EditObjectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditObjectVC.swift; sourceTree = "<group>"; };
 		21BD64DB2499B4010024B510 /* ContactsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsVC.swift; sourceTree = "<group>"; };
 		21BD64DD2499B8F50024B510 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		5F0078FDCCDE3E36D32275B3 /* Pods-draft1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-draft1.debug.xcconfig"; path = "Target Support Files/Pods-draft1/Pods-draft1.debug.xcconfig"; sourceTree = "<group>"; };
@@ -137,7 +135,6 @@
 				7D92A1272496D64A004210F3 /* AddObjectVC.swift */,
 				7D92A1292496D6EC004210F3 /* AddGroupVC.swift */,
 				7D92A12D2496EAD1004210F3 /* ShowObjectVC.swift */,
-				21BD64D92499B1080024B510 /* EditObjectVC.swift */,
 				21BD64DB2499B4010024B510 /* ContactsVC.swift */,
 				21BD64DD2499B8F50024B510 /* SettingsVC.swift */,
 				7D735FC124A2D33300050295 /* LoginVC.swift */,
@@ -305,7 +302,6 @@
 				7D92A11824968AB2004210F3 /* CollectionViewCell.swift in Sources */,
 				7D92A1262496CE12004210F3 /* FavObject.swift in Sources */,
 				7D92A10624968056004210F3 /* SceneDelegate.swift in Sources */,
-				21BD64DA2499B1080024B510 /* EditObjectVC.swift in Sources */,
 				21BD64DE2499B8F50024B510 /* SettingsVC.swift in Sources */,
 				7D735FC424A2F46E00050295 /* SignUpVC.swift in Sources */,
 				7DC6180D24A7BFD600428129 /* User.swift in Sources */,

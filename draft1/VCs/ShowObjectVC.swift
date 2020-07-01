@@ -8,6 +8,11 @@
 
 import UIKit
 import FirebaseUI
+import FirebaseUI
+import Firebase
+import FirebaseFirestore
+import FirebaseStorage
+import FirebaseFirestoreSwift
 class ShowObjectVC: UIViewController {
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -18,6 +23,7 @@ class ShowObjectVC: UIViewController {
     var selectedImage: String?
     
     var currentObject: FavObject!
+    let db = Firestore.firestore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,14 +36,29 @@ class ShowObjectVC: UIViewController {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "toEditObject",
+            let addObjectVC = segue.destination as? AddObjectVC{//as? is casting
+            addObjectVC.groupTableDelegate = self
+            addObjectVC.editingObject = true
+        }
     }
-    */
+    
+    func editObject(newCoverImgPath: String, newTitle: String, newContent: String){
+        currentObject.title = newTitle
+        currentObject.coverImgPath = newCoverImgPath
+        currentObject.content = newContent
+        
+        
+        // Delete the document before replacing it with the updated object
+        db.collection("FavObjects").document("\(newTitle)").delete()
+        
+        do {
+            try db.collection("FavObjects").document("\(newTitle)").setData(from: currentObject)
+        } catch let error {
+            print("Error writing city to Firestore: \(error)")
+        }
+        
+    }
 
 }
