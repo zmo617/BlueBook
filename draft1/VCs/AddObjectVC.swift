@@ -8,6 +8,8 @@
 
 import UIKit
 import Speech
+import Firebase
+
 class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, SFSpeechRecognizerDelegate {
     
     @IBOutlet weak var contentTxtView: UITextView!
@@ -27,6 +29,7 @@ class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     let request = SFSpeechAudioBufferRecognitionRequest()
     var speechTask: SFSpeechRecognitionTask!
     var isRecording: Bool = false
+    var imgURL: URL!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -122,11 +125,27 @@ class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigati
         self.present(actionSheet, animated: true, completion: nil)
     }
     
+    //upload image from memory
+    func uploadImgToStorage(imgURL: URL, imgRef: String){
+        let storageRef = Storage.storage().reference()
+        //let data = Data()//from memory
+        let ref = storageRef.child(imgRef)
+        let uploadTask = ref.putFile(from: imgURL, metadata: nil){(metadata, error) in
+            guard metadata != nil else{
+                //has an error
+                print(error!.localizedDescription)
+                return
+            }
+            print("\n\n Upload \(imgRef) succeeded")
+        }
+    }
+    
     //info is a dictionary containing img data.
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         //old name: info[UIImagePickerControllerOriginalImage]
         let img = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         coverImgView.image = img
+        self.imgURL = info[UIImagePickerController.InfoKey.imageURL] as? URL
         picker.dismiss(animated: true, completion: nil)
     }
     
@@ -137,7 +156,14 @@ class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     //create button pressed
     @IBAction func createObject(_ sender: Any) {
         let groupVC = groupTableDelegate as! GroupTableVC
-        groupVC.addObject(newCoverImg: coverImgView.image!, newTitle: titleTxtField.text!, newContent: contentTxtView.text)
+        let title = titleTxtField.text!
+        let imgPath = "/images/\(title)/cover"
+        
+        groupVC.addObject(newCoverImgPath: imgPath, newTitle: title, newContent: contentTxtView.text)
+        //upload img to Firebase storage
+        if let url = self.imgURL{
+            uploadImgToStorage(imgURL: url, imgRef: imgPath)
+        }
     }
     /*
      // MARK: - Navigation

@@ -11,6 +11,7 @@
 		21BD64DC2499B4010024B510 /* ContactsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BD64DB2499B4010024B510 /* ContactsVC.swift */; };
 		21BD64DE2499B8F50024B510 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BD64DD2499B8F50024B510 /* SettingsVC.swift */; };
 		4B899495EC557D4F3188C115 /* Pods_draft1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 998C7031AE90BCD4170ACB88 /* Pods_draft1.framework */; };
+		7D62A08F24A8F7A90060F366 /* SnapshotExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D62A08E24A8F7A90060F366 /* SnapshotExtensions.swift */; };
 		7D735FC224A2D33300050295 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D735FC124A2D33300050295 /* LoginVC.swift */; };
 		7D735FC424A2F46E00050295 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D735FC324A2F46E00050295 /* SignUpVC.swift */; };
 		7D735FC724A4593E00050295 /* draft1.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7D735FC524A4593E00050295 /* draft1.xcdatamodeld */; };
@@ -30,6 +31,7 @@
 		7D92A12E2496EAD1004210F3 /* ShowObjectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D92A12D2496EAD1004210F3 /* ShowObjectVC.swift */; };
 		7D92A17C249C6067004210F3 /* RoundBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D92A17B249C6067004210F3 /* RoundBtn.swift */; };
 		7D92A1E924A2AE8B004210F3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D92A1E824A2AE8B004210F3 /* GoogleService-Info.plist */; };
+		7DC6180D24A7BFD600428129 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC6180C24A7BFD600428129 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +39,7 @@
 		21BD64DB2499B4010024B510 /* ContactsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsVC.swift; sourceTree = "<group>"; };
 		21BD64DD2499B8F50024B510 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		5F0078FDCCDE3E36D32275B3 /* Pods-draft1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-draft1.debug.xcconfig"; path = "Target Support Files/Pods-draft1/Pods-draft1.debug.xcconfig"; sourceTree = "<group>"; };
+		7D62A08E24A8F7A90060F366 /* SnapshotExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotExtensions.swift; sourceTree = "<group>"; };
 		7D735FC124A2D33300050295 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		7D735FC324A2F46E00050295 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		7D735FC624A4593E00050295 /* draft1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = draft1.xcdatamodel; sourceTree = "<group>"; };
@@ -58,6 +61,7 @@
 		7D92A12D2496EAD1004210F3 /* ShowObjectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowObjectVC.swift; sourceTree = "<group>"; };
 		7D92A17B249C6067004210F3 /* RoundBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundBtn.swift; sourceTree = "<group>"; };
 		7D92A1E824A2AE8B004210F3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7DC6180C24A7BFD600428129 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		998C7031AE90BCD4170ACB88 /* Pods_draft1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_draft1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5D563FA52F4BC378175796E /* Pods-draft1.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-draft1.release.xcconfig"; path = "Target Support Files/Pods-draft1/Pods-draft1.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -74,6 +78,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7D62A09024A8F7B00060F366 /* classes */ = {
+			isa = PBXGroup;
+			children = (
+				7DC6180C24A7BFD600428129 /* User.swift */,
+				7D92A1252496CE12004210F3 /* FavObject.swift */,
+				7D92A17B249C6067004210F3 /* RoundBtn.swift */,
+				7D62A08E24A8F7A90060F366 /* SnapshotExtensions.swift */,
+			);
+			path = classes;
+			sourceTree = "<group>";
+		};
 		7D92A0F724968056004210F3 = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +110,7 @@
 		7D92A10224968056004210F3 /* draft1 */ = {
 			isa = PBXGroup;
 			children = (
+				7D62A09024A8F7B00060F366 /* classes */,
 				7D92A1222496C992004210F3 /* Cells */,
 				7D92A1212496C978004210F3 /* VCs */,
 				7D92A10324968056004210F3 /* AppDelegate.swift */,
@@ -132,8 +148,6 @@
 			children = (
 				7D92A11724968AB2004210F3 /* CollectionViewCell.swift */,
 				7D92A1232496CA08004210F3 /* ObjectCell.swift */,
-				7D92A1252496CE12004210F3 /* FavObject.swift */,
-				7D92A17B249C6067004210F3 /* RoundBtn.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -278,6 +292,7 @@
 				7D92A1202496C877004210F3 /* ObjectController.swift in Sources */,
 				7D92A12E2496EAD1004210F3 /* ShowObjectVC.swift in Sources */,
 				7D92A10424968056004210F3 /* AppDelegate.swift in Sources */,
+				7D62A08F24A8F7A90060F366 /* SnapshotExtensions.swift in Sources */,
 				7D92A17C249C6067004210F3 /* RoundBtn.swift in Sources */,
 				21BD64DC2499B4010024B510 /* ContactsVC.swift in Sources */,
 				7D92A12C2496D890004210F3 /* GroupTableVC.swift in Sources */,
@@ -289,6 +304,7 @@
 				21BD64DA2499B1080024B510 /* EditObjectVC.swift in Sources */,
 				21BD64DE2499B8F50024B510 /* SettingsVC.swift in Sources */,
 				7D735FC424A2F46E00050295 /* SignUpVC.swift in Sources */,
+				7DC6180D24A7BFD600428129 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

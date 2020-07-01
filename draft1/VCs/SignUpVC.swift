@@ -11,7 +11,7 @@ import Firebase
 import FirebaseAuth
 
 class SignUpVC: UIViewController {
-
+    
     @IBOutlet weak var firstNameTF: UITextField!
     @IBOutlet weak var lastNameTF: UITextField!
     @IBOutlet weak var emailTF: UITextField!
@@ -61,42 +61,29 @@ class SignUpVC: UIViewController {
             let cPw = pwTF.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             
             //create user: auth() returns the new uid in rst and error(if any) in err
-            Auth.auth().createUser(withEmail: cEmail, password: cPw, completion: {(rst, err) in
+            Auth.auth().createUser(withEmail: cEmail, password: cPw) {(rst, err) in
                 if err == nil{
                     //no errors creating the user
                     let db = Firestore.firestore()
-                    db.collection("users").addDocument(data: [
-                        "firstname": cFirstName,
-                        "lastname": cLastName,
-                        "email": cEmail,
-                        "password": cPw,
-                        "uid": rst!.user.uid
-                    ]){(error) in
-                        //error updating/storing data into database
-                        if error != nil{
-                            self.showError(errMsg: "Error saving user data.")
-                        }}
+                    let newUser = User(firstname: cEmail,
+                                       lastname: cFirstName,
+                                       email: cLastName,
+                                       password: cPw)
+                    
+                    do {
+                        try db.collection("users").document("\(cEmail)").setData(from: newUser)
+                    } catch let error {
+                        self.showError(errMsg: "Error saving user data.")
+                        print("Error writing newUser to Firestore: \(error)")
+                    }
                     //go to mainVC "ViewController"
-                    self.goToHomeVC()
-                    //***Auth.auth().signIn(withEmail: self.emailTF.text!, password: self.pwTF.text!)
+                    self.performSegue(withIdentifier: "toHome", sender: nil)
+                    
                 }else{
-                    //error creating the user
-                    self.showError(errMsg: "Error creating new user.")
+                    self.showError(errMsg: error ?? "")
+                    
                 }
-            })
-        }else{
-            showError(errMsg: error!)
+            }
         }
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

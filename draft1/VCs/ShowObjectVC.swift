@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import FirebaseUI
 class ShowObjectVC: UIViewController {
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -19,12 +19,12 @@ class ShowObjectVC: UIViewController {
     
     var currentObject: FavObject!
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         titleLabel.text = currentObject.title
-        imageView.image = currentObject.coverImage
+        let storageRef = Storage.storage().reference()
+        let imgRef = storageRef.child(currentObject.coverImgPath)
+        imageView.sd_setImage(with: imgRef)
         descriptionLabel.text = currentObject.content
         descriptionLabel.sizeToFit()
     }

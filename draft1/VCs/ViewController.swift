@@ -28,6 +28,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var groups = ["Restaurants", "Classes", "Markets"]
     
     override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
         groupsBook.reloadData()
     }
     
