@@ -20,6 +20,8 @@ class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     @IBOutlet weak var addPicBtn: UIButton!
     @IBOutlet weak var createBtn: UIButton!
     @IBOutlet weak var recordBtn: UIButton!
+    @IBOutlet weak var saveBtn: UIButton!
+    
     
     //MARK:LOCAL PROPERTIES
     var groupTableDelegate: UIViewController!
@@ -31,10 +33,17 @@ class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     var isRecording: Bool = false
     var imgURL: URL!
     
+    var editingObject: Bool!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
+        if (editingObject) {
+            saveBtn.isHidden = true
+            createBtn.isHidden = false
+        } else {
+            saveBtn.isHidden = false
+            createBtn.isHidden = true
+        }
     }
     
     
@@ -165,6 +174,21 @@ class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigati
             uploadImgToStorage(imgURL: url, imgRef: imgPath)
         }
     }
+    
+    @IBAction func saveObject(_ sender: Any) {
+        let groupVC = groupTableDelegate as! ShowObjectVC
+        let title = titleTxtField.text!
+        let imgPath = "/images/\(title)/cover"
+        
+        groupVC.editObject(newCoverImgPath: imgPath, newTitle: title, newContent: contentTxtView.text)
+        //upload img to Firebase storage
+        if let url = self.imgURL{
+            uploadImgToStorage(imgURL: url, imgRef: imgPath)
+        }
+    }
+    
+    
+    
     /*
      // MARK: - Navigation
      

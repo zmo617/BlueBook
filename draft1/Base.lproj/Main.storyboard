@@ -492,6 +492,14 @@
                                     <action selector="recordPressed:" destination="9IQ-Mp-Iy7" eventType="touchUpInside" id="Uo2-u0-63H"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LqN-6A-CS6">
+                                <rect key="frame" x="190" y="742" width="34" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Save"/>
+                                <connections>
+                                    <action selector="saveObject:" destination="9IQ-Mp-Iy7" eventType="touchUpInside" id="szf-Z4-LKR"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -519,12 +527,13 @@
                         <outlet property="coverImgView" destination="dCm-9K-pU2" id="a2Z-0f-Cln"/>
                         <outlet property="createBtn" destination="tyG-lc-VQl" id="T1z-dy-o5D"/>
                         <outlet property="recordBtn" destination="BwJ-Ng-6uW" id="XCK-lC-eYl"/>
+                        <outlet property="saveBtn" destination="LqN-6A-CS6" id="KAX-QU-VNG"/>
                         <outlet property="titleTxtField" destination="Vor-aj-qaE" id="9qa-ff-d8F"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bd7-zo-cBc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3854" y="134"/>
+            <point key="canvasLocation" x="3868" y="514"/>
         </scene>
         <!--Show ObjectVC-->
         <scene sceneID="qcC-Ph-c7S">
@@ -534,15 +543,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CX7-lo-qsz">
-                                <rect key="frame" x="190" y="732" width="34" height="30"/>
-                                <state key="normal" title="Save"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9sd-eg-9rq">
-                                <rect key="frame" x="364" y="118" width="30" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9sd-eg-9rq">
+                                <rect key="frame" x="365" y="118" width="30" height="30"/>
                                 <state key="normal" title="Edit"/>
                                 <connections>
-                                    <segue destination="rUP-zQ-Exj" kind="show" id="NKe-ZP-m4f"/>
+                                    <segue destination="9IQ-Mp-Iy7" kind="show" identifier="toEditObject" id="x5Z-Lg-E00"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WZm-Yi-aGj">
@@ -574,10 +579,8 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="gK5-qf-BRq" firstAttribute="bottom" secondItem="CX7-lo-qsz" secondAttribute="bottom" constant="100" id="4HM-7c-mVe"/>
                             <constraint firstItem="gK5-qf-BRq" firstAttribute="trailing" secondItem="9sd-eg-9rq" secondAttribute="trailing" constant="20" id="6mt-Ba-FJR"/>
                             <constraint firstItem="9sd-eg-9rq" firstAttribute="top" secondItem="gK5-qf-BRq" secondAttribute="top" constant="30" id="asi-Nc-jN0"/>
-                            <constraint firstItem="CX7-lo-qsz" firstAttribute="centerX" secondItem="WWk-iP-WhJ" secondAttribute="centerX" id="u7w-ld-0NH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="gK5-qf-BRq"/>
                     </view>
@@ -633,71 +636,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4hI-dG-8wL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2083" y="844"/>
-        </scene>
-        <!--Edit ObjectVC-->
-        <scene sceneID="mf5-GM-CXb">
-            <objects>
-                <viewController modalPresentationStyle="fullScreen" id="rUP-zQ-Exj" customClass="EditObjectVC" customModule="draft1" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="YHr-1Y-bMn">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="X30-zm-a3o">
-                                <rect key="frame" x="88" y="123" width="304" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" text="Add text here.." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="vkt-WL-903">
-                                <rect key="frame" x="20" y="182" width="374" height="200"/>
-                                <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="oAS-Jj-ty6"/>
-                                </constraints>
-                                <color key="textColor" systemColor="systemGray2Color" red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SgD-9L-7fa">
-                                <rect key="frame" x="20" y="390" width="200" height="130"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="oiy-A0-i2l"/>
-                                    <constraint firstAttribute="height" constant="130" id="yDr-If-PbY"/>
-                                </constraints>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pfX-eZ-Q2K">
-                                <rect key="frame" x="20" y="541" width="75" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="addPicture">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="importImg:" destination="9IQ-Mp-Iy7" eventType="touchUpInside" id="y4k-V7-Bmx"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ffg-SG-MIR">
-                                <rect key="frame" x="186" y="731" width="34" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Save"/>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cGz-hg-gkN">
-                                <rect key="frame" x="20" y="123" width="60" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="KKd-cc-TzC"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="0OW-Zi-e6h"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Fhp-xo-MAo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3616" y="844"/>
         </scene>
         <!--Sign UpVC-->
         <scene sceneID="YyJ-hj-bV9">
@@ -819,6 +757,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="x5Z-Lg-E00"/>
         <segue reference="FsV-Hg-OLO"/>
     </inferredMetricsTieBreakers>
     <resources>
