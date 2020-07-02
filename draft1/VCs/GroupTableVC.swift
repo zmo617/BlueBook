@@ -30,11 +30,13 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        print("objectPath[0] should be userID: \(objectPath[0]), objectPath[1] should be selectedGroup: \(objectPath[1])")
+        
         let ref = db.collection("users").document(objectPath[0]).collection("favGroups").document(selectedGroup)
         if selectedGroup == "sharedObjects"{
             let objectsRef = ref.collection("objectPaths")
             objectsRef.getDocuments{(snapshot, error) in
-                if error != nil{
+                if error == nil{
                     let docs = snapshot?.documents
                     //get each object and add it to favObjects list
                     docs?.forEach{doc in
@@ -51,9 +53,8 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                             }
                         }
                     }
-                    
                 }else{
-                    print("\n Error fetching sharedObjects: \(error as Any)\n")
+                    print("\n Error fetching sharedObjects: \(error?.localizedDescription)\n")
                 }
             }
         }else{

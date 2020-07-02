@@ -45,10 +45,15 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     @IBAction func doneTapped(_ sender: Any) {
+        print("userList.count = \(userList.count)")
         let indexPaths = contactsTable.indexPathsForSelectedRows
+        for indexP in indexPaths!{
+            print(indexP.row)
+        }
         //adding sharingObject to each user's "sharedObjects" collection
         for indexPath in indexPaths!{
-            let thisUser = selectedUsers[indexPath.row]
+            
+            let thisUser = userList[indexPath.row]//****
             let groupsRef = db.collection("users").document(thisUser.email).collection("favGroups").document("sharedObjects")
             groupsRef.collection("objectPaths").document(sharingObject[2]).setData(["path": sharingObject]){(error) in
                 if error != nil{
