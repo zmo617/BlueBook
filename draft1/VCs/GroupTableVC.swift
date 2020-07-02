@@ -26,7 +26,6 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     var objectPath: [String]!
     
     var userID: String!
-    var selectedGroup: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
