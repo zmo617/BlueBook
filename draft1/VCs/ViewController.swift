@@ -107,6 +107,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             print("\n [prepare] selectedGroup: \(selectedGroup ?? "nil")")
             let groupVC = segue.destination as! GroupTableVC
             groupVC.favObjRef = objectsRef
+            groupVC.userID = userID
+            groupVC.selectedGroup = selectedGroup
             //            groupVC.groupRef.getDocuments{(snapshot, error) in
 //                if let error = error {
 //                    print("Error getting documents: \(error)")

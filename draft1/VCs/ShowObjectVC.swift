@@ -21,6 +21,8 @@ class ShowObjectVC: UIViewController {
     
     //MARK:LOCAL PROPERTIES
     var selectedImage: String?
+    var userID: String!
+    var selectedGroup: String!
     
     var currentObject: FavObject!
     let db = Firestore.firestore()
@@ -36,17 +38,16 @@ class ShowObjectVC: UIViewController {
     }
     
     func editObject(newCoverImgPath: String, newTitle: String, newContent: String){
+        let docRef = self.db.collection("users").document(userID)
+        docRef.collection("favGroups").document("\(self.selectedGroup!)").collection("favObjects").document("\(currentObject.title)").delete()
+        
         currentObject.title = newTitle
         currentObject.coverImgPath = newCoverImgPath
         currentObject.content = newContent
-        // Delete the document before replacing it with the updated object
-        db.collection("FavObjects").document("\(newTitle)").delete()
         
-        do {
-            try db.collection("FavObjects").document("\(newTitle)").setData(from: currentObject)
-        } catch let error {
-            print("Error writing city to Firestore: \(error)")
-        }
+        docRef.collection("favGroups").document("\(self.selectedGroup!)").collection("favObjects").document("\(currentObject.title)").setData(["content": currentObject.content, "coverImgPath": currentObject.coverImgPath, "title": currentObject.title], merge: true)
+        
+        
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -24,6 +24,9 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     let showObjectSegueIdentifier = "toShowObject"
     var favObjRef: CollectionReference!
     
+    var userID: String!
+    var selectedGroup: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -51,9 +54,11 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                                content: newContent)
         
         do {
-            try db.collection("FavObjects").document("\(newTitle)").setData(from: newObj)
+            let docRef = self.db.collection("users").document(userID)
+            try docRef.collection("favGroups").document("\(self.selectedGroup!)").collection("favObjects").document("\(newObj.title)").setData(from: newObj)
+            
         } catch let error {
-            print("Error writing city to Firestore: \(error)")
+            print("Error writing to Firestore: \(error)")
         }
         
         //add it to objects
@@ -113,7 +118,8 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             //print("index: \(objectIndex)")
             //print("num objects: \(favObjects.count)")
             showObjectVC.currentObject = favObjects[objectIndex]
-            
+            showObjectVC.userID = userID
+            showObjectVC.selectedGroup = selectedGroup
         }
     }
     
