@@ -102,11 +102,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             addGroupVC.mainVCDelegate = self
             
         }else if segue.identifier == "toGroupTable"{
-        
             //what's in groupTable is the objects in this group
             let groupVC = segue.destination as! GroupTableVC
-            groupVC.objectPath = [userID, selectedGroup]
+            groupVC.favObjRef = objectsRef
+            groupVC.userID = userID
             groupVC.selectedGroup = self.selectedGroup
+            groupVC.objectPath = [userID, selectedGroup]
             //            groupVC.groupRef.getDocuments{(snapshot, error) in
 //                if let error = error {
 //                    print("Error getting documents: \(error)")

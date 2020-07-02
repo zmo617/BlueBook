@@ -21,6 +21,8 @@ class ShowObjectVC: UIViewController {
     
     //MARK:LOCAL PROPERTIES
     var selectedImage: String?
+    var userID: String!
+    var selectedGroup: String!
     var objectPath: [String]!
     var currentObject: FavObject!
     let db = Firestore.firestore()
@@ -34,35 +36,33 @@ class ShowObjectVC: UIViewController {
         descriptionLabel.text = currentObject.content
         descriptionLabel.sizeToFit()
     }
-    
+
+    func editObject(newCoverImgPath: String, newTitle: String, newContent: String){
+        let docRef = self.db.collection("users").document(userID)
+        docRef.collection("favGroups").document("\(self.selectedGroup!)").collection("favObjects").document("\(currentObject.title)").delete()
+        
+        currentObject.title = newTitle
+        currentObject.coverImgPath = newCoverImgPath
+        currentObject.content = newContent
+        
+        docRef.collection("favGroups").document("\(self.selectedGroup!)").collection("favObjects").document("\(currentObject.title)").setData(["content": currentObject.content, "coverImgPath": currentObject.coverImgPath, "title": currentObject.title], merge: true)
+        
+        
+    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toEditObject",
             let addObjectVC = segue.destination as? AddObjectVC{//as? is casting
             addObjectVC.groupTableDelegate = self
             addObjectVC.editingObject = true
+            addObjectVC.editingTitle = currentObject.title
+            addObjectVC.editingContent = currentObject.content
+            addObjectVC.editingImgPath = currentObject.coverImgPath
         }else if segue.identifier == "toContacts"{
             let contactsVC = segue.destination as? ContactsVC
             //email, group name, object name
             contactsVC?.sharingObject = objectPath
         }
-    }
-    
-    func editObject(newCoverImgPath: String, newTitle: String, newContent: String){
-        currentObject.title = newTitle
-        currentObject.coverImgPath = newCoverImgPath
-        currentObject.content = newContent
-        
-        
-        // Delete the document before replacing it with the updated object
-        db.collection("FavObjects").document("\(newTitle)").delete()
-        
-        do {
-            try db.collection("FavObjects").document("\(newTitle)").setData(from: currentObject)
-        } catch let error {
-            print("Error writing city to Firestore: \(error)")
-        }
-        
     }
 
 }

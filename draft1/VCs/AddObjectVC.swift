@@ -33,15 +33,24 @@ class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     var imgURL: URL!
     
     var editingObject: Bool!
+    var editingTitle: String = ""
+    var editingContent: String = ""
+    var editingImgPath: String = ""
+    var editingImgPressed: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         if (editingObject) {
-            saveBtn.isHidden = true
-            createBtn.isHidden = false
-        } else {
             saveBtn.isHidden = false
             createBtn.isHidden = true
+            titleTxtField.text = editingTitle
+            contentTxtView.text = editingContent
+            let storageRef = Storage.storage().reference()
+            let imgRef = storageRef.child(editingImgPath)
+            coverImgView.sd_setImage(with: imgRef)
+        } else {
+            saveBtn.isHidden = true
+            createBtn.isHidden = false
         }
     }
     
@@ -154,6 +163,7 @@ class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigati
         let img = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         coverImgView.image = img
         self.imgURL = info[UIImagePickerController.InfoKey.imageURL] as? URL
+        editingImgPressed = true
         picker.dismiss(animated: true, completion: nil)
     }
     
@@ -177,7 +187,12 @@ class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     @IBAction func saveObject(_ sender: Any) {
         let groupVC = groupTableDelegate as! ShowObjectVC
         let title = titleTxtField.text!
-        let imgPath = "/images/\(title)/cover"
+        var imgPath: String
+        if (editingImgPressed) {
+            imgPath = "/images/\(title)/cover"
+        } else {
+            imgPath = editingImgPath
+        }
         
         groupVC.editObject(newCoverImgPath: imgPath, newTitle: title, newContent: contentTxtView.text)
         //upload img to Firebase storage
