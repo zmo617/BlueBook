@@ -35,21 +35,10 @@ class ShowObjectVC: UIViewController {
         descriptionLabel.sizeToFit()
     }
     
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toEditObject",
-            let addObjectVC = segue.destination as? AddObjectVC{//as? is casting
-            addObjectVC.groupTableDelegate = self
-            addObjectVC.editingObject = true
-        }
-    }
-    
     func editObject(newCoverImgPath: String, newTitle: String, newContent: String){
         currentObject.title = newTitle
         currentObject.coverImgPath = newCoverImgPath
         currentObject.content = newContent
-        
-        
         // Delete the document before replacing it with the updated object
         db.collection("FavObjects").document("\(newTitle)").delete()
         
@@ -58,7 +47,17 @@ class ShowObjectVC: UIViewController {
         } catch let error {
             print("Error writing city to Firestore: \(error)")
         }
-        
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toEditObject",
+            let addObjectVC = segue.destination as? AddObjectVC{//as? is casting
+            addObjectVC.groupTableDelegate = self
+            addObjectVC.editingObject = true
+            addObjectVC.editingTitle = currentObject.title
+            addObjectVC.editingContent = currentObject.content
+            addObjectVC.editingImgPath = currentObject.coverImgPath
+        }
     }
 
 }

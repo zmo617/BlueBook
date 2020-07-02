@@ -59,6 +59,8 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         //add it to objects
         favObjects.append(newObj)
         //create new ObjectCell
+        
+        //print("objects.count: \(favObjects.count)")
     }
     
     //MARK: SETUP tableView
@@ -108,6 +110,8 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         } else if segue.identifier == showObjectSegueIdentifier,
             let showObjectVC = segue.destination as? ShowObjectVC,
             let objectIndex = groupTable.indexPathForSelectedRow?.row {
+            //print("index: \(objectIndex)")
+            //print("num objects: \(favObjects.count)")
             showObjectVC.currentObject = favObjects[objectIndex]
             
         }

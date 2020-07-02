@@ -34,15 +34,23 @@ class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     var imgURL: URL!
     
     var editingObject: Bool!
+    var editingTitle: String = ""
+    var editingContent: String = ""
+    var editingImgPath: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         if (editingObject) {
-            saveBtn.isHidden = true
-            createBtn.isHidden = false
-        } else {
             saveBtn.isHidden = false
             createBtn.isHidden = true
+            titleTxtField.text = editingTitle
+            contentTxtView.text = editingContent
+            let storageRef = Storage.storage().reference()
+            let imgRef = storageRef.child(editingImgPath)
+            coverImgView.sd_setImage(with: imgRef)
+        } else {
+            saveBtn.isHidden = true
+            createBtn.isHidden = false
         }
     }
     
