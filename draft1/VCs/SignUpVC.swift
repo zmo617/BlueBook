@@ -19,6 +19,7 @@ class SignUpVC: UIViewController {
     @IBOutlet weak var confirmPwTF: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
     
+    var cEmail: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +58,7 @@ class SignUpVC: UIViewController {
             //get clean versions of the new user info
             let cFirstName = firstNameTF.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let cLastName = lastNameTF.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-            let cEmail = emailTF.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+            cEmail = emailTF.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let cPw = pwTF.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             
             //create user: auth() returns the new uid in rst and error(if any) in err
@@ -65,25 +66,39 @@ class SignUpVC: UIViewController {
                 if err == nil{
                     //no errors creating the user
                     let db = Firestore.firestore()
-                    let newUser = User(email: cLastName,
-                                       firstname: cEmail,
-                                       lastname: cFirstName,
+                    let newUser = User(email: self.cEmail,
+                                       firstname: cFirstName,
+                                       lastname: cLastName,
                                        password: cPw)
                     
                     do {
-                        try db.collection("users").document("\(cEmail)").setData(from: newUser)
+                        try db.collection("users").document("\(self.cEmail!)").setData(from: newUser)
                     } catch let error {
                         self.showError(errMsg: "Error saving user data.")
                         print("Error writing newUser to Firestore: \(error)")
                     }
+                    //create default favGroups -> default doc "sharedObject"
+                    do {
+                        try db.collection("users").document("\(self.cEmail!)").collection("favGroups").document("sharedObjects").setData(["title": "sharedObjects"])
+                        print("done creating user")
+                    } catch let error {
+                        self.showError(errMsg: "Error creating default favGroups -> sharedObjects.")
+                        print("Error writing newUser to Firestore: \(error)")
+                    }
                     //go to mainVC "ViewController"
                     self.performSegue(withIdentifier: "toHome", sender: nil)
-                    
                 }else{
                     self.showError(errMsg: error ?? "")
                     
                 }
             }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toHome"{
+            let homeVC = segue.destination as! ViewController
+            homeVC.userID = self.cEmail
         }
     }
 }

@@ -32,9 +32,10 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 let tempUsers: [User] = try! snapshot!.decoded()
                 //self.favObjects = userObjects
                 //print("will appear: obejcts.count = \(self.favObjects.count)")
-                
+                //excluding current user
                 self.userList = tempUsers
-                print("did appear: users.count = \(self.userList.count)")
+                let userIndex = self.userList.firstIndex(where: {$0.email == self.sharingObject[0]})
+                self.userList.remove(at: userIndex!)
             }
         }
         // Do any additional setup after loading the view.

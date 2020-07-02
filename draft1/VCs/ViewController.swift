@@ -41,6 +41,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     override func viewDidAppear(_ animated: Bool) {
         let queue = DispatchQueue(label: "dispatchQ")
+        print("userID:\(userID)")
         //setting up curUser
         queue.sync {
             let docRef = self.db.collection("users").document(userID)
