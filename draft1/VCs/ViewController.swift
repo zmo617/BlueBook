@@ -41,7 +41,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     override func viewDidAppear(_ animated: Bool) {
         let queue = DispatchQueue(label: "dispatchQ")
-        print("userID:\(userID)")
         //setting up curUser
         queue.sync {
             let docRef = self.db.collection("users").document(userID)
@@ -57,6 +56,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     self.groupsRef.getDocuments{(snapshot, error) in
                         let tempGroups: [FavGroup] = try! snapshot!.decoded()
                         self.groups = tempGroups
+                        self.groupsBook.reloadData()
                     }
                     self.curUser = tempUser
                 }

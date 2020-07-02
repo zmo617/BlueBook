@@ -34,14 +34,15 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         
         let ref = db.collection("users").document(objectPath[0]).collection("favGroups").document(selectedGroup)
         if selectedGroup == "sharedObjects"{
+            //get shared object paths
             let objectsRef = ref.collection("objectPaths")
             objectsRef.getDocuments{(snapshot, error) in
+                //use the paths to get each sharedObject
                 if error == nil{
                     let docs = snapshot?.documents
-                    //get each object and add it to favObjects list
+                    //and add each object to sharedObjects group, i.e. the favObjects list
                     docs?.forEach{doc in
                         let docData = doc.get("path") as! [String]
-                        print("\n docData: \(docData) \n")
                         let objRef = self.db.collection("users").document(docData[0]).collection("favGroups").document(docData[1]).collection("favObjects").document(docData[2])
                         objRef.getDocument{(document, error) in
                             if error != nil{
@@ -49,10 +50,10 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                             }else{
                                 let tempObj = try! document!.data(as: FavObject.self)
                                 self.favObjects.append(tempObj!)
-                                print("adding to favObjects table, count = \(self.favObjects.count)")
                             }
                         }
                     }
+                    self.groupTable.reloadData()
                 }else{
                     print("\n Error fetching sharedObjects: \(error?.localizedDescription)\n")
                 }
@@ -66,13 +67,12 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                     let tempObjects: [FavObject] = try! snapshot!.decoded()
                     //self.favObjects = userObjects
                     //print("will appear: obejcts.count = \(self.favObjects.count)")
-                    
                     self.favObjects = tempObjects
+                    self.groupTable.reloadData()
                     print("will appear: objects.count = \(self.favObjects.count)")
                 }
             }
         }
-        groupTable.reloadData()
     }
     
     func addObject(newCoverImgPath: String, newTitle: String, newContent: String){

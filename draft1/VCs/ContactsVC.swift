@@ -36,6 +36,7 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 self.userList = tempUsers
                 let userIndex = self.userList.firstIndex(where: {$0.email == self.sharingObject[0]})
                 self.userList.remove(at: userIndex!)
+                self.contactsTable.reloadData()
             }
         }
         // Do any additional setup after loading the view.
@@ -61,7 +62,6 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                     print("\n Error adding sharedObject to firebase: \(error as Any)")
                 }
             }
-            
             print("\n\n sharingObject:", sharingObject ?? "nil")
         }
     }

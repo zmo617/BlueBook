@@ -652,13 +652,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zc7-E4-TBq"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Contacts" id="JdI-oJ-Fuj">
-                        <barButtonItem key="rightBarButtonItem" title="Select" id="7WO-Py-Mx5">
-                            <connections>
-                                <segue destination="IfG-3E-p2u" kind="show" id="eBs-Cd-raD"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Contacts" id="JdI-oJ-Fuj"/>
                     <connections>
                         <outlet property="contactsTable" destination="TmW-mV-mfn" id="Buf-6R-4iS"/>
                     </connections>
@@ -666,22 +660,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4hI-dG-8wL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2082.608695652174" y="843.75"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="34H-j8-bbM">
-            <objects>
-                <viewController id="IfG-3E-p2u" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="HYB-29-2xc">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="vkv-bx-iM9"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="jl6-Ue-N8z"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0WA-iA-pM9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2083" y="1514"/>
         </scene>
         <!--Sign UpVC-->
         <scene sceneID="YyJ-hj-bV9">
