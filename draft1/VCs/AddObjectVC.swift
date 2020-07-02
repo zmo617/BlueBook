@@ -16,7 +16,6 @@ class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     @IBOutlet weak var coverImgView: UIImageView!
     @IBOutlet weak var titleTxtField: UITextField!
     
-    
     @IBOutlet weak var addPicBtn: UIButton!
     @IBOutlet weak var createBtn: UIButton!
     @IBOutlet weak var recordBtn: UIButton!

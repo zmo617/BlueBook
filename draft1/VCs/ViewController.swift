@@ -56,6 +56,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     self.groupsRef.getDocuments{(snapshot, error) in
                         let tempGroups: [FavGroup] = try! snapshot!.decoded()
                         self.groups = tempGroups
+                        self.groupsBook.reloadData()
                     }
                     self.curUser = tempUser
                 }
@@ -101,14 +102,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             addGroupVC.mainVCDelegate = self
             
         }else if segue.identifier == "toGroupTable"{
-        
             //what's in groupTable is the objects in this group
-            let objectsRef = groupsRef.document(selectedGroup).collection("favObjects")
-            print("\n [prepare] selectedGroup: \(selectedGroup ?? "nil")")
             let groupVC = segue.destination as! GroupTableVC
             groupVC.favObjRef = objectsRef
             groupVC.userID = userID
-            groupVC.selectedGroup = selectedGroup
+            groupVC.selectedGroup = self.selectedGroup
+            groupVC.objectPath = [userID, selectedGroup]
             //            groupVC.groupRef.getDocuments{(snapshot, error) in
 //                if let error = error {
 //                    print("Error getting documents: \(error)")
