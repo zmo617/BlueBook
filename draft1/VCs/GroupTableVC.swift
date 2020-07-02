@@ -22,23 +22,53 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     let showObjectSegueIdentifier = "toShowObject"
-    var favObjRef: CollectionReference!
+    var selectedGroup: String!
+    var objectPath: [String]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        favObjRef.getDocuments{(snapshot, error) in
-            if let error = error {
-                print("Error getting documents: \(error)")
-            } else {
-                let tempObjects: [FavObject] = try! snapshot!.decoded()
-                //self.favObjects = userObjects
-                //print("will appear: obejcts.count = \(self.favObjects.count)")
-                
-                self.favObjects = tempObjects
-                print("will appear: objects.count = \(self.favObjects.count)")
+        let ref = db.collection("users").document(objectPath[0]).collection("favGroups").document(selectedGroup)
+        if selectedGroup == "sharedObjects"{
+            let objectsRef = ref.collection("objectPaths")
+            objectsRef.getDocuments{(snapshot, error) in
+                if error != nil{
+                    let docs = snapshot?.documents
+                    //get each object and add it to favObjects list
+                    docs?.forEach{doc in
+                        let docData = doc.get("path") as! [String]
+                        print("\n docData: \(docData) \n")
+                        let objRef = self.db.collection("users").document(docData[0]).collection("favGroups").document(docData[1]).collection("favObjects").document(docData[2])
+                        objRef.getDocument{(document, error) in
+                            if error != nil{
+                                print(error?.localizedDescription ?? "Error loading sharedObject to reader")
+                            }else{
+                                let tempObj = try! document!.data(as: FavObject.self)
+                                self.favObjects.append(tempObj!)
+                                print("adding to favObjects table, count = \(self.favObjects.count)")
+                            }
+                        }
+                    }
+                    
+                }else{
+                    print("\n Error fetching sharedObjects: \(error as Any)\n")
+                }
+            }
+        }else{
+            let groupRef = ref.collection("favObjects")
+            groupRef.getDocuments{(snapshot, error) in
+                if let error = error {
+                    print("Error getting documents: \(error)")
+                } else {
+                    let tempObjects: [FavObject] = try! snapshot!.decoded()
+                    //self.favObjects = userObjects
+                    //print("will appear: obejcts.count = \(self.favObjects.count)")
+                    
+                    self.favObjects = tempObjects
+                    print("will appear: objects.count = \(self.favObjects.count)")
+                }
             }
         }
         groupTable.reloadData()
@@ -109,7 +139,9 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             let showObjectVC = segue.destination as? ShowObjectVC,
             let objectIndex = groupTable.indexPathForSelectedRow?.row {
             showObjectVC.currentObject = favObjects[objectIndex]
-            
+            //add objectID, now it's userID, group name, objectID
+            self.objectPath.append(favObjects[objectIndex].title)
+            showObjectVC.objectPath = self.objectPath
         }
     }
     

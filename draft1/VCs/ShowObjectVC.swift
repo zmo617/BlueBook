@@ -21,7 +21,7 @@ class ShowObjectVC: UIViewController {
     
     //MARK:LOCAL PROPERTIES
     var selectedImage: String?
-    
+    var objectPath: [String]!
     var currentObject: FavObject!
     let db = Firestore.firestore()
     
@@ -41,6 +41,10 @@ class ShowObjectVC: UIViewController {
             let addObjectVC = segue.destination as? AddObjectVC{//as? is casting
             addObjectVC.groupTableDelegate = self
             addObjectVC.editingObject = true
+        }else if segue.identifier == "toContacts"{
+            let contactsVC = segue.destination as? ContactsVC
+            //email, group name, object name
+            contactsVC?.sharingObject = objectPath
         }
     }
     

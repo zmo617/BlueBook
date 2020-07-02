@@ -94,7 +94,7 @@
             </objects>
             <point key="canvasLocation" x="967" y="134"/>
         </scene>
-        <!--SettingsVC-->
+        <!--Settings-->
         <scene sceneID="TRd-cV-oto">
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="yVg-Wc-gZo" customClass="SettingsVC" customModule="draft1" customModuleProvider="target" sceneMemberID="viewController">
@@ -147,7 +147,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="LcC-9k-nRD"/>
                     </view>
-                    <navigationItem key="navigationItem" id="hqH-9b-Snb"/>
+                    <navigationItem key="navigationItem" title="Settings" id="hqH-9b-Snb"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GAd-JD-mZz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -555,7 +555,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Share"/>
                                 <connections>
-                                    <segue destination="oHy-bi-Ci9" kind="show" id="X4V-Uf-Wmz"/>
+                                    <segue destination="oHy-bi-Ci9" kind="show" identifier="toContacts" id="X4V-Uf-Wmz"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="boF-b6-oDS">
@@ -595,7 +595,7 @@
             </objects>
             <point key="canvasLocation" x="2854" y="844"/>
         </scene>
-        <!--ContactsVC-->
+        <!--Contacts-->
         <scene sceneID="pDC-Vb-N1M">
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="oHy-bi-Ci9" customClass="ContactsVC" customModule="draft1" customModuleProvider="target" sceneMemberID="viewController">
@@ -603,19 +603,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="TmW-mV-mfn">
-                                <rect key="frame" x="20" y="88" width="374" height="774"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="TmW-mV-mfn">
+                                <rect key="frame" x="20" y="93" width="374" height="709"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ContactCell" textLabel="TVD-Dj-Qt5" style="IBUITableViewCellStyleDefault" id="oAa-yZ-Njn">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ContactCell" textLabel="TVD-Dj-Qt5" style="IBUITableViewCellStyleDefault" id="oAa-yZ-Njn" customClass="ContactCell" customModule="draft1" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oAa-yZ-Njn" id="Rpf-5u-VAs">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Contact" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TVD-Dj-Qt5">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Contact" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TVD-Dj-Qt5" userLabel="nameLabel">
                                                     <rect key="frame" x="20" y="0.0" width="334" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -624,18 +623,65 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="nameLabel" destination="TVD-Dj-Qt5" id="BR9-Tt-dja"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M4G-oZ-Ls8">
+                                <rect key="frame" x="0.0" y="812" width="414" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="kSC-ml-eYh"/>
+                                </constraints>
+                                <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="doneTapped:" destination="oHy-bi-Ci9" eventType="touchUpInside" id="XdU-uj-H49"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="M4G-oZ-Ls8" firstAttribute="leading" secondItem="zc7-E4-TBq" secondAttribute="leading" id="50L-5Y-tpV"/>
+                            <constraint firstItem="zc7-E4-TBq" firstAttribute="bottom" secondItem="M4G-oZ-Ls8" secondAttribute="bottom" id="6du-7K-lL7"/>
+                            <constraint firstItem="zc7-E4-TBq" firstAttribute="trailing" secondItem="M4G-oZ-Ls8" secondAttribute="trailing" id="6r7-Ew-xD1"/>
+                            <constraint firstItem="TmW-mV-mfn" firstAttribute="leading" secondItem="zc7-E4-TBq" secondAttribute="leading" constant="20" id="Gv9-8f-5zz"/>
+                            <constraint firstItem="TmW-mV-mfn" firstAttribute="top" secondItem="zc7-E4-TBq" secondAttribute="top" constant="5" id="j96-bW-kcZ"/>
+                            <constraint firstItem="M4G-oZ-Ls8" firstAttribute="top" secondItem="TmW-mV-mfn" secondAttribute="bottom" constant="10" id="yyM-Wr-0Cp"/>
+                            <constraint firstItem="zc7-E4-TBq" firstAttribute="trailing" secondItem="TmW-mV-mfn" secondAttribute="trailing" constant="20" id="z2y-AL-h5C"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="zc7-E4-TBq"/>
                     </view>
-                    <navigationItem key="navigationItem" id="JdI-oJ-Fuj"/>
+                    <navigationItem key="navigationItem" title="Contacts" id="JdI-oJ-Fuj">
+                        <barButtonItem key="rightBarButtonItem" title="Select" id="7WO-Py-Mx5">
+                            <connections>
+                                <segue destination="IfG-3E-p2u" kind="show" id="eBs-Cd-raD"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="contactsTable" destination="TmW-mV-mfn" id="Buf-6R-4iS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4hI-dG-8wL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2083" y="844"/>
+            <point key="canvasLocation" x="2082.608695652174" y="843.75"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="34H-j8-bbM">
+            <objects>
+                <viewController id="IfG-3E-p2u" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HYB-29-2xc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="vkv-bx-iM9"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="jl6-Ue-N8z"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0WA-iA-pM9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2083" y="1514"/>
         </scene>
         <!--Sign UpVC-->
         <scene sceneID="YyJ-hj-bV9">
