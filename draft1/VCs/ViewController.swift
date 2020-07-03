@@ -27,6 +27,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     @IBOutlet weak var groupsBook: UICollectionView!
     @IBOutlet weak var welcomeLabel: UILabel!
+    @IBOutlet weak var addBtn: UIButton!
     
     
     //MARK:LOCAL PROPERTIES
@@ -39,6 +40,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var selectedGroup: String!
     //var loginDelegate: UIViewController!
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        Styling.styleFilledRoundButton(addBtn)
+        
+    }
     override func viewDidAppear(_ animated: Bool) {
         let queue = DispatchQueue(label: "dispatchQ")
         //setting up curUser
@@ -51,7 +57,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     //let tempUser = try! snapshot!.data(as: User.self)
                     let tempUser = try! snapshot!.data(as: User.self)
                     //self.curUser = tempUser
-                    self.welcomeLabel.text = "\(tempUser!.firstname)'s Favorites"
+                    self.welcomeLabel.text = "\(tempUser!.firstname)'s BlueBook"
                     self.groupsRef = self.db.collection("users").document(tempUser!.email).collection("favGroups")
                     self.groupsRef.getDocuments{(snapshot, error) in
                         let tempGroups: [FavGroup] = try! snapshot!.decoded()

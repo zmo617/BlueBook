@@ -17,6 +17,7 @@ class SignUpVC: UIViewController {
     @IBOutlet weak var emailTF: UITextField!
     @IBOutlet weak var pwTF: UITextField!
     @IBOutlet weak var confirmPwTF: UITextField!
+    @IBOutlet weak var signUpBtn: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
     
     var cEmail: String!
@@ -24,6 +25,13 @@ class SignUpVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         errorLabel.alpha = 0
+        Styling.styleTextField(emailTF)
+        Styling.styleTextField(firstNameTF)
+        Styling.styleTextField(lastNameTF)
+        Styling.styleTextField(pwTF)
+        Styling.styleTextField(confirmPwTF)
+        Styling.styleHollowButton(signUpBtn)
+        
         // Do any additional setup after loading the view.
     }
     

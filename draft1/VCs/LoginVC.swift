@@ -14,8 +14,10 @@ class LoginVC: UIViewController {
     
     @IBOutlet weak var emailTF: UITextField!
     @IBOutlet weak var pwTF: UITextField!
+    @IBOutlet weak var signUpBtn: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
     
+    //let bgImgView = UIImageView()
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     var cEmail: String!
@@ -24,10 +26,13 @@ class LoginVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Styling.styleTextField(emailTF)
+        Styling.styleTextField(pwTF)
+        Styling.styleHollowButton(signUpBtn)
         errorLabel.alpha = 0
         // Do any additional setup after loading the view.
     }
-    
+
     //if there's an error, return error msg
     //o.w. return nil
     //only checking if both fields are filled in, not checking pw security level

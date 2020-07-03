@@ -16,6 +16,8 @@ import FirebaseFirestoreSwift
 class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     
     @IBOutlet weak var groupTable: UITableView!
+    @IBOutlet weak var addBtn: UIButton!
+    
     
     //MARK:LOCAL PROPERTIES
     var favObjects = [FavObject]()
@@ -28,6 +30,7 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     var userID: String!
     
     override func viewDidLoad() {
+        Styling.styleFilledRoundButton(addBtn)
         super.viewDidLoad()
     }
     
