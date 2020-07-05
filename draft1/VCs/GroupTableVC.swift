@@ -64,7 +64,7 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                     }
                     self.groupTable.reloadData()
                 }else{
-                    print("\n Error fetching sharedObjects: \(error?.localizedDescription)\n")
+                    print("\n Error fetching sharedObjects: \(error!.localizedDescription)\n")
                 }
             }
         }else{
