@@ -45,4 +45,21 @@ class Styling{
         button.backgroundColor = UIColor.appBlue
         button.tintColor = UIColor.white
     }
+    
+    static func setBg(vc: UIViewController, imgName: String){
+            let bgView = UIImageView()
+        let view = vc.view
+        view!.addSubview(bgView)
+            bgView.translatesAutoresizingMaskIntoConstraints = false
+            bgView.image = UIImage(named: imgName)
+            bgView.contentMode = .top
+            bgView.alpha = 0.7
+            NSLayoutConstraint.activate([
+                bgView.topAnchor.constraint(equalTo: view!.topAnchor),
+                bgView.bottomAnchor.constraint(equalTo: view!.bottomAnchor),
+                bgView.leadingAnchor.constraint(equalTo: view!.leadingAnchor),
+                bgView.trailingAnchor.constraint(equalTo: view!.trailingAnchor)
+            ])
+            view!.sendSubviewToBack(bgView)
+    }
 }

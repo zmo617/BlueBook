@@ -161,6 +161,7 @@ class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         //old name: info[UIImagePickerControllerOriginalImage]
         let img = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        
         coverImgView.image = img
         self.imgURL = info[UIImagePickerController.InfoKey.imageURL] as? URL
         editingImgPressed = true

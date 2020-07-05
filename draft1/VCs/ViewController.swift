@@ -42,9 +42,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Styling.setBg(vc: self, imgName: "bg6")
+        groupsBook.backgroundView = nil
+        groupsBook.backgroundColor = .clear
         Styling.styleFilledRoundButton(addBtn)
-        
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         let queue = DispatchQueue(label: "dispatchQ")
         //setting up curUser
@@ -85,6 +88,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         cell.groupButton.addTarget(self, action: #selector(self.groupTapped), for: .touchUpInside)
         cell.index = indexPath//***temp delete group
         cell.delegate = self//***temp delete group
+        Styling.styleHollowButton(cell.groupButton)
         return cell
     }
     

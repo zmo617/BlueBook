@@ -30,8 +30,12 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     var userID: String!
     
     override func viewDidLoad() {
-        Styling.styleFilledRoundButton(addBtn)
         super.viewDidLoad()
+        groupTable.backgroundView = nil
+        groupTable.backgroundColor = .clear
+        Styling.setBg(vc: self, imgName: "bg6")
+        Styling.styleFilledRoundButton(addBtn)
+        self.title = selectedGroup
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -112,6 +116,8 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         let curFavObject = favObjects[indexPath.item]
         //print("curFavObject name: \(curFavObject.title)")
         cell.setObjectCell(sourceObj: curFavObject)
+        cell.backgroundView = nil
+        cell.backgroundColor = .clear
         return cell
     }
     
