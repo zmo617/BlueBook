@@ -18,6 +18,7 @@ class ShowObjectVC: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var shareBtn: UIButton!
     
     //MARK:LOCAL PROPERTIES
     var selectedImage: String?
@@ -29,12 +30,14 @@ class ShowObjectVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Styling.setBg(vc: self, imgName: "bg6")
         titleLabel.text = currentObject.title
         let storageRef = Storage.storage().reference()
         let imgRef = storageRef.child(currentObject.coverImgPath)
         imageView.sd_setImage(with: imgRef)
         descriptionLabel.text = currentObject.content
         descriptionLabel.sizeToFit()
+        Styling.styleHollowButton(shareBtn)
     }
 
     func editObject(newCoverImgPath: String, newTitle: String, newContent: String){

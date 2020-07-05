@@ -12,13 +12,16 @@ class AddGroupVC: UIViewController {
    
     @IBOutlet weak var newTitleLabel: UILabel!
     @IBOutlet weak var newGroupTF: UITextField!
+    @IBOutlet weak var createBtn: UIButton!
     
     //MARK:LOCAL PROPERTIES
     var mainVCDelegate: UIViewController!//homeVC
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        Styling.setBg(vc: self, imgName: "bg6")
+        Styling.styleTextField(newGroupTF)
+        Styling.styleFilledButton(createBtn)
         // Do any additional setup after loading the view.
     }
     
