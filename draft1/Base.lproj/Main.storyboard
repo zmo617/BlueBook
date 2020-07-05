@@ -293,6 +293,26 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E0y-tk-gge">
+                                <rect key="frame" x="45" y="763" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Edit">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="editPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oHP-yt-GTR"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5sq-7x-u0q">
+                                <rect key="frame" x="97" y="763" width="37" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Done">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="donePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="i1V-dt-OTV"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -308,6 +328,7 @@
                     <navigationItem key="navigationItem" id="avp-ah-AVM"/>
                     <connections>
                         <outlet property="addBtn" destination="Lr3-Vn-zjQ" id="NGm-Ph-Z1w"/>
+                        <outlet property="doneBtn" destination="5sq-7x-u0q" id="D5g-P7-a0d"/>
                         <outlet property="groupsBook" destination="2gy-CI-mWh" id="h4V-yP-lfh"/>
                         <outlet property="welcomeLabel" destination="gF2-eZ-qcW" id="YOh-2d-5bk"/>
                         <segue destination="5lQ-UD-B1i" kind="show" identifier="toGroupTable" id="Wb9-iG-114"/>
