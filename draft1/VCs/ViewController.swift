@@ -30,7 +30,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var groupsBook: UICollectionView!
     @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet weak var addBtn: UIButton!
-    @IBOutlet weak var doneBtn: UIButton!
+    @IBOutlet weak var editBtn: UIButton!
     
     
     //MARK:LOCAL PROPERTIES
@@ -49,7 +49,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         Styling.setBg(vc: self, imgName: "bg6")
         groupsBook.backgroundView = nil
         groupsBook.backgroundColor = .clear
-        doneBtn.isHidden = true
         Styling.styleFilledRoundButton(addBtn)
     }
     
@@ -95,8 +94,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         cell.delegate = self//***temp delete group
         if (editMode) {
             cell.deleteBtn.isHidden = false
+            cell.deleteView.isHidden = false
         } else {
             cell.deleteBtn.isHidden = true
+            cell.deleteView.isHidden = true
         }
         Styling.styleHollowButton(cell.groupButton)
         return cell
@@ -117,17 +118,19 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     
     @IBAction func editPressed(_ sender: Any) {
-        editMode = true
-        doneBtn.isHidden = false
-        groupsBook.reloadData()
+        if (!editMode) {
+            editMode = true
+            editBtn.setTitle("Done", for: .normal)
+            groupsBook.reloadData()
+        } else {
+            editMode = false
+            editBtn.setTitle("Edit", for: .normal)
+            groupsBook.reloadData()
+        }
     }
     
     
-    @IBAction func donePressed(_ sender: Any) {
-        editMode = false
-        doneBtn.isHidden = true
-        groupsBook.reloadData()
-    }
+
     
     //MARK: Segues, set delegates
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
