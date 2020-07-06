@@ -10,6 +10,7 @@ target 'draft1' do
   pod 'Firebase/Storage'
   pod 'FirebaseUI/Storage'
   pod 'FirebaseFirestoreSwift'
+  pod "BSImagePicker", "~> 2.8"
   # Pods for draft1
 
 end
