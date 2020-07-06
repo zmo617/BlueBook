@@ -26,5 +26,8 @@ class CollectionViewCell: UICollectionViewCell {
     @IBAction func deletePressed(_ sender: Any) {
          delegate.deleteData(index: index.row)
     }
+    
+    
+    
 }
 

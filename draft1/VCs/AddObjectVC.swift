@@ -57,10 +57,16 @@ class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigati
             let storageRef = Storage.storage().reference()
             let imgRef = storageRef.child(editingImgPath)
             coverImgView.sd_setImage(with: imgRef)
+            Styling.styleFilledButton(saveBtn)
+            saveBtn.setTitleColor(UIColor.systemBlue, for: .normal)
         } else {
             saveBtn.isHidden = true
             createBtn.isHidden = false
+            createBtn.setTitleColor(UIColor.systemBlue, for: .normal)
         }
+        Styling.setBg(vc: self, imgName: "bg6")
+        Styling.styleTextField(titleTxtField)
+        addPicBtn.setTitleColor(UIColor.systemBlue, for: .normal)
     }
     
     

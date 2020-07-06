@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Firebase
 class AddGroupVC: UIViewController {
    
     @IBOutlet weak var newTitleLabel: UILabel!
@@ -16,6 +16,7 @@ class AddGroupVC: UIViewController {
     
     //MARK:LOCAL PROPERTIES
     var mainVCDelegate: UIViewController!//homeVC
+    let db = Firestore.firestore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +29,18 @@ class AddGroupVC: UIViewController {
 
     @IBAction func createPressed(_ sender: Any) {
         let mainVC = mainVCDelegate as! ViewController
+        //create new object
+        let newGroup = FavGroup(title: newGroupTF.text!)
+        
+        do {
+            let docRef = self.db.collection("users").document(mainVC.userID)
+            try docRef.collection("favGroups").document(self.newGroupTF.text!).setData(from: newGroup)
+            
+        } catch let error {
+            print("Error adding Group to Firestore: \(error)")
+        }
+        
+        //add it to objects
         mainVC.addGroup(newTitle: newGroupTF.text!)
     }
     /*

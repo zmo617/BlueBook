@@ -37,7 +37,11 @@ class ShowObjectVC: UIViewController {
         imageView.sd_setImage(with: imgRef)
         descriptionLabel.text = currentObject.content
         descriptionLabel.sizeToFit()
+
         Styling.styleHollowButton(shareBtn)
+        Styling.setBg(vc: self, imgName: "bg6")
+        titleLabel.textColor = UIColor.white
+        descriptionLabel.textColor = UIColor.white
     }
 
     func editObject(newCoverImgPath: String, newTitle: String, newContent: String){

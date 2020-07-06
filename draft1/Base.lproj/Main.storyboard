@@ -306,9 +306,21 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="avp-ah-AVM"/>
+                    <navigationItem key="navigationItem" id="avp-ah-AVM">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="Ths-wH-Ff8">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="E0y-tk-gge">
+                                <rect key="frame" x="345" y="7" width="49" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Edit"/>
+                                <connections>
+                                    <action selector="editPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oHP-yt-GTR"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="addBtn" destination="Lr3-Vn-zjQ" id="NGm-Ph-Z1w"/>
+                        <outlet property="editBtn" destination="E0y-tk-gge" id="VBG-q0-24i"/>
                         <outlet property="groupsBook" destination="2gy-CI-mWh" id="h4V-yP-lfh"/>
                         <outlet property="welcomeLabel" destination="gF2-eZ-qcW" id="YOh-2d-5bk"/>
                         <segue destination="5lQ-UD-B1i" kind="show" identifier="toGroupTable" id="Wb9-iG-114"/>
@@ -474,11 +486,8 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tyG-lc-VQl">
                                 <rect key="frame" x="182.5" y="780" width="49" height="32"/>
-                                <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <state key="normal" title="Create">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
+                                <state key="normal" title="Create"/>
                                 <connections>
                                     <action selector="createObject:" destination="9IQ-Mp-Iy7" eventType="touchUpInside" id="KOa-HZ-RVU"/>
                                 </connections>
@@ -492,7 +501,6 @@
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Add text here.." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ZEK-8t-70Z">
                                 <rect key="frame" x="20" y="167" width="374" height="200"/>
-                                <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="AHf-Lx-AEA"/>
                                 </constraints>
@@ -505,12 +513,11 @@
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o8o-eV-cNu">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="34"/>
-                                        <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="60" id="gMf-hT-Sas"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vor-aj-qaE">
@@ -525,22 +532,20 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XCF-0j-G22">
-                                <rect key="frame" x="20" y="582" width="75" height="30"/>
-                                <color key="backgroundColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="addPicture">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
+                                <rect key="frame" x="20" y="582" width="80" height="30"/>
+                                <state key="normal" title="Add Picture"/>
                                 <connections>
                                     <action selector="importImg:" destination="9IQ-Mp-Iy7" eventType="touchUpInside" id="sVi-Wn-kOw"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BwJ-Ng-6uW">
-                                <rect key="frame" x="30" y="387" width="53" height="25"/>
-                                <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <rect key="frame" x="30" y="387" width="58" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="yCl-3I-OgS"/>
                                 </constraints>
-                                <state key="normal" title="record"/>
+                                <state key="normal" title="Record">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="recordPressed:" destination="9IQ-Mp-Iy7" eventType="touchUpInside" id="Uo2-u0-63H"/>
                                 </connections>
@@ -889,11 +894,11 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8ZO-4b-Vyr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1809" y="-615"/>
+            <point key="canvasLocation" x="1803" y="-615"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="x5Z-Lg-E00"/>
+        <segue reference="6kL-0D-fLe"/>
         <segue reference="XgH-MB-vT8"/>
     </inferredMetricsTieBreakers>
     <resources>

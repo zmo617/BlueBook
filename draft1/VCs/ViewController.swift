@@ -15,6 +15,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     //***temp delete group
     func deleteData(index: Int) {
+        let groupName = groups[index].title
+        self.db.collection("users").document(userID).collection("favGroups").document(groupName).delete()
         groups.remove(at: index)
         groupsBook.reloadData()
     }
@@ -28,6 +30,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var groupsBook: UICollectionView!
     @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet weak var addBtn: UIButton!
+    @IBOutlet weak var editBtn: UIButton!
     
     
     //MARK:LOCAL PROPERTIES
@@ -39,6 +42,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var groupsRef: CollectionReference!
     var selectedGroup: String!
     //var loginDelegate: UIViewController!
+    var editMode = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +50,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         groupsBook.backgroundView = nil
         groupsBook.backgroundColor = .clear
         Styling.styleFilledRoundButton(addBtn)
+        Styling.setBg(vc: self, imgName: "bg6")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -88,6 +93,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         cell.groupButton.addTarget(self, action: #selector(self.groupTapped), for: .touchUpInside)
         cell.index = indexPath//***temp delete group
         cell.delegate = self//***temp delete group
+        if (editMode) {
+            cell.deleteBtn.isHidden = false
+            cell.deleteView.isHidden = false
+        } else {
+            cell.deleteBtn.isHidden = true
+            cell.deleteView.isHidden = true
+        }
         Styling.styleHollowButton(cell.groupButton)
         return cell
     }
@@ -104,6 +116,22 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func addGroup(newTitle: String){
         groups.append(FavGroup(title: "newTitle"))
     }
+    
+    
+    @IBAction func editPressed(_ sender: Any) {
+        if (!editMode) {
+            editMode = true
+            editBtn.setTitle("Done", for: .normal)
+            groupsBook.reloadData()
+        } else {
+            editMode = false
+            editBtn.setTitle("Edit", for: .normal)
+            groupsBook.reloadData()
+        }
+    }
+    
+    
+
     
     //MARK: Segues, set delegates
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
