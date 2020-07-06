@@ -125,7 +125,8 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete{
             let obj = favObjects[indexPath.row]
-            db.collection("FavObjects").document(obj.title).delete() { err in
+            let userRef = self.db.collection("users").document(userID)
+            userRef.collection("favGroups").document("\(self.selectedGroup!)").collection("favObjects").document(obj.title).delete() { err in
                 if let err = err {
                     print("Error removing document: \(err)")
                 } else {
