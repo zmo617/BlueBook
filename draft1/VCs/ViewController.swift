@@ -50,6 +50,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         groupsBook.backgroundView = nil
         groupsBook.backgroundColor = .clear
         Styling.styleFilledRoundButton(addBtn)
+        Styling.setBg(vc: self, imgName: "bg6")
     }
     
     override func viewDidAppear(_ animated: Bool) {
