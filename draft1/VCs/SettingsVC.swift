@@ -10,10 +10,13 @@ import UIKit
 
 class SettingsVC: UIViewController {
 
+    
+    @IBOutlet weak var darkModeSwitch: UISwitch!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        Styling.setBg(vc: self, imgName: "bg6")
+        
     }
     
 
