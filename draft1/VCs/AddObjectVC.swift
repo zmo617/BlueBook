@@ -12,12 +12,13 @@ import Firebase
 import BSImagePicker
 import Photos
 
-class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, SFSpeechRecognizerDelegate {
+class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRecognizerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     
     @IBOutlet weak var contentTxtView: UITextView!
     @IBOutlet weak var coverImgView: UIImageView!
     @IBOutlet weak var titleTxtField: UITextField!
     
+    @IBOutlet weak var photoBook: UICollectionView!
     @IBOutlet weak var addPicBtn: UIButton!
     @IBOutlet weak var createBtn: UIButton!
     @IBOutlet weak var recordBtn: UIButton!
@@ -33,6 +34,7 @@ class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     var speechTask: SFSpeechRecognitionTask!
     var isRecording: Bool = false
     //images
+    let storageRef = Storage.storage().reference()
     var imgURLs = [URL]()
     var imgURL: URL!
     var selectedAssets = [PHAsset]()
@@ -67,6 +69,13 @@ class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigati
         Styling.setBg(vc: self, imgName: "bg6")
         Styling.styleTextField(titleTxtField)
         addPicBtn.setTitleColor(UIColor.systemBlue, for: .normal)
+        
+        photoBook.delegate = self
+        photoBook.dataSource = self
+        photoBook.backgroundColor = .clear
+        photoBook.backgroundView = nil
+        photoBook.layer.borderColor = UIColor.white.cgColor
+        photoBook.layer.borderWidth = 1
     }
     
     
@@ -158,6 +167,7 @@ class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigati
             }
             self.convertAssetsToImgs()
             self.coverImgView.image = self.photos[0]
+            self.photoBook.reloadData()
         }, completion: nil)
         
         //*********
@@ -188,8 +198,6 @@ class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     
     //upload image from memory. imgRef: path name
     func uploadImgToStorage(imgURL: URL, imgRef: String){
-        let storageRef = Storage.storage().reference()
-        //let data = Data()//from memory
         let ref = storageRef.child(imgRef)
         let uploadTask = ref.putFile(from: imgURL, metadata: nil){(metadata, error) in
             guard metadata != nil else{
@@ -233,6 +241,7 @@ class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigati
                     if i == 0{
                         self.coverImgPath = "/images/\(self.objTitle!)/\(imgURL.hashValue)"
                     }
+                    //let data = Data()
                     self.uploadImgToStorage(imgURL: imgURL, imgRef: "/images/\(self.objTitle!)/\(imgURL.hashValue)")
                 }
             }
@@ -246,13 +255,19 @@ class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     //create button pressed
     @IBAction func createObject(_ sender: Any) {
         let groupVC = groupTableDelegate as! GroupTableVC
-        let title = titleTxtField.text!
-        let imgPath = "/images/\(title)/cover"
-        
-        groupVC.addObject(newCoverImgPath: imgPath, newTitle: title, newContent: contentTxtView.text)
+        objTitle = titleTxtField.text!
         //upload img to Firebase storage
-        if let url = self.imgURL{
-            uploadImgToStorage(imgURL: url, imgRef: imgPath)
+        //        if let url = self.imgURL{
+        //            uploadImgToStorage(imgURL: url, imgRef: imgPath)
+        //        }
+        print("\n selectedAssets.count = \(selectedAssets.count) \n")
+        uploadImgs(after: 1){
+            if self.coverImgPath == nil{
+                print("coverImgPath nil \n\n")
+            }else{
+                print("coverImgPath: \(self.coverImgPath!)" )
+                groupVC.addObject(newCoverImgPath: self.coverImgPath, newTitle: self.objTitle, newContent: self.contentTxtView.text)
+            }
         }
     }
     
@@ -273,7 +288,15 @@ class AddObjectVC: UIViewController, UIImagePickerControllerDelegate, UINavigati
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return photos.count
+    }
     
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = photoBook.dequeueReusableCell(withReuseIdentifier: "SelectedImgCell", for: indexPath) as! SelectedImgCell
+        cell.imgView.image = photos[indexPath.row]
+        return cell
+    }
     
     /*
      // MARK: - Navigation

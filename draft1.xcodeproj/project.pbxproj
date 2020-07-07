@@ -32,6 +32,7 @@
 		7D92A17C249C6067004210F3 /* RoundBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D92A17B249C6067004210F3 /* RoundBtn.swift */; };
 		7D92A1E924A2AE8B004210F3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D92A1E824A2AE8B004210F3 /* GoogleService-Info.plist */; };
 		7DA6E06624B380C200584602 /* PhotoExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA6E06524B380C200584602 /* PhotoExtension.swift */; };
+		7DA6E06824B3824800584602 /* SelectedImgCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA6E06724B3824800584602 /* SelectedImgCell.swift */; };
 		7DC6180D24A7BFD600428129 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC6180C24A7BFD600428129 /* User.swift */; };
 		7DE280B724AED3EF00C8AE12 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE280B624AED3EF00C8AE12 /* ColorExtension.swift */; };
 		7DE280B924AEE41700C8AE12 /* Styling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE280B824AEE41700C8AE12 /* Styling.swift */; };
@@ -66,6 +67,7 @@
 		7D92A17B249C6067004210F3 /* RoundBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundBtn.swift; sourceTree = "<group>"; };
 		7D92A1E824A2AE8B004210F3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7DA6E06524B380C200584602 /* PhotoExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoExtension.swift; sourceTree = "<group>"; };
+		7DA6E06724B3824800584602 /* SelectedImgCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedImgCell.swift; sourceTree = "<group>"; };
 		7DC6180C24A7BFD600428129 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7DE280B624AED3EF00C8AE12 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		7DE280B824AEE41700C8AE12 /* Styling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styling.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				7D92A11724968AB2004210F3 /* CollectionViewCell.swift */,
 				7D92A1232496CA08004210F3 /* ObjectCell.swift */,
 				7D5ADEFC24AD5C20002A5CCE /* ContactCell.swift */,
+				7DA6E06724B3824800584602 /* SelectedImgCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DA6E06824B3824800584602 /* SelectedImgCell.swift in Sources */,
 				7D92A12A2496D6EC004210F3 /* AddGroupVC.swift in Sources */,
 				7D92A10824968056004210F3 /* ViewController.swift in Sources */,
 				7D92A1282496D64A004210F3 /* AddObjectVC.swift in Sources */,
