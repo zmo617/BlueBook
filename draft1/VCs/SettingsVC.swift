@@ -10,16 +10,18 @@ import UIKit
 
 class SettingsVC: UIViewController {
 
-    
-    @IBOutlet weak var darkModeSwitch: UISwitch!
+    @IBOutlet weak var signOutBtn: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         Styling.setBg(vc: self, imgName: "bg6")
-        
+        Styling.styleFilledButton(signOutBtn)
+            
     }
-    
 
+
+    
+    
     /*
     // MARK: - Navigation
 
