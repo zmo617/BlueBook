@@ -10,13 +10,18 @@ import UIKit
 
 class SettingsVC: UIViewController {
 
+    @IBOutlet weak var signOutBtn: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        Styling.setBg(vc: self, imgName: "bg6")
+        Styling.styleFilledButton(signOutBtn)
+            
     }
-    
 
+
+    
+    
     /*
     // MARK: - Navigation
 

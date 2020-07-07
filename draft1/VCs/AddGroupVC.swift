@@ -19,8 +19,8 @@ class AddGroupVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        Styling.styleTextField(newGroupTF)
+        Styling.setBg(vc: self, imgName: "bg6")
     }
     
 
