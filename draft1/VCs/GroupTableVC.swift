@@ -41,7 +41,7 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("objectPath[0] should be userID: \(objectPath[0]), objectPath[1] should be selectedGroup: \(objectPath[1])")
+        print("\n objectPath[0] should be userID: \(objectPath[0]), objectPath[1] should be selectedGroup: \(objectPath[1])")
         
         let ref = db.collection("users").document(objectPath[0]).collection("favGroups").document(selectedGroup)
         if selectedGroup == "sharedObjects"{
@@ -70,19 +70,26 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                 }
             }
         }else{
-            let groupRef = ref.collection("favObjects")
-            groupRef.getDocuments{(snapshot, error) in
-                if let error = error {
-                    print("Error getting documents: \(error)")
-                } else {
-                    let tempObjects: [FavObject] = try! snapshot!.decoded()
-                    //self.favObjects = userObjects
-                    //print("will appear: obejcts.count = \(self.favObjects.count)")
-                    self.favObjects = tempObjects
-                    self.groupTable.reloadData()
-                    print("will appear: objects.count = \(self.favObjects.count)")
+//            DispatchQueue.global(qos: .userInteractive).async{
+//                let downloadGroup = DispatchGroup()
+                let groupRef = ref.collection("favObjects")
+//                downloadGroup.enter()
+                groupRef.getDocuments{(snapshot, error) in
+                    if let error = error {
+                        print("Error getting documents: \(error)")
+                    } else {
+                        let tempObjects: [FavObject] = try! snapshot!.decoded()
+                        //self.favObjects = userObjects
+                        //print("will appear: obejcts.count = \(self.favObjects.count)")
+                        self.favObjects = tempObjects
+                        self.groupTable.reloadData()
+//                        downloadGroup.leave()
+                    }
                 }
-            }
+//                downloadGroup.wait()
+//            }
+           
+            print("will appear: objects.count = \(self.favObjects.count)")
         }
     }
     
@@ -133,10 +140,17 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         let cell = tableView.dequeueReusableCell(withIdentifier: "objectCell", for: indexPath as IndexPath) as! ObjectCell
         let curFavObject = favObjects[indexPath.item]
         //print("curFavObject name: \(curFavObject.title)")
-        cell.setObjectCell(sourceObj: curFavObject)
+        DispatchQueue.main.async{
+             cell.setObjectCell(sourceObj: curFavObject)
+        }
+
         cell.backgroundView = nil
         cell.backgroundColor = .clear
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        objectPath.append(favObjects[indexPath.row].title)
     }
     
     //swipe to delete object
@@ -151,12 +165,12 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                     print("Document successfully removed!")
                 }
             }
-            let imgRef = storageRef.child(obj.coverImgPath)
-            imgRef.delete{ error in
+            let imgsRef = self.storageRef.child("/images/\(objectPath[0])/\(objectPath[1])/\(objectPath[2])")
+            imgsRef.delete{ error in
               if let error = error {
-                print("Error deleting img from Firebase Storage(): \(error)")
+                print("Error deleting imgs from Firebase Storage(): \(error)")
               } else {
-                 print("img deleted from Firebase Storage().")
+                 print("imgs deleted from Firebase Storage().")
               }
             }
             favObjects.remove(at: indexPath.row)
@@ -170,12 +184,12 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             let addObjectVC = segue.destination as? AddObjectVC{//as? is casting
             addObjectVC.groupTableDelegate = self
             addObjectVC.editingObject = false
+            addObjectVC.objectPath = objectPath
         } else if segue.identifier == showObjectSegueIdentifier,
             let showObjectVC = segue.destination as? ShowObjectVC,
             let objectIndex = groupTable.indexPathForSelectedRow?.row {
             showObjectVC.currentObject = favObjects[objectIndex]
             showObjectVC.userID = userID
-            showObjectVC.selectedGroup = selectedGroup
             //add objectID, now it's userID, group name, objectID
             self.objectPath.append(favObjects[objectIndex].title)
             showObjectVC.objectPath = self.objectPath

@@ -348,7 +348,6 @@
                     <connections>
                         <outlet property="newGroupTF" destination="6rY-kf-fsS" id="76O-s1-pOj"/>
                         <outlet property="newTitleLabel" destination="qAl-1s-wkd" id="9oe-jr-JIf"/>
-                        <segue destination="BYZ-38-t0r" kind="show" identifier="afterCreateGroup" id="Pmi-Od-R4G"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4CE-Um-cOg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -880,7 +879,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="x5Z-Lg-E00"/>
+        <segue reference="6kL-0D-fLe"/>
         <segue reference="XgH-MB-vT8"/>
     </inferredMetricsTieBreakers>
     <resources>

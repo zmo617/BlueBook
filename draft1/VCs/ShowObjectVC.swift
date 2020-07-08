@@ -24,13 +24,58 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
     //MARK:LOCAL PROPERTIES
     var selectedImage: String?
     var userID: String!
-    var selectedGroup: String!
     var objectPath: [String]!
     var currentObject: FavObject!
     let db = Firestore.firestore()
     var imgs = [UIImage]()
     let storageRef = Storage.storage().reference()
     var bgView: UIImageView!
+    var backFromEdit = false
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let scrollFrame = scrollView.frame
+        let widthBound = scrollView.bounds.size.width
+        DispatchQueue.global(qos: .userInteractive).async{
+            let downloadGroup = DispatchGroup()
+            let imgsPath = "/images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])"
+            let imgsRef = self.storageRef.child(imgsPath)
+            print("trying to access \(imgsPath)")
+            imgsRef.listAll{(result, error) in
+                if error != nil{
+                    print("Error getting imgs from Firebase: \(error!.localizedDescription)")
+                }else{
+                    print("scroll frame: \(scrollFrame)")
+                    print("result count = \(result.items.count)")
+                    self.scrollView.contentSize.width = scrollFrame.size.width*(CGFloat(result.items.count))
+                    for i in 0 ..< result.items.count{
+                        downloadGroup.enter()
+                        let imgRef = result.items[i]
+                        imgRef.getData(maxSize: 1*2000*2000){(data, error) in
+                            if error != nil{
+                                print("Error getting this img's data:\(error!.localizedDescription)")
+                            }else{
+                                //                                print("appending img")
+                                //adding to scroll view
+                                let curImg = UIImage(data: data!)
+                                let xPos = CGFloat(i) * widthBound
+                                let frame = CGRect(x: xPos, y: 0, width: scrollFrame.size.width, height: scrollFrame.size.height)
+                                print("\n frame: \(frame.origin), \(frame.size.width), \(frame.size.height)\n")
+                                let imgView = UIImageView(frame: frame)
+                                imgView.contentMode = .scaleAspectFill
+                                imgView.image = curImg
+                                
+                                self.scrollView.addSubview(imgView)
+                                self.imgs.append(curImg!)
+                                downloadGroup.leave()
+                            }
+                        }
+                    }
+                }
+            }
+            downloadGroup.wait()
+        }
+        self.pageCtrl.numberOfPages = self.imgs.count
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,112 +89,11 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
         titleLabel.text = currentObject.title
         //set up imgs
         scrollView.delegate = self
-        
-        DispatchQueue.global(qos: .userInteractive).async{
-            let downloadGroup = DispatchGroup()
-            let imgsRef = self.storageRef.child("/images/\(self.currentObject.title)")
-            print("trying to access /images/\(self.currentObject.title)")
-            imgsRef.listAll{(result, error) in
-                if error != nil{
-                    print("Error getting imgs from Firebase: \(error!.localizedDescription)")
-                }else{
-                    let scrollFrame = self.scrollView.frame
-                    print("scroll frame: \(scrollFrame)")
-                    print("result count = \(result.items.count)")
-                    for i in 0 ..< result.items.count{
-                        downloadGroup.enter()
-                        let imgRef = result.items[i]
-                        imgRef.getData(maxSize: 1*2000*2000){(data, error) in
-                            if error != nil{
-                                print("Error getting this img's data:\(error!.localizedDescription)")
-                            }else{
-//                                print("appending img")
-                                //adding to scroll view
-                                let curImg = UIImage(data: data!)
-                                let xPos = CGFloat(i) * self.scrollView.bounds.size.width
-                                let frame = CGRect(x: xPos, y: 0, width: scrollFrame.size.width, height: scrollFrame.size.height)
-                                print("\n frame: \(frame.origin), \(frame.size.width), \(frame.size.height)\n")
-                                let imgView = UIImageView(frame: frame)
-                                imgView.contentMode = .scaleAspectFill
-                                imgView.image = curImg
-                                self.scrollView.contentSize.width = scrollFrame.size.width*(CGFloat(i + 1))
-                                self.scrollView.addSubview(imgView)
-                                self.imgs.append(curImg!)
-                                downloadGroup.leave()
-                            }
-                        }
-                    }
-                }
-            }
-            downloadGroup.wait()
-        }
-        
-        self.pageCtrl.numberOfPages = self.imgs.count
-        //        group.notify(queue: .main){
-        //            //set up scroll
-        //            print("imgs.count = \(self.imgs.count)")
-        //            let scrollFrame = self.scrollView.frame
-        //            print("scroll view: \(self.scrollView.frame.origin), \(self.scrollView.frame.size)")
-        //
-        //            for index in 0 ..< self.imgs.count {
-        //                let xPos = CGFloat(index) * self.scrollView.bounds.size.width
-        //                let frame = CGRect(x: xPos, y: 0, width: scrollFrame.size.width, height: scrollFrame.size.height)
-        //                print("\n frame: \(frame.origin), \(frame.size.width), \(frame.size.height)\n")
-        //                let imgView = UIImageView(frame: frame)
-        //                imgView.contentMode = .scaleAspectFill
-        //                imgView.image = self.imgs[index]
-        //                self.scrollView.contentSize.width = scrollFrame.size.width*(CGFloat(index + 1))
-        //                self.scrollView.addSubview(imgView)
-        //            }
-        //        }
-        
-        //        loadImgs(after: 2){
-        //            //set up scroll
-        //            print("imgs.count = \(self.imgs.count)")
-        //            let scrollFrame = self.scrollView.frame
-        //            print("scroll view: \(self.scrollView.frame.origin), \(self.scrollView.frame.size)")
-        //
-        //            for index in 0 ..< self.imgs.count {
-        //                let xPos = CGFloat(index) * self.scrollView.bounds.size.width
-        //                let frame = CGRect(x: xPos, y: 0, width: scrollFrame.size.width, height: scrollFrame.size.height)
-        //                print("\n frame: \(frame.origin), \(frame.size.width), \(frame.size.height)\n")
-        //                let imgView = UIImageView(frame: frame)
-        //                imgView.contentMode = .scaleAspectFill
-        //                imgView.image = self.imgs[index]
-        //                self.scrollView.contentSize.width = scrollFrame.size.width*(CGFloat(index + 1))
-        //                self.scrollView.addSubview(imgView)
-        //            }
-        //        }
     }
     
-    
-    func loadImgs(after seconds: Int, completion: @escaping () -> Void){
-        let imgsRef = storageRef.child("/images/\(currentObject.title)")
-        print("trying to access /images/\(currentObject.title)")
-        imgsRef.listAll{(result, error) in
-            if error != nil{
-                print("Error getting imgs from Firebase: \(error!.localizedDescription)")
-            }else{
-                print("result count = \(result.items.count)")
-                result.items.forEach{(imgRef) in
-                    imgRef.getData(maxSize: 1*2000*2000){(data, error) in
-                        if error != nil{
-                            print("Error getting this img's data:\(error!.localizedDescription)")
-                        }else{
-                            print("appending img")
-                            self.imgs.append(UIImage(data: data!)!)
-                        }
-                    }
-                }
-                
-            }
-        }
-        pageCtrl.numberOfPages = imgs.count
-        let deadline = DispatchTime.now() + .seconds(seconds)
-        DispatchQueue.main.asyncAfter(deadline: deadline) {
-            completion()
-        }
-    }
+    //    func loadImgs(after seconds: Int, completion: @escaping () -> Void){
+    //
+    //    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageNumber = scrollView.contentOffset.x / scrollView.frame.size.width
@@ -158,13 +102,14 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
     
     func editObject(newCoverImgPath: String, newTitle: String, newContent: String){
         let docRef = self.db.collection("users").document(userID)
-        docRef.collection("favGroups").document("\(self.selectedGroup!)").collection("favObjects").document("\(currentObject.title)").delete()
+        //objectPath[1] is selectedGroup
+        docRef.collection("favGroups").document(objectPath[1]).collection("favObjects").document("\(currentObject.title)").delete()
         
         currentObject.title = newTitle
         currentObject.coverImgPath = newCoverImgPath
         currentObject.content = newContent
         
-        docRef.collection("favGroups").document("\(self.selectedGroup!)").collection("favObjects").document("\(currentObject.title)").setData(["content": currentObject.content, "coverImgPath": currentObject.coverImgPath, "title": currentObject.title], merge: true)
+        docRef.collection("favGroups").document(objectPath[1]).collection("favObjects").document(newTitle).setData(["content": currentObject.content, "coverImgPath": currentObject.coverImgPath, "title": newTitle], merge: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -172,8 +117,8 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
             let addObjectVC = segue.destination as? AddObjectVC{//as? is casting
             addObjectVC.showVCDelegate = self
             addObjectVC.editingObject = true
-            addObjectVC.editingTitle = currentObject.title
             addObjectVC.editingContent = currentObject.content
+            addObjectVC.objectPath = objectPath
         }else if segue.identifier == "toContacts"{
             let contactsVC = segue.destination as? ContactsVC
             //email, group name, object name

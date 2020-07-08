@@ -38,7 +38,7 @@ class AddGroupVC: UIViewController {
         }
         //add it to objects
         mainVC.addGroup(newTitle: newGroupTF.text!)
-        performSegue(withIdentifier: "afterCreateGroup", sender: nil)
+        navigationController?.popViewController(animated: true)
     }
     /*
     // MARK: - Navigation

@@ -136,7 +136,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func addGroup(newTitle: String){
-        groups.append(FavGroup(title: "newTitle"))
+        groups.append(FavGroup(title: newTitle))
     }
     
     
