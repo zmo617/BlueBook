@@ -21,8 +21,17 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        bgView = Styling.setUpBg(vc: self, imgName: "bg6")
-        
+        if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
+            bgView = Styling.setUpBg(vc: self, imgName: "bg6")
+            navigationController?.navigationBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+            tabBarController?.tabBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
+        } else {
+            bgView = Styling.setUpBg(vc: self, imgName: "bg5")
+            navigationController?.navigationBar.barTintColor = UIColor.white
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+            tabBarController?.tabBar.barTintColor = UIColor.white
+        }
         contactsTable.delegate = self
         contactsTable.dataSource = self
         contactsTable.backgroundView = nil
@@ -44,6 +53,25 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             }
         }
         // Do any additional setup after loading the view.
+    }
+    
+    override func loadView() {
+        super.loadView()
+        setupView()
+    }
+    
+    func setupView() {
+        let name = Notification.Name("darkModeChanged")
+        NotificationCenter.default.addObserver(self, selector: #selector(enableDarkMode), name: name, object: nil)
+    }
+    
+    @objc func enableDarkMode() {
+        let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
+        if (isDarkMode) {
+            bgView.image = UIImage(named: "bg6")
+        } else  {
+            bgView.image = UIImage(named: "bg5")
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -82,6 +110,13 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let rowIsSelected = selectedIndexPaths != nil && selectedIndexPaths!.contains(indexPath)
         cell.accessoryType = rowIsSelected ? .checkmark : .none
         cell.nameLabel.text = "\(user.firstname) \(user.lastname)"
+        cell.nameLabel.textColor = UIColor.white
+        let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
+        if (isDarkMode) {
+            cell.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.0)
+        } else  {
+            cell.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.0)
+        }
         return cell
     }
     

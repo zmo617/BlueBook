@@ -32,9 +32,32 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
     var bgView: UIImageView!
     var backFromEdit = false
     
+
     override func viewWillAppear(_ animated: Bool) {
+        scrollView.delegate = self
         let scrollFrame = scrollView.frame
         let widthBound = scrollView.bounds.size.width
+
+        
+        descriptionLabel.text = currentObject.content
+        descriptionLabel.sizeToFit()
+        if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
+            bgView = Styling.setUpBg(vc: self, imgName: "bg6")
+            navigationController?.navigationBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+            tabBarController?.tabBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
+        } else {
+            bgView = Styling.setUpBg(vc: self, imgName: "bg5")
+            navigationController?.navigationBar.barTintColor = UIColor.white
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+            tabBarController?.tabBar.barTintColor = UIColor.white
+        }
+        titleLabel.textColor = UIColor.white
+        descriptionLabel.textColor = UIColor.white
+        print("\n\n done")
+        titleLabel.text = currentObject.title
+        //set up imgs
+    
         DispatchQueue.global(qos: .userInteractive).async{
             let downloadGroup = DispatchGroup()
             let imgsPath = "/images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])"
@@ -77,9 +100,10 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
         self.pageCtrl.numberOfPages = self.imgs.count
     }
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupView()
         descriptionLabel.text = currentObject.content
         descriptionLabel.sizeToFit()
         bgView = Styling.setUpBg(vc: self, imgName: "bg6")
@@ -89,7 +113,53 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
         titleLabel.text = currentObject.title
         //set up imgs
         scrollView.delegate = self
+//=======
+//    override func loadView() {
+//        super.loadView()
+        
     }
+    
+    func setupView() {
+        let name = Notification.Name("darkModeChanged")
+        NotificationCenter.default.addObserver(self, selector: #selector(enableDarkMode), name: name, object: nil)
+    }
+    
+    @objc func enableDarkMode() {
+        let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
+        if (isDarkMode) {
+            bgView.image = UIImage(named: "bg6")
+        } else  {
+            bgView.image = UIImage(named: "bg5")
+        }
+    }
+    
+//    func loadImgs(after seconds: Int, completion: @escaping () -> Void){
+//        let imgsRef = storageRef.child("/images/\(currentObject.title)")
+//        print("trying to access /images/\(currentObject.title)")
+//        imgsRef.listAll{(result, error) in
+//            if error != nil{
+//                print("Error getting imgs from Firebase: \(error!.localizedDescription)")
+//            }else{
+//                print("result count = \(result.items.count)")
+//                result.items.forEach{(imgRef) in
+//                    imgRef.getData(maxSize: 1*2000*2000){(data, error) in
+//                        if error != nil{
+//                            print("Error getting this img's data:\(error!.localizedDescription)")
+//                        }else{
+//                            print("appending img")
+//                            self.imgs.append(UIImage(data: data!)!)
+//                        }
+//                    }
+//                }
+//
+//            }
+//        }
+//        pageCtrl.numberOfPages = imgs.count
+//        let deadline = DispatchTime.now() + .seconds(seconds)
+//        DispatchQueue.main.asyncAfter(deadline: deadline) {
+//            completion()
+//        }
+//    }
     
     //    func loadImgs(after seconds: Int, completion: @escaping () -> Void){
     //

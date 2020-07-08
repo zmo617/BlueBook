@@ -15,6 +15,28 @@ class ObjectCell: UITableViewCell {
     @IBOutlet weak var coverImgView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     
+    /*
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+        let name = Notification.Name("darkModeChanged")
+        NotificationCenter.default.addObserver(self, selector: #selector(enableDarkMode), name: name, object: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    @objc func enableDarkMode() {
+        let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
+        if (isDarkMode) {
+            backgroundColor = UIColor(patternImage: UIImage(named: "bg6")!)
+        } else  {
+            backgroundColor = UIColor(patternImage: UIImage(named: "bg5")!)
+        }
+    }
+    */
+    
     func setObjectCell(sourceObj: FavObject){
         let storageRef = Storage.storage().reference()
         let imgRef = storageRef.child(sourceObj.coverImgPath)
@@ -23,8 +45,6 @@ class ObjectCell: UITableViewCell {
         titleLabel.textColor = UIColor.white
     }
     
-
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -32,7 +52,6 @@ class ObjectCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
 
