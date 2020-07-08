@@ -21,8 +21,10 @@ class ObjectCell: UITableViewCell {
         coverImgView.sd_setImage(with: imgRef)
         titleLabel.text = sourceObj.title
         titleLabel.textColor = UIColor.white
-
     }
+    
+
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
