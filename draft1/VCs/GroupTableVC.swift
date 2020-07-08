@@ -36,6 +36,8 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         Styling.setBg(vc: self, imgName: "bg6")
         Styling.styleFilledRoundButton(addBtn)
         self.title = selectedGroup
+        // Trying to set up dark mode
+        // setupView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -84,6 +86,22 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         }
     }
     
+    // Attemping dark mode
+    /*
+    func setupView() {
+        let name = Notification.Name("darkModeChanged")
+        NotificationCenter.default.addObserver(self, selector: #selector(enableDarkMode), name: name, object: nil)
+    }
+    
+    @objc func enableDarkMode() {
+        let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
+        if (isDarkMode) {
+            Styling.setBg(vc: self, imgName: "bg6")
+        } else  {
+            Styling.setBg(vc: self, imgName: "bg5")
+        }
+    }
+    */
     func addObject(newCoverImgPath: String, newTitle: String, newContent: String){
         //create new object
         let newObj = FavObject(title: newTitle,
