@@ -37,7 +37,17 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
         
         descriptionLabel.text = currentObject.content
         descriptionLabel.sizeToFit()
-        bgView = Styling.setUpBg(vc: self, imgName: "bg6")
+        if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
+            bgView = Styling.setUpBg(vc: self, imgName: "bg6")
+            navigationController?.navigationBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+            tabBarController?.tabBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
+        } else {
+            bgView = Styling.setUpBg(vc: self, imgName: "bg5")
+            navigationController?.navigationBar.barTintColor = UIColor.white
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+            tabBarController?.tabBar.barTintColor = UIColor.white
+        }
         titleLabel.textColor = UIColor.white
         descriptionLabel.textColor = UIColor.white
         print("\n\n done")
@@ -122,6 +132,24 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
         //        }
     }
     
+    override func loadView() {
+        super.loadView()
+        setupView()
+    }
+    
+    func setupView() {
+        let name = Notification.Name("darkModeChanged")
+        NotificationCenter.default.addObserver(self, selector: #selector(enableDarkMode), name: name, object: nil)
+    }
+    
+    @objc func enableDarkMode() {
+        let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
+        if (isDarkMode) {
+            bgView.image = UIImage(named: "bg6")
+        } else  {
+            bgView.image = UIImage(named: "bg5")
+        }
+    }
     
     func loadImgs(after seconds: Int, completion: @escaping () -> Void){
         let imgsRef = storageRef.child("/images/\(currentObject.title)")

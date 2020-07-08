@@ -36,8 +36,36 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         bgView = Styling.setUpBg(vc: self, imgName: "bg6")
         Styling.styleFilledRoundButton(addBtn)
         self.title = selectedGroup
-        // Trying to set up dark mode
-        // setupView()
+        if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
+            bgView = Styling.setUpBg(vc: self, imgName: "bg6")
+            navigationController?.navigationBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+            tabBarController?.tabBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
+        } else {
+            bgView = Styling.setUpBg(vc: self, imgName: "bg5")
+            navigationController?.navigationBar.barTintColor = UIColor.white
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+            tabBarController?.tabBar.barTintColor = UIColor.white
+        }
+    }
+    
+    override func loadView() {
+        super.loadView()
+        setupView()
+    }
+    
+    func setupView() {
+        let name = Notification.Name("darkModeChanged")
+        NotificationCenter.default.addObserver(self, selector: #selector(enableDarkMode), name: name, object: nil)
+    }
+    
+    @objc func enableDarkMode() {
+        let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
+        if (isDarkMode) {
+            bgView.image = UIImage(named: "bg6")
+        } else  {
+            bgView.image = UIImage(named: "bg5")
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -85,23 +113,7 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             }
         }
     }
-    
-    // Attemping dark mode
-    /*
-    func setupView() {
-        let name = Notification.Name("darkModeChanged")
-        NotificationCenter.default.addObserver(self, selector: #selector(enableDarkMode), name: name, object: nil)
-    }
-    
-    @objc func enableDarkMode() {
-        let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
-        if (isDarkMode) {
-            Styling.setBg(vc: self, imgName: "bg6")
-        } else  {
-            Styling.setBg(vc: self, imgName: "bg5")
-        }
-    }
-    */
+
     func addObject(newCoverImgPath: String, newTitle: String, newContent: String){
         //create new object
         let newObj = FavObject(title: newTitle,
