@@ -26,11 +26,14 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     let showObjectSegueIdentifier = "toShowObject"
     var selectedGroup: String!
     var objectPath: [String]!
+    var sharedPaths: [[String]]!
     var bgView: UIImageView!
     var userID: String!
+    var isShared: Bool!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupView()
         groupTable.backgroundView = nil
         groupTable.backgroundColor = .clear
         Styling.styleFilledRoundButton(addBtn)
@@ -46,12 +49,76 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
             tabBarController?.tabBar.barTintColor = UIColor.white
         }
+        print("\n objectPath[0] should be userID: \(objectPath[0]), objectPath[1] should be selectedGroup: \(objectPath[1])")
+                
+                let ref = db.collection("users").document(objectPath[0]).collection("favGroups").document(selectedGroup)
+                if selectedGroup == "sharedObjects"{
+                    isShared = true
+                    let placeHolderFavObj = FavObject(title: "", coverImgPath: "", content: "")
+                    DispatchQueue.main.async {
+                        //get shared object paths
+                        let objectsRef = ref.collection("objectPaths")
+                        objectsRef.getDocuments{(snapshot, error) in
+                            //use the paths to get each sharedObject
+                            if error == nil{
+                                let docs = snapshot?.documents
+                                let docsCount = docs!.count
+                                self.sharedPaths = [[String]](repeating: [], count: docsCount)
+                                self.favObjects = [FavObject](repeating: placeHolderFavObj, count: docsCount)
+                                //and add each object to sharedObjects group, i.e. the favObjects list
+                                for i in 0 ..< docsCount{
+                                   
+                                    let docData = docs![i].get("path") as! [String]
+                                    print("\n docs[\(i)]: \(docData) \n")
+                                    
+                                    self.sharedPaths[i] = docData
+                                    let objRef = self.db.collection("users").document(docData[0]).collection("favGroups").document(docData[1]).collection("favObjects").document(docData[2])
+                                        print("\n document: \(docData[1]),\(docData[2])")
+                                    objRef.getDocument{(document, error) in
+                                        if error != nil{
+                                            print(error?.localizedDescription ?? "Error loading sharedObject to reader")
+                                        }else{
+                                            let tempObj = try! document!.data(as: FavObject.self)
+                                            self.favObjects[i] = tempObj!
+                                            self.groupTable.reloadData()
+                                        }
+                                    }
+                                }
+                            }else{
+                                print("\n Error fetching sharedObjects: \(error!.localizedDescription)\n")
+                            }
+                        }
+                    }
+                    
+                }else{
+                    isShared = false
+        //            DispatchQueue.global(qos: .userInteractive).async{
+        //                let downloadGroup = DispatchGroup()
+                        let groupRef = ref.collection("favObjects")
+        //                downloadGroup.enter()
+                        groupRef.getDocuments{(snapshot, error) in
+                            if let error = error {
+                                print("Error getting documents: \(error)")
+                            } else {
+                                let tempObjects: [FavObject] = try! snapshot!.decoded()
+                                //self.favObjects = userObjects
+                                //print("will appear: obejcts.count = \(self.favObjects.count)")
+                                self.favObjects = tempObjects
+                                self.groupTable.reloadData()
+        //                        downloadGroup.leave()
+                            }
+                        }
+        //                downloadGroup.wait()
+        //            }
+                   
+                    print("will appear: objects.count = \(self.favObjects.count)")
+                }
     }
     
-    override func loadView() {
-        super.loadView()
-        setupView()
-    }
+//    override func loadView() {
+//        super.loadView()
+//
+//    }
     
     func setupView() {
         let name = Notification.Name("darkModeChanged")
@@ -68,56 +135,7 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("\n objectPath[0] should be userID: \(objectPath[0]), objectPath[1] should be selectedGroup: \(objectPath[1])")
-        
-        let ref = db.collection("users").document(objectPath[0]).collection("favGroups").document(selectedGroup)
-        if selectedGroup == "sharedObjects"{
-            //get shared object paths
-            let objectsRef = ref.collection("objectPaths")
-            objectsRef.getDocuments{(snapshot, error) in
-                //use the paths to get each sharedObject
-                if error == nil{
-                    let docs = snapshot?.documents
-                    //and add each object to sharedObjects group, i.e. the favObjects list
-                    docs?.forEach{doc in
-                        let docData = doc.get("path") as! [String]
-                        let objRef = self.db.collection("users").document(docData[0]).collection("favGroups").document(docData[1]).collection("favObjects").document(docData[2])
-                        objRef.getDocument{(document, error) in
-                            if error != nil{
-                                print(error?.localizedDescription ?? "Error loading sharedObject to reader")
-                            }else{
-                                let tempObj = try! document!.data(as: FavObject.self)
-                                self.favObjects.append(tempObj!)
-                            }
-                        }
-                    }
-                    self.groupTable.reloadData()
-                }else{
-                    print("\n Error fetching sharedObjects: \(error!.localizedDescription)\n")
-                }
-            }
-        }else{
-//            DispatchQueue.global(qos: .userInteractive).async{
-//                let downloadGroup = DispatchGroup()
-                let groupRef = ref.collection("favObjects")
-//                downloadGroup.enter()
-                groupRef.getDocuments{(snapshot, error) in
-                    if let error = error {
-                        print("Error getting documents: \(error)")
-                    } else {
-                        let tempObjects: [FavObject] = try! snapshot!.decoded()
-                        //self.favObjects = userObjects
-                        //print("will appear: obejcts.count = \(self.favObjects.count)")
-                        self.favObjects = tempObjects
-                        self.groupTable.reloadData()
-//                        downloadGroup.leave()
-                    }
-                }
-//                downloadGroup.wait()
-//            }
-           
-            print("will appear: objects.count = \(self.favObjects.count)")
-        }
+        groupTable.reloadData()
     }
 
     func addObject(newCoverImgPath: String, newTitle: String, newContent: String){
@@ -161,7 +179,19 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        objectPath.append(favObjects[indexPath.row].title)
+        if isShared{
+            objectPath = sharedPaths[indexPath.row]
+        }else{
+            
+            if(objectPath.count < 3){
+                objectPath.append(favObjects[indexPath.row].title)
+            }else{
+                objectPath[2] = favObjects[indexPath.row].title
+            }
+            
+        }
+        print("\n <shared> Selected obj : \(objectPath)\n")
+        performSegue(withIdentifier: "toShowObject", sender: nil)
     }
     
     //swipe to delete object
@@ -202,7 +232,6 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             showObjectVC.currentObject = favObjects[objectIndex]
             showObjectVC.userID = userID
             //add objectID, now it's userID, group name, objectID
-            self.objectPath.append(favObjects[objectIndex].title)
             showObjectVC.objectPath = self.objectPath
         }
     }

@@ -415,7 +415,6 @@
                                             <outlet property="cellView" destination="t4D-dg-5RE" id="DbA-vg-6Ha"/>
                                             <outlet property="coverImgView" destination="hRS-AJ-Qjc" id="PIt-El-GZK"/>
                                             <outlet property="titleLabel" destination="pxR-4o-CVy" id="eAc-Or-pH1"/>
-                                            <segue destination="6xK-tg-8R7" kind="show" identifier="toShowObject" id="uta-GT-lXY"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -450,6 +449,7 @@
                     <connections>
                         <outlet property="addBtn" destination="LeE-hJ-xnN" id="b1m-e7-uD9"/>
                         <outlet property="groupTable" destination="OJa-AM-BAA" id="H7g-C8-Zpw"/>
+                        <segue destination="6xK-tg-8R7" kind="show" identifier="toShowObject" id="DhE-rJ-CZg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WFh-ZV-f3r" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
