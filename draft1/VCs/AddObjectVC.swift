@@ -38,7 +38,6 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
     //images
     let storageRef = Storage.storage().reference()
     var imgURLs = [URL]()
-    var imgURL: URL!
     var selectedAssets = [PHAsset]()
     var photos = [UIImage]()
     //for creating new object
@@ -56,38 +55,38 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
             titleTxtField.text = objectPath[2]
             contentTxtView.text = editingContent
             
-//            DispatchQueue.global(qos: .userInteractive).async{
-//                let downloadGroup = DispatchGroup()
-                let imgsRef = self.storageRef.child("/images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])")
-                print("trying to access /images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])")
-                //downloadGroup.enter()
-                imgsRef.listAll{(result, error) in
-                    if error != nil{
-                        print("Error getting imgs from Firebase: \(error!.localizedDescription)")
-                    }else{
-                        
-                        print("result count = \(result.items.count)")
-                        result.items.forEach{(imgRef) in
-                            //downloadGroup.enter()
-                            imgRef.getData(maxSize: 1*2000*2000){(data, error) in
-                                if error != nil{
-                                    print("Error getting this img's data:\(error!.localizedDescription)")
-                                }else{
-                                    print("appending img")
-                                    self.photos.append(UIImage(data: data!)!)
-                                    self.photoBook.reloadData()
-                                    //downloadGroup.leave()
-                                }
+            //            DispatchQueue.global(qos: .userInteractive).async{
+            //                let downloadGroup = DispatchGroup()
+            let imgsRef = self.storageRef.child("/images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])")
+            print("trying to access /images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])")
+            //downloadGroup.enter()
+            imgsRef.listAll{(result, error) in
+                if error != nil{
+                    print("Error getting imgs from Firebase: \(error!.localizedDescription)")
+                }else{
+                    
+                    print("result count = \(result.items.count)")
+                    result.items.forEach{(imgRef) in
+                        //downloadGroup.enter()
+                        imgRef.getData(maxSize: 1*2000*2000){(data, error) in
+                            if error != nil{
+                                print("Error getting this img's data:\(error!.localizedDescription)")
+                            }else{
+                                print("appending img")
+                                self.photos.append(UIImage(data: data!)!)
+                                self.photoBook.reloadData()
+                                //downloadGroup.leave()
                             }
                         }
-                       //downloadGroup.leave()
                     }
+                    //downloadGroup.leave()
                 }
-                //downloadGroup.wait()
-      //      }
+            }
+            //downloadGroup.wait()
+            //      }
             print("photos.count: \(self.photos.count)")
         }
-
+        
         createBtn.setTitleColor(UIColor.systemBlue, for: .normal)
         bgView = Styling.setUpBg(vc: self, imgName: "bg6")
         Styling.styleTextField(titleTxtField)
@@ -105,31 +104,31 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
     override func viewWillAppear(_ animated: Bool) {
         photoBook.reloadData()
     }
-//    func loadImgs(after seconds: Int, completion: @escaping () -> Void){
-//        let imgsRef = storageRef.child("/images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])")
-//        print("trying to access /images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])")
-//        imgsRef.listAll{(result, error) in
-//            if error != nil{
-//                print("Error getting imgs from Firebase: \(error!.localizedDescription)")
-//            }else{
-//                print("result count = \(result.items.count)")
-//                result.items.forEach{(imgRef) in
-//                    imgRef.getData(maxSize: 1*2000*2000){(data, error) in
-//                        if error != nil{
-//                            print("Error getting this img's data:\(error!.localizedDescription)")
-//                        }else{
-//                            print("appending img")
-//                            self.photos.append(UIImage(data: data!)!)
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        let deadline = DispatchTime.now() + .seconds(seconds)
-//        DispatchQueue.main.asyncAfter(deadline: deadline) {
-//            completion()
-//        }
-//    }
+    //    func loadImgs(after seconds: Int, completion: @escaping () -> Void){
+    //        let imgsRef = storageRef.child("/images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])")
+    //        print("trying to access /images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])")
+    //        imgsRef.listAll{(result, error) in
+    //            if error != nil{
+    //                print("Error getting imgs from Firebase: \(error!.localizedDescription)")
+    //            }else{
+    //                print("result count = \(result.items.count)")
+    //                result.items.forEach{(imgRef) in
+    //                    imgRef.getData(maxSize: 1*2000*2000){(data, error) in
+    //                        if error != nil{
+    //                            print("Error getting this img's data:\(error!.localizedDescription)")
+    //                        }else{
+    //                            print("appending img")
+    //                            self.photos.append(UIImage(data: data!)!)
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //        }
+    //        let deadline = DispatchTime.now() + .seconds(seconds)
+    //        DispatchQueue.main.asyncAfter(deadline: deadline) {
+    //            completion()
+    //        }
+    //    }
     
     //MARK: SPEECH RECOGNITION ----------------------------
     //request authorization first
@@ -153,13 +152,13 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
                 //self.recordBtn.isEnabled = true
                 //call startRecognition
                 do {
-                  try self.startRecognition()
+                    try self.startRecognition()
                 } catch let error {
-                  print("There was a problem starting recording: \(error.localizedDescription)")
+                    print("There was a problem starting recording: \(error.localizedDescription)")
                 }
                 
             }else{
-               
+                
             }
         }
     }
@@ -175,12 +174,12 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
         audioEngine.prepare()
         try audioEngine.start()
         
-       speechTask = speechRecognizer?.recognitionTask(with: request) {
-          [unowned self]
-          (result, _) in
-          if let transcription = result?.bestTranscription {
-            self.contentTxtView.text = transcription.formattedString
-          }
+        speechTask = speechRecognizer?.recognitionTask(with: request) {
+            [unowned self]
+            (result, _) in
+            if let transcription = result?.bestTranscription {
+                self.contentTxtView.text = transcription.formattedString
+            }
         }
     }
     
@@ -196,7 +195,11 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
         if selectedAssets.count != 0{
             for i in 0 ..< selectedAssets.count{
                 let curAsset = selectedAssets[i]
-                //let curImg = curAsset.image(completionHandler: {(img) in
+                curAsset.requestContentEditingInput(with: PHContentEditingInputRequestOptions()){(editingInput, info) in
+                    if let input = editingInput, let imgURL = input.fullSizeImageURL{
+                        self.imgURLs.append(imgURL)
+                    }
+                }
                 _ = curAsset.image(completionHandler: {(img) in
                     self.photos.append(img)
                     print("img \(i) converted to UIImage")
@@ -260,20 +263,20 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
         }
     }
     
-//    //info is a dictionary containing img data.
-//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-//        //old name: info[UIImagePickerControllerOriginalImage]
-//        let img = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-//
-//        coverImgView.image = img
-//        self.imgURL = info[UIImagePickerController.InfoKey.imageURL] as? URL
-//        editingImgPressed = true
-//        picker.dismiss(animated: true, completion: nil)
-//    }
-//
-//    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-//        picker.dismiss(animated: true, completion: nil)
-//    }
+    //    //info is a dictionary containing img data.
+    //    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    //        //old name: info[UIImagePickerControllerOriginalImage]
+    //        let img = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+    //
+    //        coverImgView.image = img
+    //        self.imgURL = info[UIImagePickerController.InfoKey.imageURL] as? URL
+    //        editingImgPressed = true
+    //        picker.dismiss(animated: true, completion: nil)
+    //    }
+    //
+    //    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    //        picker.dismiss(animated: true, completion: nil)
+    //    }
     
     func uploadImgs(after seconds: Int, completion: @escaping () -> Void){
         //        let firstAsset = selectedAssets[0]
@@ -285,52 +288,47 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
         //                   }
         //               }
         
-        for i in 0 ..< self.selectedAssets.count{
-            let curAsset = self.selectedAssets[i]
-            let imgName = "/images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objTitle!)/\(imgURL.hashValue)"
-            curAsset.requestContentEditingInput(with: PHContentEditingInputRequestOptions()){(editingInput, info) in
-                if let input = editingInput, let imgURL = input.fullSizeImageURL{
-                    if i == 0{
-                        self.coverImgPath = imgName
-                    }
-                    //let data = Data()
-                    self.uploadImgToStorage(imgURL: imgURL, imgRef: imgName)
-                }
-            }
-        }
-        let deadline = DispatchTime.now() + .seconds(seconds)
-        DispatchQueue.main.asyncAfter(deadline: deadline) {
-            completion()
-        }
+        
+        //        let deadline = DispatchTime.now() + .seconds(seconds)
+        //        DispatchQueue.main.asyncAfter(deadline: deadline) {
+        //            completion()
+        //        }
     }
     
     //create button pressed
     @IBAction func createObject(_ sender: Any) {
         objTitle = titleTxtField.text!
-        
-        print("\n selectedAssets.count = \(selectedAssets.count) \n")
-        uploadImgs(after: 1){
-            if self.coverImgPath == nil{
-                print("coverImgPath nil \n\n")
-            }else{
-                print("coverImgPath: \(self.coverImgPath!)" )
-                if self.editingObject{
-                    let showVC = self.showVCDelegate as! ShowObjectVC
-                    showVC.editObject(newCoverImgPath: self.coverImgPath, newTitle: self.objTitle, newContent: self.contentTxtView.text)
-                    showVC.backFromEdit = true
-                    for img in self.photos{
-                        showVC.imgs.append(img)
-                    }
-                    print("create Pressed: photos \(self.photos.count),showVC images.count = \(showVC.imgs)")
-                    
-                }else{
-                    let groupVC = self.groupTableDelegate as! GroupTableVC
-                    groupVC.addObject(newCoverImgPath: self.coverImgPath, newTitle: self.objTitle, newContent: self.contentTxtView.text)
+        //upload imgs
+        DispatchQueue.global(qos: .userInteractive).async{
+            let downloadGroup = DispatchGroup()
+            
+            for i in 0 ..< self.selectedAssets.count{
+                downloadGroup.enter()
+                let imgName = "/images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objTitle!)/\(self.imgURLs[i].hashValue)"
+                
+                if i == 0{
+                    self.coverImgPath = imgName
                 }
-                self.navigationController?.popViewController(animated: true)
+                self.uploadImgToStorage(imgURL: self.imgURLs[i], imgRef: imgName)
+                downloadGroup.leave()
             }
+            downloadGroup.wait()
         }
-        
+        if self.coverImgPath == nil{
+            print("coverImgPath nil \n\n")
+        }else{
+            print("\n coverImgPath: \(self.coverImgPath!) \n" )
+            if self.editingObject{
+                let showVC = self.showVCDelegate as! ShowObjectVC
+                showVC.editObject(newCoverImgPath: self.coverImgPath, newTitle: self.objTitle, newContent: self.contentTxtView.text)
+                showVC.backFromEdit = true
+                
+            }else{
+                let groupVC = self.groupTableDelegate as! GroupTableVC
+                groupVC.addObject(newCoverImgPath: self.coverImgPath, newTitle: self.objTitle, newContent: self.contentTxtView.text)
+            }
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

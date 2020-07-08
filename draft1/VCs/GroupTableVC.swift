@@ -165,7 +165,7 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                     print("Document successfully removed!")
                 }
             }
-            let imgsRef = self.storageRef.child("/images/\(objectPath[0])/\(objectPath[1])/\(objectPath[2])")
+            let imgsRef = self.storageRef.child("/images/\(objectPath[0])/\(objectPath[1])/\(obj.title)")
             imgsRef.delete{ error in
               if let error = error {
                 print("Error deleting imgs from Firebase Storage(): \(error)")
