@@ -110,6 +110,13 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let rowIsSelected = selectedIndexPaths != nil && selectedIndexPaths!.contains(indexPath)
         cell.accessoryType = rowIsSelected ? .checkmark : .none
         cell.nameLabel.text = "\(user.firstname) \(user.lastname)"
+        cell.nameLabel.textColor = UIColor.white
+        let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
+        if (isDarkMode) {
+            cell.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.0)
+        } else  {
+            cell.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.0)
+        }
         return cell
     }
     
