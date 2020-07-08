@@ -43,10 +43,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var selectedGroup: String!
     //var loginDelegate: UIViewController!
     var editMode = false
+    var bgView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        Styling.setBg(vc: self, imgName: "bg6")
+        bgView = Styling.setUpBg(vc: self, imgName: "bg6")
         groupsBook.backgroundView = nil
         groupsBook.backgroundColor = .clear
         Styling.styleFilledRoundButton(addBtn)

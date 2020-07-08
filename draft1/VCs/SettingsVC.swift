@@ -13,29 +13,33 @@ class SettingsVC: UIViewController {
     @IBOutlet weak var signOutBtn: UIButton!
 
     @IBOutlet weak var darkModeSwitch: UISwitch!
-    
+
+    var bgView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        darkModeSwitch.isOn = UserDefaults.standard.bool(forKey: "isDarkMode")
+        if (darkModeSwitch.isOn) {
+            bgView = Styling.setUpBg(vc: self, imgName: "bg6")
+        } else {
+            bgView = Styling.setUpBg(vc: self, imgName: "bg5")
+        }
         Styling.styleFilledButton(signOutBtn)
     }
-
-    override func viewWillAppear(_ animated: Bool) {
-        if (darkModeSwitch.isOn) {
-            Styling.setBg(vc: self, imgName: "bg6")
-        } else {
-            Styling.setBg(vc: self, imgName: "bg5")
-        }
-    }
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//
+//    }
 
     @IBAction func darkModePressed(_ sender: Any) {
-        let name = Notification.Name("darkModeChanged")
+        //let name = Notification.Name("darkModeChanged")
         UserDefaults.standard.set(darkModeSwitch.isOn, forKey: "isDarkMode")
-        NotificationCenter.default.post(name: name, object: nil)
+        //UserDefaults.standard.synchronize()
+//        NotificationCenter.default.post(name: name, object: nil)
         if (darkModeSwitch.isOn) {
-            Styling.setBg(vc: self, imgName: "bg6")
+            bgView.image = UIImage(named: "bg6")
         } else {
-            Styling.setBg(vc: self, imgName: "bg5")
+            bgView.image = UIImage(named: "bg5")
         }
     }
     

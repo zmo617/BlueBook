@@ -26,14 +26,14 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     let showObjectSegueIdentifier = "toShowObject"
     var selectedGroup: String!
     var objectPath: [String]!
-    
+    var bgView: UIImageView!
     var userID: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         groupTable.backgroundView = nil
         groupTable.backgroundColor = .clear
-        Styling.setBg(vc: self, imgName: "bg6")
+        bgView = Styling.setUpBg(vc: self, imgName: "bg6")
         Styling.styleFilledRoundButton(addBtn)
         self.title = selectedGroup
         // Trying to set up dark mode

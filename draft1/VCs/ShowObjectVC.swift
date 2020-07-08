@@ -29,6 +29,7 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
     let db = Firestore.firestore()
     var imgs = [UIImage]()
     let storageRef = Storage.storage().reference()
+    var bgView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +57,7 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
         }
         descriptionLabel.text = currentObject.content
         descriptionLabel.sizeToFit()
-        Styling.setBg(vc: self, imgName: "bg6")
+        bgView = Styling.setUpBg(vc: self, imgName: "bg6")
         titleLabel.textColor = UIColor.white
         descriptionLabel.textColor = UIColor.white
     }

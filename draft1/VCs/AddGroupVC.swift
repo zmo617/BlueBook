@@ -16,11 +16,12 @@ class AddGroupVC: UIViewController {
     //MARK:LOCAL PROPERTIES
     var mainVCDelegate: UIViewController!//homeVC
     let db = Firestore.firestore()
+    var bgView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         Styling.styleTextField(newGroupTF)
-        Styling.setBg(vc: self, imgName: "bg6")
+        bgView = Styling.setUpBg(vc: self, imgName: "bg6")
     }
     
 

@@ -27,6 +27,7 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
     
     //MARK:LOCAL PROPERTIES
     var groupTableDelegate: UIViewController!
+    var bgView: UIImageView!
     //speech rec
     let audioEngine = AVAudioEngine()
     let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
@@ -66,7 +67,7 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
             createBtn.isHidden = false
             createBtn.setTitleColor(UIColor.systemBlue, for: .normal)
         }
-        Styling.setBg(vc: self, imgName: "bg6")
+        bgView = Styling.setUpBg(vc: self, imgName: "bg6")
         Styling.styleTextField(titleTxtField)
         addPicBtn.setTitleColor(UIColor.systemBlue, for: .normal)
         

@@ -17,12 +17,16 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var userList = [User]()
     var selectedUsers = [User]()
     var sharingObject: [String]!
+    var bgView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        bgView = Styling.setUpBg(vc: self, imgName: "bg6")
+        
         contactsTable.delegate = self
         contactsTable.dataSource = self
-        
+        contactsTable.backgroundView = nil
+        contactsTable.backgroundColor = .clear
         contactsTable.allowsMultipleSelection = true
         let usersRef = db.collection("users")
         usersRef.getDocuments{(snapshot, error) in
