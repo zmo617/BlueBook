@@ -13,11 +13,14 @@ class SettingsVC: UIViewController {
     @IBOutlet weak var signOutBtn: UIButton!
 
     @IBOutlet weak var darkModeSwitch: UISwitch!
-
+    
+    @IBOutlet weak var darkModeLabel: UILabel!
+    
     var bgView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        darkModeLabel.textColor = UIColor.white
         darkModeSwitch.isOn = UserDefaults.standard.bool(forKey: "isDarkMode")
         if (darkModeSwitch.isOn) {
             bgView = Styling.setUpBg(vc: self, imgName: "bg6")

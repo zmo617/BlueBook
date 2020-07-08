@@ -33,7 +33,6 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         super.viewDidLoad()
         groupTable.backgroundView = nil
         groupTable.backgroundColor = .clear
-        bgView = Styling.setUpBg(vc: self, imgName: "bg6")
         Styling.styleFilledRoundButton(addBtn)
         self.title = selectedGroup
         if (UserDefaults.standard.bool(forKey: "isDarkMode")) {

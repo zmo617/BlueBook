@@ -139,7 +139,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DJU-t7-DLq">
-                                <rect key="frame" x="148" y="168" width="119" height="44"/>
+                                <rect key="frame" x="148" y="125" width="119" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Sign Out"/>
@@ -147,8 +147,22 @@
                                     <segue destination="5Zo-88-NQ5" kind="show" id="wbW-oh-CJp"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Dark Mode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kR3-xa-7Ui">
+                                <rect key="frame" x="165" y="229" width="84" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Dark Mode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wr9-Tu-i2k">
+                                <rect key="frame" x="165" y="228" width="84" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tYw-fp-70x">
-                                <rect key="frame" x="183" y="282" width="49" height="31"/>
+                                <rect key="frame" x="184" y="270" width="49" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="darkModePressed:" destination="yVg-Wc-gZo" eventType="valueChanged" id="Jt8-Gn-424"/>
@@ -160,6 +174,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="hqH-9b-Snb"/>
                     <connections>
+                        <outlet property="darkModeLabel" destination="Wr9-Tu-i2k" id="j2D-26-vCz"/>
                         <outlet property="darkModeSwitch" destination="tYw-fp-70x" id="2m7-Hg-E3c"/>
                         <outlet property="signOutBtn" destination="DJU-t7-DLq" id="JT1-Ad-aSY"/>
                     </connections>
@@ -880,7 +895,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="x5Z-Lg-E00"/>
+        <segue reference="6kL-0D-fLe"/>
         <segue reference="XgH-MB-vT8"/>
     </inferredMetricsTieBreakers>
     <resources>
