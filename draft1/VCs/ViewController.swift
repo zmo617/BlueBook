@@ -47,37 +47,58 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let currentUser = Auth.auth().currentUser
+        userID = currentUser!.email
+        
+        print("currentUser.email: \(userID)")
         bgView = Styling.setUpBg(vc: self, imgName: "bg6")
         groupsBook.backgroundView = nil
         groupsBook.backgroundColor = .clear
         Styling.styleFilledRoundButton(addBtn)
-
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        let queue = DispatchQueue(label: "dispatchQ")
-        //setting up curUser
-        queue.sync {
-            let docRef = self.db.collection("users").document(userID)
-            docRef.getDocument{(snapshot, error) in
-                if error != nil{
-                    print(error?.localizedDescription ?? "Error in getting user from firebase")
-                }else{
-                    //let tempUser = try! snapshot!.data(as: User.self)
-                    let tempUser = try! snapshot!.data(as: User.self)
-                    //self.curUser = tempUser
-                    self.welcomeLabel.text = "\(tempUser!.firstname)'s BlueBook"
-                    self.groupsRef = self.db.collection("users").document(tempUser!.email).collection("favGroups")
-                    self.groupsRef.getDocuments{(snapshot, error) in
-                        let tempGroups: [FavGroup] = try! snapshot!.decoded()
-                        self.groups = tempGroups
-                        self.groupsBook.reloadData()
-                    }
-                    self.curUser = tempUser
+        let docRef = self.db.collection("users").document(userID)
+        docRef.getDocument{(snapshot, error) in
+            if error != nil{
+                print(error?.localizedDescription ?? "Error in getting user from firebase")
+            }else{
+                //let tempUser = try! snapshot!.data(as: User.self)
+                let tempUser = try! snapshot!.data(as: User.self)
+                //self.curUser = tempUser
+                self.welcomeLabel.text = "\(tempUser!.firstname)'s BlueBook"
+                self.groupsRef = self.db.collection("users").document(tempUser!.email).collection("favGroups")
+                self.groupsRef.getDocuments{(snapshot, error) in
+                    let tempGroups: [FavGroup] = try! snapshot!.decoded()
+                    self.groups = tempGroups
+                    self.groupsBook.reloadData()
                 }
+                self.curUser = tempUser
             }
         }
     }
+    
+//    override func viewDidAppear(_ animated: Bool) {
+//        let queue = DispatchQueue(label: "dispatchQ")
+//        //setting up curUser
+//       queue.sync {
+//            let docRef = self.db.collection("users").document(userID)
+//            docRef.getDocument{(snapshot, error) in
+//                if error != nil{
+//                    print(error?.localizedDescription ?? "Error in getting user from firebase")
+//                }else{
+//                    //let tempUser = try! snapshot!.data(as: User.self)
+//                    let tempUser = try! snapshot!.data(as: User.self)
+//                    //self.curUser = tempUser
+//                    self.welcomeLabel.text = "\(tempUser!.firstname)'s BlueBook"
+//                    self.groupsRef = self.db.collection("users").document(tempUser!.email).collection("favGroups")
+//                    self.groupsRef.getDocuments{(snapshot, error) in
+//                        let tempGroups: [FavGroup] = try! snapshot!.decoded()
+//                        self.groups = tempGroups
+//                        self.groupsBook.reloadData()
+//                    }
+//                    self.curUser = tempUser
+//                }
+//            }
+//        }
+//    }
     
     override func viewWillAppear(_ animated: Bool) {
         groupsBook.reloadData()
@@ -130,9 +151,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             groupsBook.reloadData()
         }
     }
-    
-    
-
     
     //MARK: Segues, set delegates
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -81,12 +81,12 @@ class LoginVC: UIViewController {
         }//sync ends
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toHomeVC"{
-            let homeVC = segue.destination as! ViewController
-            homeVC.userID = cEmail
-        }
-    }
-    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "toHomeVC"{
+//            let homeVC = segue.destination as! ViewController
+//            homeVC.userID = cEmail
+//        }
+//    }
+//    
     
 }

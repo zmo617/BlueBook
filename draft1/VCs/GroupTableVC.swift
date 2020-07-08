@@ -173,8 +173,6 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         } else if segue.identifier == showObjectSegueIdentifier,
             let showObjectVC = segue.destination as? ShowObjectVC,
             let objectIndex = groupTable.indexPathForSelectedRow?.row {
-            //print("index: \(objectIndex)")
-            //print("num objects: \(favObjects.count)")
             showObjectVC.currentObject = favObjects[objectIndex]
             showObjectVC.userID = userID
             showObjectVC.selectedGroup = selectedGroup
@@ -183,6 +181,5 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             showObjectVC.objectPath = self.objectPath
         }
     }
-    
     
 }

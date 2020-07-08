@@ -15,18 +15,17 @@ import Photos
 class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRecognizerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     
     @IBOutlet weak var contentTxtView: UITextView!
-    @IBOutlet weak var coverImgView: UIImageView!
     @IBOutlet weak var titleTxtField: UITextField!
     
     @IBOutlet weak var photoBook: UICollectionView!
     @IBOutlet weak var addPicBtn: UIButton!
     @IBOutlet weak var createBtn: UIButton!
     @IBOutlet weak var recordBtn: UIButton!
-    @IBOutlet weak var saveBtn: UIButton!
     
     
     //MARK:LOCAL PROPERTIES
     var groupTableDelegate: UIViewController!
+    var showVCDelegate: UIViewController!
     var bgView: UIImageView!
     //speech rec
     let audioEngine = AVAudioEngine()
@@ -47,26 +46,44 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
     var editingObject: Bool!
     var editingTitle: String = ""
     var editingContent: String = ""
-    var editingImgPath: String = ""
+   // var editingImgPath: String = ""
     var editingImgPressed: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         if (editingObject) {
-            saveBtn.isHidden = false
-            createBtn.isHidden = true
             titleTxtField.text = editingTitle
             contentTxtView.text = editingContent
-            let storageRef = Storage.storage().reference()
-            let imgRef = storageRef.child(editingImgPath)
-            coverImgView.sd_setImage(with: imgRef)
-            Styling.styleFilledButton(saveBtn)
-            saveBtn.setTitleColor(UIColor.systemBlue, for: .normal)
-        } else {
-            saveBtn.isHidden = true
-            createBtn.isHidden = false
-            createBtn.setTitleColor(UIColor.systemBlue, for: .normal)
+            
+            DispatchQueue.global(qos: .userInteractive).async{
+                let downloadGroup = DispatchGroup()
+                let imgsRef = self.storageRef.child("/images/\(self.editingTitle)")
+                print("trying to access /images/\(self.editingTitle)")
+                imgsRef.listAll{(result, error) in
+                    if error != nil{
+                        print("Error getting imgs from Firebase: \(error!.localizedDescription)")
+                    }else{
+                        print("result count = \(result.items.count)")
+                        result.items.forEach{(imgRef) in
+                            downloadGroup.enter()
+                            imgRef.getData(maxSize: 1*2000*2000){(data, error) in
+                                if error != nil{
+                                    print("Error getting this img's data:\(error!.localizedDescription)")
+                                }else{
+                                    print("appending img")
+                                    self.photos.append(UIImage(data: data!)!)
+                                    downloadGroup.leave()
+                                }
+                            }
+                        }
+                    }
+                }
+                downloadGroup.wait()
+                print("photos.count: \(self.photos.count)")
+            }
         }
+        photoBook.reloadData()
+        createBtn.setTitleColor(UIColor.systemBlue, for: .normal)
         bgView = Styling.setUpBg(vc: self, imgName: "bg6")
         Styling.styleTextField(titleTxtField)
         addPicBtn.setTitleColor(UIColor.systemBlue, for: .normal)
@@ -77,9 +94,34 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
         photoBook.backgroundView = nil
         photoBook.layer.borderColor = UIColor.white.cgColor
         photoBook.layer.borderWidth = 1
+        
     }
     
-    
+    func loadImgs(after seconds: Int, completion: @escaping () -> Void){
+        let imgsRef = storageRef.child("/images/\(editingTitle)")
+        print("trying to access /images/\(editingTitle)")
+        imgsRef.listAll{(result, error) in
+            if error != nil{
+                print("Error getting imgs from Firebase: \(error!.localizedDescription)")
+            }else{
+                print("result count = \(result.items.count)")
+                result.items.forEach{(imgRef) in
+                    imgRef.getData(maxSize: 1*2000*2000){(data, error) in
+                        if error != nil{
+                            print("Error getting this img's data:\(error!.localizedDescription)")
+                        }else{
+                            print("appending img")
+                            self.photos.append(UIImage(data: data!)!)
+                        }
+                    }
+                }
+            }
+        }
+        let deadline = DispatchTime.now() + .seconds(seconds)
+        DispatchQueue.main.asyncAfter(deadline: deadline) {
+            completion()
+        }
+    }
     //MARK: SPEECH RECOGNITION ----------------------------
     //request authorization first
     @IBAction func recordPressed(_ sender: Any) {
@@ -167,7 +209,6 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
                 self.selectedAssets.append(assets[i])
             }
             self.convertAssetsToImgs()
-            self.coverImgView.image = self.photos[0]
             self.photoBook.reloadData()
         }, completion: nil)
         
@@ -255,37 +296,23 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
     
     //create button pressed
     @IBAction func createObject(_ sender: Any) {
-        let groupVC = groupTableDelegate as! GroupTableVC
         objTitle = titleTxtField.text!
-        //upload img to Firebase storage
-        //        if let url = self.imgURL{
-        //            uploadImgToStorage(imgURL: url, imgRef: imgPath)
-        //        }
+
         print("\n selectedAssets.count = \(selectedAssets.count) \n")
         uploadImgs(after: 1){
             if self.coverImgPath == nil{
                 print("coverImgPath nil \n\n")
             }else{
                 print("coverImgPath: \(self.coverImgPath!)" )
-                groupVC.addObject(newCoverImgPath: self.coverImgPath, newTitle: self.objTitle, newContent: self.contentTxtView.text)
+                if self.editingObject{
+                    let groupVC = self.showVCDelegate as! ShowObjectVC
+                    groupVC.editObject(newCoverImgPath: self.coverImgPath, newTitle: self.objTitle, newContent: self.contentTxtView.text)
+                }else{
+                    let groupVC = self.groupTableDelegate as! GroupTableVC
+                    groupVC.addObject(newCoverImgPath: self.coverImgPath, newTitle: self.objTitle, newContent: self.contentTxtView.text)
+                }
+                
             }
-        }
-    }
-    
-    @IBAction func saveObject(_ sender: Any) {
-        let groupVC = groupTableDelegate as! ShowObjectVC
-        let title = titleTxtField.text!
-        var imgPath: String
-        if (editingImgPressed) {
-            imgPath = "/images/\(title)/cover"
-        } else {
-            imgPath = editingImgPath
-        }
-        
-        groupVC.editObject(newCoverImgPath: imgPath, newTitle: title, newContent: contentTxtView.text)
-        //upload img to Firebase storage
-        if let url = self.imgURL{
-            uploadImgToStorage(imgURL: url, imgRef: imgPath)
         }
     }
     
@@ -295,9 +322,12 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = photoBook.dequeueReusableCell(withReuseIdentifier: "SelectedImgCell", for: indexPath) as! SelectedImgCell
+        cell.imgView.contentMode = .scaleAspectFit
         cell.imgView.image = photos[indexPath.row]
+        
         return cell
     }
+    
     
     /*
      // MARK: - Navigation

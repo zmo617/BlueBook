@@ -33,13 +33,12 @@ class AddGroupVC: UIViewController {
         do {
             let docRef = self.db.collection("users").document(mainVC.userID)
             try docRef.collection("favGroups").document(self.newGroupTF.text!).setData(from: newGroup)
-            
         } catch let error {
             print("Error adding Group to Firestore: \(error)")
         }
-        
         //add it to objects
         mainVC.addGroup(newTitle: newGroupTF.text!)
+        performSegue(withIdentifier: "afterCreateGroup", sender: nil)
     }
     /*
     // MARK: - Navigation
