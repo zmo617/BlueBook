@@ -12,8 +12,7 @@ import UIKit
 extension UIColor{
     //appBlue:2081AF
     static let appBlue = UIColor().colorFromHex("2081AF")
-    //appOrange
-    //appTurquois?
+  
     func colorFromHex(_ hex: String) -> UIColor{
         var hexString = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         

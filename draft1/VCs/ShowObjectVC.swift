@@ -20,7 +20,6 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var pageCtrl: UIPageControl!
-    
     @IBOutlet weak var shareBtn: UIButton!
     
     //MARK:LOCAL PROPERTIES
@@ -34,16 +33,16 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
     var bgView: UIImageView!
     var backFromEdit = false
     
-
+    
     override func viewWillAppear(_ animated: Bool) {
         scrollView.delegate = self
         let scrollFrame = scrollView.frame
         let widthBound = scrollView.bounds.size.width
-
+        
         
         descriptionLabel.text = currentObject.content
         descriptionLabel.sizeToFit()
-        Styling.styleFilledButton(shareBtn)
+        Styling.styleFilledButton(shareBtn, 25)
         if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
             bgView = Styling.setUpBg(vc: self, imgName: "bg6")
             navigationController?.navigationBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
@@ -60,7 +59,7 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
         print("\n\n done")
         titleLabel.text = currentObject.title
         //set up imgs
-    
+        
         DispatchQueue.global(qos: .userInteractive).async{
             let downloadGroup = DispatchGroup()
             let imgsPath = "/images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])"
@@ -103,7 +102,7 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
         self.pageCtrl.numberOfPages = self.imgs.count
     }
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -115,10 +114,6 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
         titleLabel.text = currentObject.title
         //set up imgs
         scrollView.delegate = self
-//=======
-//    override func loadView() {
-//        super.loadView()
-        
     }
     
     func setupView() {
@@ -134,38 +129,6 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
             bgView.image = UIImage(named: "bg5")
         }
     }
-    
-//    func loadImgs(after seconds: Int, completion: @escaping () -> Void){
-//        let imgsRef = storageRef.child("/images/\(currentObject.title)")
-//        print("trying to access /images/\(currentObject.title)")
-//        imgsRef.listAll{(result, error) in
-//            if error != nil{
-//                print("Error getting imgs from Firebase: \(error!.localizedDescription)")
-//            }else{
-//                print("result count = \(result.items.count)")
-//                result.items.forEach{(imgRef) in
-//                    imgRef.getData(maxSize: 1*2000*2000){(data, error) in
-//                        if error != nil{
-//                            print("Error getting this img's data:\(error!.localizedDescription)")
-//                        }else{
-//                            print("appending img")
-//                            self.imgs.append(UIImage(data: data!)!)
-//                        }
-//                    }
-//                }
-//
-//            }
-//        }
-//        pageCtrl.numberOfPages = imgs.count
-//        let deadline = DispatchTime.now() + .seconds(seconds)
-//        DispatchQueue.main.asyncAfter(deadline: deadline) {
-//            completion()
-//        }
-//    }
-    
-    //    func loadImgs(after seconds: Int, completion: @escaping () -> Void){
-    //
-    //    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageNumber = scrollView.contentOffset.x / scrollView.frame.size.width

@@ -17,12 +17,11 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
     
     @IBOutlet weak var contentTxtView: UITextView!
     @IBOutlet weak var titleTxtField: UITextField!
-    
     @IBOutlet weak var photoBook: UICollectionView!
     @IBOutlet weak var addPicBtn: UIButton!
     @IBOutlet weak var createBtn: UIButton!
     @IBOutlet weak var recordBtn: UIButton!
-    
+    @IBOutlet weak var titleLabel: UILabel!
     
     //MARK:LOCAL PROPERTIES
     var groupTableDelegate: UIViewController!
@@ -47,19 +46,18 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
     var editingObject: Bool!
     var editingContent: String = ""
     var editingImgPressed: Bool = false
+    //for uploading
+    var uploadCount: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("\n\n objectPath: \(objectPath)")
         if (editingObject) {
             titleTxtField.text = objectPath[2]
             contentTxtView.text = editingContent
             
-            //            DispatchQueue.global(qos: .userInteractive).async{
-            //                let downloadGroup = DispatchGroup()
             let imgsRef = self.storageRef.child("/images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])")
             print("trying to access /images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])")
-            //downloadGroup.enter()
+            
             imgsRef.listAll{(result, error) in
                 if error != nil{
                     print("Error getting imgs from Firebase: \(error!.localizedDescription)")
@@ -67,7 +65,7 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
                     
                     print("result count = \(result.items.count)")
                     result.items.forEach{(imgRef) in
-                        //downloadGroup.enter()
+                        
                         imgRef.getData(maxSize: 1*2000*2000){(data, error) in
                             if error != nil{
                                 print("Error getting this img's data:\(error!.localizedDescription)")
@@ -75,32 +73,30 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
                                 print("appending img")
                                 self.photos.append(UIImage(data: data!)!)
                                 self.photoBook.reloadData()
-                                //downloadGroup.leave()
                             }
                         }
                     }
-                    //downloadGroup.leave()
                 }
             }
-            //downloadGroup.wait()
-            //      }
             print("photos.count: \(self.photos.count)")
         }
-        
-        //createBtn.setTitleColor(UIColor.systemBlue, for: .normal)
-        Styling.styleTextField(titleTxtField)
-        //addPicBtn.setTitleColor(UIColor.systemBlue, for: .normal)
-        
         photoBook.delegate = self
         photoBook.dataSource = self
+        
+        //Styling
+        
         photoBook.backgroundColor = .clear
         photoBook.backgroundView = nil
         photoBook.layer.borderColor = UIColor.white.cgColor
         photoBook.layer.borderWidth = 1
-        Styling.styleFilledButton(addPicBtn)
-        Styling.styleFilledButton(createBtn)
-        Styling.styleFilledButton(recordBtn)
+        
         if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
+            Styling.styleTextField(titleTxtField)
+            Styling.styleFilledButton(addPicBtn, 30)
+            Styling.styleFilledButton(recordBtn, 30)
+            Styling.styleHollowButton(createBtn, 20)
+            contentTxtView.textColor = .white
+            titleLabel.textColor = .white
             bgView = Styling.setUpBg(vc: self, imgName: "bg6")
             navigationController?.navigationBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
             navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
@@ -135,31 +131,6 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
     override func viewWillAppear(_ animated: Bool) {
         photoBook.reloadData()
     }
-    //    func loadImgs(after seconds: Int, completion: @escaping () -> Void){
-    //        let imgsRef = storageRef.child("/images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])")
-    //        print("trying to access /images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])")
-    //        imgsRef.listAll{(result, error) in
-    //            if error != nil{
-    //                print("Error getting imgs from Firebase: \(error!.localizedDescription)")
-    //            }else{
-    //                print("result count = \(result.items.count)")
-    //                result.items.forEach{(imgRef) in
-    //                    imgRef.getData(maxSize: 1*2000*2000){(data, error) in
-    //                        if error != nil{
-    //                            print("Error getting this img's data:\(error!.localizedDescription)")
-    //                        }else{
-    //                            print("appending img")
-    //                            self.photos.append(UIImage(data: data!)!)
-    //                        }
-    //                    }
-    //                }
-    //            }
-    //        }
-    //        let deadline = DispatchTime.now() + .seconds(seconds)
-    //        DispatchQueue.main.asyncAfter(deadline: deadline) {
-    //            completion()
-    //        }
-    //    }
     
     //MARK: SPEECH RECOGNITION ----------------------------
     //request authorization first
@@ -172,24 +143,19 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
             stopRecognition()
             recordBtn.setTitle("record", for: .normal)
         }
-        
     }
     
     func requestSpeechRec(){
-        //self.recordBtn.isEnabled = false
         SFSpeechRecognizer.requestAuthorization { authStatus in
             if authStatus == SFSpeechRecognizerAuthorizationStatus.authorized{
-                print("~~~Speech rec enabled")
-                //self.recordBtn.isEnabled = true
                 //call startRecognition
                 do {
                     try self.startRecognition()
                 } catch let error {
                     print("There was a problem starting recording: \(error.localizedDescription)")
                 }
-                
             }else{
-                
+                Styling.errorAlert(vc: self, msg: "Disabling speech recognition.")
             }
         }
     }
@@ -219,7 +185,6 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
         request.endAudio()
         speechTask?.cancel()
     }
-    
     
     //MARK: ADD PICTURE ----------------------------
     func convertAssetsToImgs(){
@@ -254,76 +219,20 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
             self.convertAssetsToImgs()
             self.photoBook.reloadData()
         }, completion: nil)
-        
-        //*********
-        //        let imgPickerController = UIImagePickerController()
-        //        imgPickerController.delegate = self
-        //
-        //        let actionSheet = UIAlertController(title: "Photo Source", message: "Choose a source", preferredStyle: .actionSheet)
-        //
-        //        actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action: UIAlertAction) in
-        //            if UIImagePickerController.isSourceTypeAvailable(.camera){
-        //                imgPickerController.sourceType = .camera
-        //                self.present(imgPickerController, animated: true, completion: nil)
-        //            }else{
-        //                print("Camera not available")
-        //            }
-        //
-        //        }))
-        //
-        //        actionSheet.addAction(UIAlertAction(title: "Photo library", style: .default, handler: { (action: UIAlertAction) in
-        //            imgPickerController.sourceType = .photoLibrary
-        //            self.present(imgPickerController, animated: true, completion: nil)
-        //        }))
-        //
-        //        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        //
-        //        self.present(actionSheet, animated: true, completion: nil)
     }
     
     //upload image from memory. imgRef: path name
     func uploadImgToStorage(imgURL: URL, imgRef: String){
         let ref = storageRef.child(imgRef)
-        let uploadTask = ref.putFile(from: imgURL, metadata: nil){(metadata, error) in
+        _ = ref.putFile(from: imgURL, metadata: nil){(metadata, error) in
             guard metadata != nil else{
                 //has an error
                 print(error!.localizedDescription)
                 return
             }
             print("\n\n Upload \(imgRef) succeeded")
+            self.uploadCount -= 1
         }
-    }
-    
-    //    //info is a dictionary containing img data.
-    //    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-    //        //old name: info[UIImagePickerControllerOriginalImage]
-    //        let img = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-    //
-    //        coverImgView.image = img
-    //        self.imgURL = info[UIImagePickerController.InfoKey.imageURL] as? URL
-    //        editingImgPressed = true
-    //        picker.dismiss(animated: true, completion: nil)
-    //    }
-    //
-    //    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-    //        picker.dismiss(animated: true, completion: nil)
-    //    }
-    
-    func uploadImgs(after seconds: Int, completion: @escaping () -> Void){
-        //        let firstAsset = selectedAssets[0]
-        //               firstAsset.requestContentEditingInput(with: PHContentEditingInputRequestOptions()){(editingInput, info) in
-        //                   if let input = editingInput, let imgURL = input.fullSizeImageURL{
-        //                    self.coverImgPath = "/images/\(self.objTitle!)/\(imgURL.path)"
-        //
-        //                       self.uploadImgToStorage(imgURL: imgURL, imgRef: "/images/\(self.objTitle!)/\(imgURL.path)")
-        //                   }
-        //               }
-        
-        
-        //        let deadline = DispatchTime.now() + .seconds(seconds)
-        //        DispatchQueue.main.asyncAfter(deadline: deadline) {
-        //            completion()
-        //        }
     }
     
     //create button pressed
@@ -333,7 +242,7 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
         //upload imgs
         DispatchQueue.global(qos: .userInteractive).async{
             let downloadGroup = DispatchGroup()
-            
+            self.uploadCount = self.selectedAssets.count
             for i in 0 ..< self.selectedAssets.count{
                 downloadGroup.enter()
                 let imgName = "/images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objTitle!)/\(self.imgURLs[i].hashValue)"
@@ -346,11 +255,11 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
             }
             downloadGroup.wait()
         }
-        if self.coverImgPath == nil{
+        
+        if self.coverImgPath == nil || self.uploadCount >= 0{
             let controller = UIAlertController(title: "Save later", message: "Please wait a sec for image to upload and save again.", preferredStyle: .alert)
             controller.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(controller, animated: true, completion: nil)
-            
         }else{
             if self.editingObject {
                 let showVC = self.showVCDelegate as! ShowObjectVC
@@ -363,8 +272,6 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
             print("\n coverImgPath: \(self.coverImgPath!) \n" )
             self.navigationController?.popViewController(animated: true)
         }
-        
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -377,34 +284,4 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
         cell.imgView.image = photos[indexPath.row]
         return cell
     }
-    
-    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    //        if self.coverImgPath == nil{
-    //            print("coverImgPath nil \n\n")
-    //        }else{
-    //            print("\n coverImgPath: \(self.coverImgPath!) \n" )
-    //        }
-    //        if segue.identifier == "BackToShow" {
-    //            let showVC = self.showVCDelegate as! ShowObjectVC
-    //            showVC.editObject(newCoverImgPath: self.coverImgPath, newTitle: self.objTitle, newContent: self.contentTxtView.text)
-    //            showVC.backFromEdit = true
-    //            showVC.objectPath = objectPath
-    //            print("objectPath: \(objectPath)")
-    //        }else if segue.identifier == "BackToTable"{
-    //            let groupVC = self.groupTableDelegate as! GroupTableVC
-    //            groupVC.addObject(newCoverImgPath: self.coverImgPath, newTitle: self.objTitle, newContent: self.contentTxtView.text)
-    //            groupVC.objectPath = objectPath
-    //            print("objectPath: \(groupVC.objectPath)")
-    //        }
-    //    }
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 }

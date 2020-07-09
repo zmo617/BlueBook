@@ -11,9 +11,7 @@ import UIKit
 class SettingsVC: UIViewController {
 
     @IBOutlet weak var signOutBtn: UIButton!
-
     @IBOutlet weak var darkModeSwitch: UISwitch!
-    
     @IBOutlet weak var darkModeLabel: UILabel!
     
     var bgView: UIImageView!
@@ -33,12 +31,8 @@ class SettingsVC: UIViewController {
             navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
             tabBarController?.tabBar.barTintColor = UIColor.white
         }
-        Styling.styleFilledButton(signOutBtn)
+        Styling.styleFilledButton(signOutBtn, 0)
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//
-//    }
 
     @IBAction func darkModePressed(_ sender: Any) {
         let name = Notification.Name("darkModeChanged")
@@ -56,15 +50,4 @@ class SettingsVC: UIViewController {
             tabBarController?.tabBar.barTintColor = UIColor.white
         }
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

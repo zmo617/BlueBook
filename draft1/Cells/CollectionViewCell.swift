@@ -9,12 +9,11 @@
 import UIKit
 
 protocol DataCollectionProtocol{
-    //func passData(index: Int)
     func deleteData(index: Int)
 }
 
 class CollectionViewCell: UICollectionViewCell {
-    //MARK:LOCAL PROPERTIES
+   
     var delegate: DataCollectionProtocol!
     var index: IndexPath!
     
@@ -22,12 +21,8 @@ class CollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var groupButton: UIButton!
     @IBOutlet weak var deleteView: UIVisualEffectView!
 
-    //***Temp implementation of delete group
     @IBAction func deletePressed(_ sender: Any) {
          delegate.deleteData(index: index.row)
     }
-    
-    
-    
 }
 

@@ -22,5 +22,4 @@ struct User: Codable{
         case lastname
         case password
     }
-    
 }

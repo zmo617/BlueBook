@@ -20,9 +20,4 @@ extension PHAsset {
         })
         completionHandler(thumbnail)
     }
-    /*
-     let image = asset.image(completionHandler: {(img) in
-         print("Finished")
-     })
-     */
 }

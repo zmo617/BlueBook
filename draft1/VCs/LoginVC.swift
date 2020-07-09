@@ -26,13 +26,17 @@ class LoginVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        Styling.styleTextField(emailTF)
-        Styling.styleTextField(pwTF)
-        Styling.styleHollowButton(signUpBtn)
+        if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
+            navigationController?.navigationBar.barTintColor = .appBlue
+            navigationController?.navigationBar.tintColor = .white
+            navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+            Styling.styleTextField(emailTF)
+            Styling.styleTextField(pwTF)
+            Styling.styleHollowButton(signUpBtn, 20)
+        }
         errorLabel.alpha = 0
-        // Do any additional setup after loading the view.
     }
-
+    
     //if there's an error, return error msg
     //o.w. return nil
     //only checking if both fields are filled in, not checking pw security level
@@ -67,9 +71,6 @@ class LoginVC: UIViewController {
                 cPw = pwTF.text!.trimmingCharacters(in: .whitespacesAndNewlines)
                 Auth.auth().signIn(withEmail: self.cEmail, password: self.cPw, completion: {(rst, err) in
                     if err == nil{
-                        //set curUser
-//                        let homeVC = ViewController()
-//                        homeVC.userID = self.cEmail
                         self.performSegue(withIdentifier: "toHomeVC", sender: nil)
                     }else{
                         self.showError(errMsg: "\(err?.localizedDescription ?? "Error signing in.")")
@@ -80,13 +81,4 @@ class LoginVC: UIViewController {
             }
         }//sync ends
     }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "toHomeVC"{
-//            let homeVC = segue.destination as! ViewController
-//            homeVC.userID = cEmail
-//        }
-//    }
-//    
-    
 }

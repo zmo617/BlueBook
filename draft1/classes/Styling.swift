@@ -10,12 +10,10 @@ import Foundation
 import UIKit
 
 class Styling{
-    //code from internet
     static func styleTextField(_ textfield:UITextField) {
         // Create the bottom line
         let bottomLine = CALayer()
         bottomLine.frame = CGRect(x: 0, y: textfield.frame.height - 2, width: textfield.frame.width, height: 2)
-        //bottomLine.backgroundColor = UIColor.init(red: 48/255, green: 173/255, blue: 99/255, alpha: 1).cgColor
         // Remove border on text field
         textfield.borderStyle = .none
         bottomLine.backgroundColor = UIColor.white.cgColor
@@ -25,25 +23,35 @@ class Styling{
         textfield.textColor = UIColor.white
     }
     
-    static func styleFilledButton(_ button:UIButton) {
-        // Filled rounded corner style
-        //button.backgroundColor = UIColor.init(red: 48/255, green: 173/255, blue: 99/255, alpha: 1)
-        button.layer.cornerRadius = 25.0
-        button.tintColor = UIColor.white
+    static func underlineLabel(_ label: UILabel){
+        let bottomLine = CALayer()
+        bottomLine.frame = CGRect(x: 0, y: label.frame.height - 2, width: label.frame.width, height: 2)
+        // Remove border on text field
+        bottomLine.backgroundColor = UIColor.white.cgColor
+        // Add the line to the text field
+        label.layer.addSublayer(bottomLine)
+        label.textColor = UIColor.white
     }
     
-    static func styleHollowButton(_ button:UIButton) {
+    static func styleFilledButton(_ button:UIButton, _ cornerRad: CGFloat) {
+        // Filled rounded corner style
+        button.backgroundColor = .white
+        button.layer.cornerRadius = cornerRad
+        button.tintColor = .appBlue
+    }
+    
+    static func styleHollowButton(_ button:UIButton, _ fontSize: CGFloat) {
         // Hollow rounded corner style
         button.layer.borderWidth = 2
         button.layer.borderColor = UIColor.white.cgColor
-        //button.layer.cornerRadius = 25.0
+        button.titleLabel?.font = UIFont(name: "Apple Color Emoji", size: fontSize)
         button.tintColor = UIColor.white
     }
     
     static func styleFilledRoundButton(_ button:UIButton){
         button.layer.cornerRadius = button.frame.size.width / 2
-        button.backgroundColor = UIColor.appBlue
-        button.tintColor = UIColor.white
+        button.backgroundColor = .white
+        button.tintColor = .appBlue
     }
     
     static func setUpBg(vc: UIViewController, imgName: String) -> UIImageView{
@@ -62,5 +70,11 @@ class Styling{
                 ])
                 view!.sendSubviewToBack(imgView)
         return imgView
+    }
+    
+    static func errorAlert(vc: UIViewController, msg: String){
+        let controller = UIAlertController(title: "Error", message: msg, preferredStyle: .alert)
+        controller.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        vc.present(controller, animated: true, completion: nil)
     }
 }

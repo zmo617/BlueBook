@@ -30,7 +30,7 @@ class SignUpVC: UIViewController {
         Styling.styleTextField(lastNameTF)
         Styling.styleTextField(pwTF)
         Styling.styleTextField(confirmPwTF)
-        Styling.styleHollowButton(signUpBtn)
+        Styling.styleHollowButton(signUpBtn, 20)
         
         // Do any additional setup after loading the view.
     }
@@ -89,9 +89,8 @@ class SignUpVC: UIViewController {
                     do {
                         try db.collection("users").document("\(self.cEmail!)").collection("favGroups").document("sharedObjects").setData(["title": "sharedObjects"])
                         print("done creating user")
-                    } catch let error {
+                    } catch _ {
                         self.showError(errMsg: "Error creating default favGroups -> sharedObjects.")
-                        print("Error writing newUser to Firestore: \(error)")
                     }
                     //go to mainVC "ViewController"
                     self.performSegue(withIdentifier: "toHome", sender: nil)

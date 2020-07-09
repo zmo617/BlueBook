@@ -22,9 +22,12 @@ class AddGroupVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         Styling.styleTextField(newGroupTF)
-        Styling.styleFilledButton(createBtn)
+        Styling.styleFilledButton(createBtn, 0)
         if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
+            newTitleLabel.textColor = .white
             bgView = Styling.setUpBg(vc: self, imgName: "bg6")
+            Styling.styleTextField(newGroupTF)
+            Styling.styleHollowButton(createBtn, 20)
             navigationController?.navigationBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
             navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
             tabBarController?.tabBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
@@ -71,14 +74,4 @@ class AddGroupVC: UIViewController {
         mainVC.addGroup(newTitle: newGroupTF.text!)
         navigationController?.popViewController(animated: true)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

@@ -18,7 +18,6 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     @IBOutlet weak var groupTable: UITableView!
     @IBOutlet weak var addBtn: UIButton!
     
-    
     //MARK:LOCAL PROPERTIES
     var favObjects = [FavObject]()
     let db = Firestore.firestore()
@@ -33,7 +32,7 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
+        //styling
         groupTable.backgroundView = nil
         groupTable.backgroundColor = .clear
         Styling.styleFilledRoundButton(addBtn)
@@ -49,8 +48,6 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
             tabBarController?.tabBar.barTintColor = UIColor.white
         }
-        
-        print("\n objectPath[userID, selectedGroup]: \(objectPath)\n")
         
         let ref = db.collection("users").document(objectPath[0]).collection("favGroups").document(selectedGroup)
         if selectedGroup == "sharedObjects"{
@@ -83,7 +80,7 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                                     if tempObj == nil{
                                         let controller = UIAlertController(title: "Error", message: "The author has changed/deleted this post", preferredStyle: .alert)
                                         
-                                            controller.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                                        controller.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                                         
                                         self.present(controller, animated: true, completion: nil)
                                     }else{
@@ -102,33 +99,24 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             
         }else{
             isShared = false
-            //            DispatchQueue.global(qos: .userInteractive).async{
-            //                let downloadGroup = DispatchGroup()
             let groupRef = ref.collection("favObjects")
-            //                downloadGroup.enter()
             groupRef.getDocuments{(snapshot, error) in
                 if let error = error {
                     print("Error getting documents: \(error)")
                 } else {
                     let tempObjects: [FavObject] = try! snapshot!.decoded()
-                    //self.favObjects = userObjects
-                    //print("will appear: obejcts.count = \(self.favObjects.count)")
                     self.favObjects = tempObjects
                     self.groupTable.reloadData()
-                    //                        downloadGroup.leave()
                 }
             }
-            //                downloadGroup.wait()
-            //            }
-            
             print("will appear: objects.count = \(self.favObjects.count)")
         }
     }
     
-    //    override func loadView() {
-    //        super.loadView()
-    //
-    //    }
+    override func loadView() {
+        super.loadView()
+        setupView()
+    }
     
     func setupView() {
         let name = Notification.Name("darkModeChanged")
@@ -165,9 +153,6 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         
         //add it to objects
         favObjects.append(newObj)
-        //create new ObjectCell
-        
-        //print("objects.count: \(favObjects.count)")
     }
     
     //MARK: SETUP tableView
@@ -186,9 +171,7 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             cell.coverImgView.sd_setImage(with: imgRef)
             print("curFavObject name: \(curFavObject.title)")
         }
-        
-        
-        
+        cell.coverImgView.layer.borderColor = UIColor.white.cgColor
         cell.titleLabel.textColor = UIColor.white
         cell.backgroundView = nil
         cell.backgroundColor = .clear
@@ -206,46 +189,47 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                 objectPath[2] = favObjects[indexPath.row].title
             }
         }
-        print("\n <shared> Selected obj : \(objectPath)\n")
         performSegue(withIdentifier: "toShowObject", sender: nil)
     }
     
     //swipe to delete object
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if !isShared{if editingStyle == .delete{
-            let obj = favObjects[indexPath.row]
-            let userRef = self.db.collection("users").document(userID)
-            //                if isShared{
-            //                    print("userID: \(userID!), objTitle: \(obj.title)")
-            //                    userRef.collection("favGroups").document(self.selectedGroup!).collection("objectPaths").document(obj.title).delete(){err in
-            //                        if let err = err {
-            //                            print("Error removing document: \(err)")
-            //                        } else {
-            //                            print("Document successfully removed!")
-            //                        }
-            //                    }
-            //                }else{
-            userRef.collection("favGroups").document("\(self.selectedGroup!)").collection("favObjects").document(obj.title).delete() { err in
-                if let err = err {
-                    print("Error removing document: \(err)")
-                } else {
-                    print("Document successfully removed!")
-                }
+        if !isShared{
+            if editingStyle == .delete{
+                let obj = favObjects[indexPath.row]
+                let userRef = self.db.collection("users").document(userID)
+//                if isShared{
+//                    print("userID: \(userID!), objTitle: \(obj.title)")
+//                    userRef.collection("favGroups").document(self.selectedGroup!).collection("objectPaths").document(obj.title).delete(){err in
+//                        if let err = err {
+//                            print("Error removing document: \(err)")
+//                        } else {
+//                            print("Document successfully removed!")
+//                        }
+//                    }
+//                }else{
+                    userRef.collection("favGroups").document("\(self.selectedGroup!)").collection("favObjects").document(obj.title).delete() { err in
+                        if let err = err {
+                            print("Error removing document: \(err)")
+                        } else {
+                            print("Document successfully removed!")
+                        }
+                    }
+                    
+                    let imgsRef = self.storageRef.child("/images/\(objectPath[0])/\(objectPath[1])/\(obj.title)")
+                    imgsRef.delete{ error in
+                        if let error = error {
+                            print("Error deleting imgs from Firebase Storage(): \(error)")
+                        } else {
+                            print("imgs deleted from Firebase Storage().")
+                        }
+                    }
+                    //}
+                    favObjects.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .bottom)
+                //}
             }
-            
-            let imgsRef = self.storageRef.child("/images/\(objectPath[0])/\(objectPath[1])/\(obj.title)")
-            imgsRef.delete{ error in
-                if let error = error {
-                    print("Error deleting imgs from Firebase Storage(): \(error)")
-                } else {
-                    print("imgs deleted from Firebase Storage().")
-                }
-            }
-            //}
-            favObjects.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .bottom)
-            }}
-        
+        }
     }
     
     //MARK: Segues, set delegates

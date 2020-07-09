@@ -10,5 +10,4 @@ import UIKit
 
 class SelectedImgCell: UICollectionViewCell {
     @IBOutlet weak var imgView: UIImageView!
-    
 }

@@ -19,10 +19,11 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var selectedUsers = [User]()
     var sharingObject: [String]!
     var bgView: UIImageView!
+    var doneSelecting: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        Styling.styleFilledButton(doneBtn)
+        Styling.styleHollowButton(doneBtn, 15)
         if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
             bgView = Styling.setUpBg(vc: self, imgName: "bg6")
             navigationController?.navigationBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
@@ -45,8 +46,6 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 print("Error getting documents: \(error)")
             } else {
                 let tempUsers: [User] = try! snapshot!.decoded()
-                //self.favObjects = userObjects
-                //print("will appear: obejcts.count = \(self.favObjects.count)")
                 //excluding current user
                 self.userList = tempUsers
                 let userIndex = self.userList.firstIndex(where: {$0.email == self.sharingObject[0]})
@@ -54,8 +53,8 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 self.contactsTable.reloadData()
             }
         }
-        // Do any additional setup after loading the view.
     }
+    
     
     override func loadView() {
         super.loadView()
@@ -81,23 +80,29 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     @IBAction func doneTapped(_ sender: Any) {
-        print("userList.count = \(userList.count)")
-        let indexPaths = contactsTable.indexPathsForSelectedRows
-        for indexP in indexPaths!{
-            print(indexP.row)
-        }
-        //adding sharingObject to each user's "sharedObjects" collection
-        for indexPath in indexPaths!{
-            
-            let thisUser = userList[indexPath.row]//****
-            let groupsRef = db.collection("users").document(thisUser.email).collection("favGroups").document("sharedObjects")
-            groupsRef.collection("objectPaths").document(sharingObject[2]).setData(["path": sharingObject]){(error) in
-                if error != nil{
-                    print("\n Error adding sharedObject to firebase: \(error as Any)")
-                }
+        if doneSelecting{
+            print("userList.count = \(userList.count)")
+            let indexPaths = contactsTable.indexPathsForSelectedRows
+            for indexP in indexPaths!{
+                print(indexP.row)
             }
-            print("\n\n sharingObject:", sharingObject ?? "nil")
+            //adding sharingObject to each user's "sharedObjects" collection
+            for indexPath in indexPaths!{
+                
+                let thisUser = userList[indexPath.row]//****
+                let groupsRef = db.collection("users").document(thisUser.email).collection("favGroups").document("sharedObjects")
+                groupsRef.collection("objectPaths").document(sharingObject[2]).setData(["path": sharingObject!]){(error) in
+                    if error != nil{
+                        print("\n Error adding sharedObject to firebase: \(error as Any)")
+                    }
+                }
+                print("\n\n sharingObject:", sharingObject ?? "nil")
+            }
+        }else{
+            doneBtn.setTitle("Done", for: .normal)
+            doneSelecting = true
         }
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -131,17 +136,5 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)!
         cell.accessoryType = .none
-        // cell.accessoryView.hidden = true  // if using a custom image
     }
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
-    
 }

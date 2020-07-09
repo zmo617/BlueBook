@@ -16,5 +16,4 @@ struct FavGroup: Codable{
     enum CodingKeys: String, CodingKey{
         case title
     }
-    
 }
