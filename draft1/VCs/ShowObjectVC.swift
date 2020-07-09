@@ -21,6 +21,8 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var pageCtrl: UIPageControl!
     
+    @IBOutlet weak var shareBtn: UIButton!
+    
     //MARK:LOCAL PROPERTIES
     var selectedImage: String?
     var userID: String!
@@ -41,6 +43,7 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
         
         descriptionLabel.text = currentObject.content
         descriptionLabel.sizeToFit()
+        Styling.styleFilledButton(shareBtn)
         if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
             bgView = Styling.setUpBg(vc: self, imgName: "bg6")
             navigationController?.navigationBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
