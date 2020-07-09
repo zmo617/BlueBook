@@ -28,10 +28,10 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     var sharedPaths: [[String]]!
     var bgView: UIImageView!
     var userID: String!
-    var isShared: Bool!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("isShared: \(UserDefaults.standard.bool(forKey: "isShared"))")
         //styling
         groupTable.backgroundView = nil
         groupTable.backgroundColor = .clear
@@ -49,9 +49,9 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             tabBarController?.tabBar.barTintColor = UIColor.white
         }
         
+        UserDefaults.standard.set(selectedGroup == "sharedObjects", forKey: "isShared")
         let ref = db.collection("users").document(objectPath[0]).collection("favGroups").document(selectedGroup)
-        if selectedGroup == "sharedObjects"{
-            isShared = true
+        if UserDefaults.standard.bool(forKey: "isShared"){
             let placeHolderFavObj = FavObject(title: "", coverImgPath: "", content: "")
             DispatchQueue.main.async {
                 //get shared object paths
@@ -61,15 +61,16 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                     if error == nil{
                         let docs = snapshot?.documents
                         let docsCount = docs!.count
-                        self.sharedPaths = [[String]](repeating: [], count: docsCount)
+                        //var tempPaths = [[String]]()
+                        self.sharedPaths = [[String]](repeating: [], count: docsCount)//
                         self.favObjects = [FavObject](repeating: placeHolderFavObj, count: docsCount)
                         //and add each object to sharedObjects group, i.e. the favObjects list
+                        var j = 0
                         for i in 0 ..< docsCount{
                             
                             let docData = docs![i].get("path") as! [String]
                             print("\n docs[\(i)]: \(docData) \n")
                             
-                            self.sharedPaths[i] = docData
                             let objRef = self.db.collection("users").document(docData[0]).collection("favGroups").document(docData[1]).collection("favObjects").document(docData[2])
                             print("\n document: \(docData[1]),\(docData[2])")
                             objRef.getDocument{(document, error) in
@@ -78,16 +79,22 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                                 }else{
                                     let tempObj = try! document!.data(as: FavObject.self)
                                     if tempObj == nil{
-                                        let controller = UIAlertController(title: "Error", message: "The author has changed/deleted this post", preferredStyle: .alert)
-                                        
-                                        controller.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                                        
-                                        self.present(controller, animated: true, completion: nil)
+                                        Styling.errorAlert(vc: self, msg: "The author has changed/deleted post: \(docData[2])")
+                                        ref.collection("objectPaths").document(docData[2]).delete{(error) in
+                                            if error != nil{
+                                                Styling.errorAlert(vc: self, msg: "Error removing \(docData[2]) from sharedObjects")
+                                            }else{
+                                                //reduce size
+                                                self.sharedPaths.remove(at: self.sharedPaths.count - 1)
+                                                self.favObjects.remove(at: self.favObjects.count - 1)
+                                            }
+                                        }
                                     }else{
-                                        self.favObjects[i] = tempObj!
+                                        self.sharedPaths[j] = docData
+                                        self.favObjects[j] = tempObj!
                                         self.groupTable.reloadData()
+                                        j += 1
                                     }
-                                    
                                 }
                             }
                         }
@@ -98,7 +105,6 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             }
             
         }else{
-            isShared = false
             let groupRef = ref.collection("favObjects")
             groupRef.getDocuments{(snapshot, error) in
                 if let error = error {
@@ -179,7 +185,7 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if isShared{
+        if UserDefaults.standard.bool(forKey: "isShared"){
             objectPath = sharedPaths[indexPath.row]
         }else{
             
@@ -194,39 +200,39 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     
     //swipe to delete object
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if !isShared{
+        if !UserDefaults.standard.bool(forKey: "isShared"){
             if editingStyle == .delete{
                 let obj = favObjects[indexPath.row]
                 let userRef = self.db.collection("users").document(userID)
-//                if isShared{
-//                    print("userID: \(userID!), objTitle: \(obj.title)")
-//                    userRef.collection("favGroups").document(self.selectedGroup!).collection("objectPaths").document(obj.title).delete(){err in
-//                        if let err = err {
-//                            print("Error removing document: \(err)")
-//                        } else {
-//                            print("Document successfully removed!")
-//                        }
-//                    }
-//                }else{
-                    userRef.collection("favGroups").document("\(self.selectedGroup!)").collection("favObjects").document(obj.title).delete() { err in
-                        if let err = err {
-                            print("Error removing document: \(err)")
-                        } else {
-                            print("Document successfully removed!")
-                        }
+                //                if isShared{
+                //                    print("userID: \(userID!), objTitle: \(obj.title)")
+                //                    userRef.collection("favGroups").document(self.selectedGroup!).collection("objectPaths").document(obj.title).delete(){err in
+                //                        if let err = err {
+                //                            print("Error removing document: \(err)")
+                //                        } else {
+                //                            print("Document successfully removed!")
+                //                        }
+                //                    }
+                //                }else{
+                userRef.collection("favGroups").document("\(self.selectedGroup!)").collection("favObjects").document(obj.title).delete() { err in
+                    if let err = err {
+                        print("Error removing document: \(err)")
+                    } else {
+                        print("Document successfully removed!")
                     }
-                    
-                    let imgsRef = self.storageRef.child("/images/\(objectPath[0])/\(objectPath[1])/\(obj.title)")
-                    imgsRef.delete{ error in
-                        if let error = error {
-                            print("Error deleting imgs from Firebase Storage(): \(error)")
-                        } else {
-                            print("imgs deleted from Firebase Storage().")
-                        }
+                }
+                
+                let imgsRef = self.storageRef.child("/images/\(objectPath[0])/\(objectPath[1])/\(obj.title)")
+                imgsRef.delete{ error in
+                    if let error = error {
+                        print("Error deleting imgs from Firebase Storage(): \(error)")
+                    } else {
+                        print("imgs deleted from Firebase Storage().")
                     }
-                    //}
-                    favObjects.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: .bottom)
+                }
+                //}
+                favObjects.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .bottom)
                 //}
             }
         }

@@ -19,7 +19,6 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var selectedUsers = [User]()
     var sharingObject: [String]!
     var bgView: UIImageView!
-    var doneSelecting: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,29 +79,32 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     @IBAction func doneTapped(_ sender: Any) {
-        if doneSelecting{
-            print("userList.count = \(userList.count)")
-            let indexPaths = contactsTable.indexPathsForSelectedRows
+        let controller = UIAlertController(title: "Share", message: "Share this post with \(contactsTable.indexPathsForSelectedRows!.count) people", preferredStyle: .alert)
+        
+        controller.addAction(UIAlertAction(title: "OK", style: .default, handler: {
+            (action: UIAlertAction!) in
+            print("userList.count = \(self.userList.count)")
+            let indexPaths = self.contactsTable.indexPathsForSelectedRows
             for indexP in indexPaths!{
                 print(indexP.row)
             }
             //adding sharingObject to each user's "sharedObjects" collection
             for indexPath in indexPaths!{
                 
-                let thisUser = userList[indexPath.row]//****
-                let groupsRef = db.collection("users").document(thisUser.email).collection("favGroups").document("sharedObjects")
-                groupsRef.collection("objectPaths").document(sharingObject[2]).setData(["path": sharingObject!]){(error) in
+                let thisUser = self.userList[indexPath.row]//****
+                let groupsRef = self.db.collection("users").document(thisUser.email).collection("favGroups").document("sharedObjects")
+                groupsRef.collection("objectPaths").document(self.sharingObject[2]).setData(["path": self.sharingObject!]){(error) in
                     if error != nil{
                         print("\n Error adding sharedObject to firebase: \(error as Any)")
                     }
                 }
-                print("\n\n sharingObject:", sharingObject ?? "nil")
+                print("\n\n sharingObject:", self.sharingObject ?? "nil")
             }
-        }else{
-            doneBtn.setTitle("Done", for: .normal)
-            doneSelecting = true
-        }
+        }))
         
+        controller.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(controller, animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

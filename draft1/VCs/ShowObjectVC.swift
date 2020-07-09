@@ -35,6 +35,10 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
     
     
     override func viewWillAppear(_ animated: Bool) {
+        if UserDefaults.standard.bool(forKey: "isShared"){
+            shareBtn.isHidden = true
+        }
+        
         scrollView.delegate = self
         let scrollFrame = scrollView.frame
         let widthBound = scrollView.bounds.size.width
@@ -45,6 +49,8 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
         Styling.styleFilledButton(shareBtn, 25)
         if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
             bgView = Styling.setUpBg(vc: self, imgName: "bg6")
+            titleLabel.textColor = UIColor.white
+            descriptionLabel.textColor = UIColor.white
             navigationController?.navigationBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
             navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
             tabBarController?.tabBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
@@ -105,14 +111,11 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("isShared: \(UserDefaults.standard.bool(forKey: "isShared"))")
         setupView()
         descriptionLabel.text = currentObject.content
         descriptionLabel.sizeToFit()
-        titleLabel.textColor = UIColor.white
-        descriptionLabel.textColor = UIColor.white
-        print("\n\n done")
         titleLabel.text = currentObject.title
-        //set up imgs
         scrollView.delegate = self
     }
     

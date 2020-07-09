@@ -33,6 +33,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var editBtn: UIButton!
     @IBOutlet weak var settingsBtn: UIButton!
     
+    
+    
     //MARK:LOCAL PROPERTIES
     var groups = [FavGroup]()//groupsBook datasource
     let db = Firestore.firestore()//Firestore database

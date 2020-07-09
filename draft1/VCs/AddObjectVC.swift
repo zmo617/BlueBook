@@ -47,7 +47,7 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
     var editingContent: String = ""
     var editingImgPressed: Bool = false
     //for uploading
-    var uploadCount: Int!
+    var uploadCount: Int = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -206,6 +206,7 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
     
     @IBAction func importImg(_ sender: Any) {
         let vc = BSImagePickerViewController()
+        vc.navigationBar.tintColor = .appBlue
         self.bs_presentImagePickerController(vc, animated: true,
                                              select: {(asset: PHAsset) in
         }, deselect: {(asset: PHAsset) in
@@ -239,24 +240,27 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
     @IBAction func createObject(_ sender: Any) {
         objTitle = titleTxtField.text!
         let newContent = contentTxtView.text!
+        print("upload count == nil: \(uploadCount == nil)")
         //upload imgs
-        DispatchQueue.global(qos: .userInteractive).async{
-            let downloadGroup = DispatchGroup()
-            self.uploadCount = self.selectedAssets.count
-            for i in 0 ..< self.selectedAssets.count{
-                downloadGroup.enter()
-                let imgName = "/images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objTitle!)/\(self.imgURLs[i].hashValue)"
-                
-                if i == 0{
-                    self.coverImgPath = imgName
+        if uploadCount < 0 {
+            DispatchQueue.global(qos: .userInteractive).async{
+                let downloadGroup = DispatchGroup()
+                self.uploadCount = self.selectedAssets.count
+                for i in 0 ..< self.selectedAssets.count{
+                    downloadGroup.enter()
+                    let imgName = "/images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objTitle!)/\(self.imgURLs[i].hashValue)"
+                    
+                    if i == 0{
+                        self.coverImgPath = imgName
+                    }
+                    self.uploadImgToStorage(imgURL: self.imgURLs[i], imgRef: imgName)
+                    downloadGroup.leave()
                 }
-                self.uploadImgToStorage(imgURL: self.imgURLs[i], imgRef: imgName)
-                downloadGroup.leave()
+                downloadGroup.wait()
             }
-            downloadGroup.wait()
         }
         
-        if self.coverImgPath == nil || self.uploadCount >= 0{
+        if self.coverImgPath == nil || self.uploadCount > 0{
             let controller = UIAlertController(title: "Save later", message: "Please wait a sec for image to upload and save again.", preferredStyle: .alert)
             controller.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(controller, animated: true, completion: nil)
