@@ -80,8 +80,17 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                                     print(error?.localizedDescription ?? "Error loading sharedObject to reader")
                                 }else{
                                     let tempObj = try! document!.data(as: FavObject.self)
-                                    self.favObjects[i] = tempObj!
-                                    self.groupTable.reloadData()
+                                    if tempObj == nil{
+                                        let controller = UIAlertController(title: "Error", message: "The author has changed/deleted this post", preferredStyle: .alert)
+                                        
+                                            controller.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                                        
+                                        self.present(controller, animated: true, completion: nil)
+                                    }else{
+                                        self.favObjects[i] = tempObj!
+                                        self.groupTable.reloadData()
+                                    }
+                                    
                                 }
                             }
                         }
