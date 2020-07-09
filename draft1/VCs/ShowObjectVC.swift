@@ -63,7 +63,7 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
             let downloadGroup = DispatchGroup()
             let imgsPath = "/images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])"
             let imgsRef = self.storageRef.child(imgsPath)
-            print("trying to access \(imgsPath)")
+
             imgsRef.listAll{(result, error) in
                 if error != nil{
                     Styling.errorAlert(vc: self, msg: "getting imgs: \(error!.localizedDescription)")
@@ -80,7 +80,6 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
                                 let curImg = UIImage(data: data!)
                                 let xPos = CGFloat(i) * widthBound
                                 let frame = CGRect(x: xPos, y: 0, width: scrollFrame.size.width, height: scrollFrame.size.height)
-                                print("\n frame: \(frame.origin), \(frame.size.width), \(frame.size.height)\n")
                                 let imgView = UIImageView(frame: frame)
                                 imgView.contentMode = .scaleAspectFill
                                 imgView.image = curImg
@@ -97,7 +96,6 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
         }
         self.pageCtrl.numberOfPages = self.imgs.count
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

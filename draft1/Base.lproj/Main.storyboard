@@ -141,6 +141,9 @@
                                 <state key="normal" title="Sign Out">
                                     <color key="titleColor" red="0.1264778674" green="0.50550043580000004" blue="0.68629831080000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
+                                <connections>
+                                    <segue destination="5Zo-88-NQ5" kind="show" id="p4Q-or-AIy"/>
+                                </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="PCb-aw-ZCM">
                                 <rect key="frame" x="40" y="238" width="334" height="73"/>

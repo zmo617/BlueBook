@@ -88,7 +88,6 @@ class SignUpVC: UIViewController {
                                        firstname: cFirstName,
                                        lastname: cLastName,
                                        password: cPw)
-                    
                     do {
                         try db.collection("users").document("\(self.cEmail!)").setData(from: newUser)
                     } catch let error {

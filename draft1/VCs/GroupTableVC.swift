@@ -43,7 +43,6 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             bgView = Styling.setUpBg(vc: self, imgName: "bg5")
             Styling.navDayMode(vc: self)
         }
-        
         UserDefaults.standard.set(selectedGroup == "sharedObjects", forKey: "isShared")
         
         //load data
@@ -238,5 +237,4 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             showObjectVC.objectPath = self.objectPath
         }
     }
-    
 }

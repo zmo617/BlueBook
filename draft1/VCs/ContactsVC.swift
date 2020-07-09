@@ -79,11 +79,7 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         controller.addAction(UIAlertAction(title: "OK", style: .default, handler: {
             (action: UIAlertAction!) in
-            print("userList.count = \(self.userList.count)")
             let indexPaths = self.contactsTable.indexPathsForSelectedRows
-            for indexP in indexPaths!{
-                print(indexP.row)
-            }
             //adding sharingObject to each user's "sharedObjects" collection
             for indexPath in indexPaths!{
                 
@@ -94,12 +90,9 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                         print("\n Error adding sharedObject to firebase: \(error as Any)")
                     }
                 }
-                print("\n\n sharingObject:", self.sharingObject ?? "nil")
             }
         }))
-        
         controller.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
         present(controller, animated: true, completion: nil)
     }
     
@@ -110,7 +103,6 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = contactsTable.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath) as! ContactCell
         let user = userList[indexPath.row]
-        print(user.firstname)
         let selectedIndexPaths = tableView.indexPathsForSelectedRows
         let rowIsSelected = selectedIndexPaths != nil && selectedIndexPaths!.contains(indexPath)
         cell.accessoryType = rowIsSelected ? .checkmark : .none

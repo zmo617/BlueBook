@@ -58,18 +58,15 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
             
             //load images
             let imgsRef = self.storageRef.child("/images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])")
-            //print("trying to access /images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])")
             imgsRef.listAll{(result, error) in
                 if error != nil{
                     Styling.errorAlert(vc: self, msg: "Error getting imgs from Firebase: \(error!.localizedDescription)")
                 }else{
-                    print("result count = \(result.items.count)")
                     result.items.forEach{(imgRef) in
                         imgRef.getData(maxSize: 1*2000*2000){(data, error) in
                             if error != nil{
                                 print("Error getting this img's data:\(error!.localizedDescription)")
                             }else{
-                                print("appending img")
                                 self.photos.append(UIImage(data: data!)!)
                                 self.photoBook.reloadData()
                             }
@@ -77,7 +74,6 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
                     }
                 }
             }
-            print("photos.count: \(self.photos.count)")
         }
         photoBook.delegate = self
         photoBook.dataSource = self
@@ -197,7 +193,6 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
                 }
                 _ = curAsset.image(completionHandler: {(img) in
                     self.photos.append(img)
-                    print("img \(i) converted to UIImage")
                 })
             }
         }
@@ -230,7 +225,6 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
                 print(error!.localizedDescription)
                 return
             }
-            print("\n\n Upload \(imgRef) succeeded")
             self.uploadCount -= 1
         }
     }
@@ -239,7 +233,6 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
     @IBAction func createObject(_ sender: Any) {
         objTitle = titleTxtField.text!
         let newContent = contentTxtView.text!
-        print("upload count == nil: \(uploadCount == nil)")
         //upload imgs
         if uploadCount < 0 {
             DispatchQueue.global(qos: .userInteractive).async{

@@ -60,12 +60,6 @@ class LoginVC: UIViewController {
         errorLabel.alpha = 1
     }
     
-    //    func goToHomeVC(){
-    //        let homeVC = storyboard?.instantiateViewController(identifier: "homeVC") as? ViewController
-    //        view.window?.rootViewController = homeVC
-    //        view.window?.makeKeyAndVisible()
-    //    }
-    
     @IBAction func loginBtnPressed(_ sender: Any) {
         let error = validateFields();
         let queue = DispatchQueue(label: "dispatchQ", qos: .userInteractive)

@@ -12,7 +12,6 @@ import UIKit
 class Styling{
     static func navDarkMode(vc: UIViewController){
         let navBar = vc.navigationController?.navigationBar
-        print("darkmode")
         navBar?.barTintColor = .appBlue //bg
         navBar?.tintColor = .white //items
         navBar?.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
@@ -20,7 +19,6 @@ class Styling{
     
     static func navDayMode(vc: UIViewController){
         let navBar = vc.navigationController?.navigationBar
-        print("daymode")
         navBar?.barTintColor = .white //bg
         navBar?.tintColor = .appBlue //items
         navBar?.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.appBlue]
