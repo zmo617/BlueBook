@@ -33,8 +33,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var editBtn: UIButton!
     @IBOutlet weak var settingsBtn: UIButton!
     
-    
-    
     //MARK:LOCAL PROPERTIES
     var groups = [FavGroup]()//groupsBook datasource
     let db = Firestore.firestore()//Firestore database
@@ -53,21 +51,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         userID = currentUser!.email
         
         //Styling
+        Styling.styleHollowButton(settingsBtn, 15)
         if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
-            //nav bar
-            navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]//text color
-            UINavigationBar.appearance().backgroundColor = UIColor.clear //bg color
-            UIBarButtonItem.appearance().tintColor = UIColor.white//bar button white
-            Styling.styleHollowButton(editBtn, 15)
-            
-            Styling.styleHollowButton(settingsBtn, 15)
-            //bg
+            //Styling.styleHollowButton(editBtn, 15)
             bgView = Styling.setUpBg(vc: self, imgName: "bg6")
+            Styling.navDarkMode(vc: self)
         } else {
+            //Styling.dayHollowButton(editBtn, 15)
             bgView = Styling.setUpBg(vc: self, imgName: "bg5")
-            navigationController?.navigationBar.barTintColor = UIColor.white
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-            tabBarController?.tabBar.barTintColor = UIColor.white
+            Styling.navDayMode(vc: self)
         }
         groupsBook.backgroundView = nil
         groupsBook.backgroundColor = .clear
@@ -81,6 +73,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }else{
                 //success
                 do{
+                    //get user info
                     let tempUser = try snapshot!.data(as: User.self)
                     self.welcomeLabel.text = "\(tempUser!.firstname)'s BlueBook"
                     self.groupsRef = self.db.collection("users").document(tempUser!.email).collection("favGroups")
@@ -155,6 +148,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         groups.append(FavGroup(title: newTitle))
     }
     
+    //switch to edit mode
     @IBAction func editPressed(_ sender: Any) {
         if (!editMode) {
             editMode = true
@@ -174,13 +168,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             addGroupVC.mainVCDelegate = self
             
         }else if segue.identifier == "toGroupTable"{
-            //what's in groupTable is the objects in this group
             let groupVC = segue.destination as! GroupTableVC
             groupVC.userID = userID
             groupVC.selectedGroup = self.selectedGroup
             groupVC.objectPath = [userID, selectedGroup]
         }
-        
     }
 }
 

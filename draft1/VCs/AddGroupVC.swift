@@ -25,17 +25,16 @@ class AddGroupVC: UIViewController {
         Styling.styleFilledButton(createBtn, 0)
         if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
             newTitleLabel.textColor = .white
-            bgView = Styling.setUpBg(vc: self, imgName: "bg6")
             Styling.styleTextField(newGroupTF)
-            Styling.styleHollowButton(createBtn, 20)
-            navigationController?.navigationBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-            tabBarController?.tabBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
+            Styling.styleFilledButton(createBtn, 20)
+            bgView = Styling.setUpBg(vc: self, imgName: "bg6")
+            Styling.navDarkMode(vc: self)
         } else {
+            newTitleLabel.textColor = .black
+            Styling.dayTextField(newGroupTF)
+            Styling.dayFilledButton(createBtn, 20)
             bgView = Styling.setUpBg(vc: self, imgName: "bg5")
-            navigationController?.navigationBar.barTintColor = UIColor.white
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-            tabBarController?.tabBar.barTintColor = UIColor.white
+            Styling.navDayMode(vc: self)
         }
     }
     
@@ -58,7 +57,6 @@ class AddGroupVC: UIViewController {
         }
     }
     
-
     @IBAction func createPressed(_ sender: Any) {
         let mainVC = mainVCDelegate as! ViewController
         //create new object

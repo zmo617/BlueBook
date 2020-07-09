@@ -51,21 +51,20 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //get object
         if (editingObject) {
             titleTxtField.text = objectPath[2]
             contentTxtView.text = editingContent
             
+            //load images
             let imgsRef = self.storageRef.child("/images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])")
-            print("trying to access /images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])")
-            
+            //print("trying to access /images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])")
             imgsRef.listAll{(result, error) in
                 if error != nil{
-                    print("Error getting imgs from Firebase: \(error!.localizedDescription)")
+                    Styling.errorAlert(vc: self, msg: "Error getting imgs from Firebase: \(error!.localizedDescription)")
                 }else{
-                    
                     print("result count = \(result.items.count)")
                     result.items.forEach{(imgRef) in
-                        
                         imgRef.getData(maxSize: 1*2000*2000){(data, error) in
                             if error != nil{
                                 print("Error getting this img's data:\(error!.localizedDescription)")
@@ -84,28 +83,28 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
         photoBook.dataSource = self
         
         //Styling
-        
         photoBook.backgroundColor = .clear
         photoBook.backgroundView = nil
         photoBook.layer.borderColor = UIColor.white.cgColor
         photoBook.layer.borderWidth = 1
         
         if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
-            Styling.styleTextField(titleTxtField)
-            Styling.styleFilledButton(addPicBtn, 30)
-            Styling.styleFilledButton(recordBtn, 30)
-            Styling.styleHollowButton(createBtn, 20)
-            contentTxtView.textColor = .white
             titleLabel.textColor = .white
+            contentTxtView.textColor = .white
+            Styling.styleTextField(titleTxtField)
+            Styling.styleFilledButton(addPicBtn, 20)
+            Styling.styleFilledButton(recordBtn, 20)
+            Styling.styleHollowButton(createBtn, 20)
             bgView = Styling.setUpBg(vc: self, imgName: "bg6")
-            navigationController?.navigationBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-            tabBarController?.tabBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
+            Styling.navDarkMode(vc: self)
         } else {
+            titleLabel.textColor = .black
+            contentTxtView.textColor = .black
+            Styling.dayFilledButton(addPicBtn, 20)
+            Styling.dayFilledButton(recordBtn, 20)
+            Styling.dayHollowButton(createBtn, 20)
             bgView = Styling.setUpBg(vc: self, imgName: "bg5")
-            navigationController?.navigationBar.barTintColor = UIColor.white
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-            tabBarController?.tabBar.barTintColor = UIColor.white
+            Styling.navDayMode(vc: self)
         }
     }
     
@@ -273,7 +272,6 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
                 let groupVC = self.groupTableDelegate as! GroupTableVC
                 groupVC.addObject(newCoverImgPath: self.coverImgPath, newTitle: self.objTitle, newContent: newContent)
             }
-            print("\n coverImgPath: \(self.coverImgPath!) \n" )
             self.navigationController?.popViewController(animated: true)
         }
     }

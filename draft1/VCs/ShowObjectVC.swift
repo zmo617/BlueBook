@@ -33,7 +33,6 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
     var bgView: UIImageView!
     var backFromEdit = false
     
-    
     override func viewWillAppear(_ animated: Bool) {
         if UserDefaults.standard.bool(forKey: "isShared"){
             shareBtn.isHidden = true
@@ -43,29 +42,23 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
         let scrollFrame = scrollView.frame
         let widthBound = scrollView.bounds.size.width
         
-        
         descriptionLabel.text = currentObject.content
         descriptionLabel.sizeToFit()
         Styling.styleFilledButton(shareBtn, 25)
         if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
-            bgView = Styling.setUpBg(vc: self, imgName: "bg6")
             titleLabel.textColor = UIColor.white
             descriptionLabel.textColor = UIColor.white
-            navigationController?.navigationBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-            tabBarController?.tabBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
+            bgView = Styling.setUpBg(vc: self, imgName: "bg6")
+            Styling.navDarkMode(vc: self)
         } else {
+            titleLabel.textColor = UIColor.black
+            descriptionLabel.textColor = UIColor.black
             bgView = Styling.setUpBg(vc: self, imgName: "bg5")
-            navigationController?.navigationBar.barTintColor = UIColor.white
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-            tabBarController?.tabBar.barTintColor = UIColor.white
+            Styling.navDayMode(vc: self)
         }
-        titleLabel.textColor = UIColor.white
-        descriptionLabel.textColor = UIColor.white
-        print("\n\n done")
         titleLabel.text = currentObject.title
-        //set up imgs
         
+        //set up imgs
         DispatchQueue.global(qos: .userInteractive).async{
             let downloadGroup = DispatchGroup()
             let imgsPath = "/images/\(self.objectPath[0])/\(self.objectPath[1])/\(self.objectPath[2])"
@@ -73,19 +66,16 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
             print("trying to access \(imgsPath)")
             imgsRef.listAll{(result, error) in
                 if error != nil{
-                    print("Error getting imgs from Firebase: \(error!.localizedDescription)")
+                    Styling.errorAlert(vc: self, msg: "getting imgs: \(error!.localizedDescription)")
                 }else{
-                    print("scroll frame: \(scrollFrame)")
-                    print("result count = \(result.items.count)")
                     self.scrollView.contentSize.width = scrollFrame.size.width*(CGFloat(result.items.count))
                     for i in 0 ..< result.items.count{
                         downloadGroup.enter()
                         let imgRef = result.items[i]
                         imgRef.getData(maxSize: 1*2000*2000){(data, error) in
                             if error != nil{
-                                print("Error getting this img's data:\(error!.localizedDescription)")
+                                Styling.errorAlert(vc: self, msg: error!.localizedDescription)
                             }else{
-                                //                                print("appending img")
                                 //adding to scroll view
                                 let curImg = UIImage(data: data!)
                                 let xPos = CGFloat(i) * widthBound
@@ -111,7 +101,6 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("isShared: \(UserDefaults.standard.bool(forKey: "isShared"))")
         setupView()
         descriptionLabel.text = currentObject.content
         descriptionLabel.sizeToFit()

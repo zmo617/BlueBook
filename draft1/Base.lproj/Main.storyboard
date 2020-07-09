@@ -16,9 +16,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg6" translatesAutoresizingMaskIntoConstraints="NO" id="BDD-sB-DVO">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                            </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Gbf-XQ-zNQ">
                                 <rect key="frame" x="40" y="418.5" width="334" height="110"/>
                                 <subviews>
@@ -27,7 +24,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="9wy-ZN-JCH"/>
                                         </constraints>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <userDefinedRuntimeAttributes>
@@ -41,7 +38,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="RL0-yb-sNM"/>
                                         </constraints>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES"/>
                                         <userDefinedRuntimeAttributes>
@@ -97,9 +94,7 @@
                         <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="5o3-7h-cPi" firstAttribute="trailing" secondItem="xqz-cd-wxE" secondAttribute="trailing" constant="40" id="187-6E-zTu"/>
-                            <constraint firstItem="BDD-sB-DVO" firstAttribute="leading" secondItem="SYE-65-d5i" secondAttribute="leading" id="9lm-TL-kgD"/>
                             <constraint firstItem="5o3-7h-cPi" firstAttribute="trailing" secondItem="ybf-km-ZLU" secondAttribute="trailing" constant="40" id="B3s-Tk-ewo"/>
-                            <constraint firstAttribute="bottom" secondItem="BDD-sB-DVO" secondAttribute="bottom" id="Iwz-CN-nYE"/>
                             <constraint firstItem="IWX-7n-p0J" firstAttribute="top" secondItem="Gbf-XQ-zNQ" secondAttribute="bottom" constant="30" id="K1T-Hu-fHq"/>
                             <constraint firstItem="ybf-km-ZLU" firstAttribute="top" secondItem="IWX-7n-p0J" secondAttribute="bottom" constant="50" id="L8U-7P-hL7"/>
                             <constraint firstItem="xqz-cd-wxE" firstAttribute="top" secondItem="WQ5-bS-Avc" secondAttribute="bottom" constant="80" id="Ngc-vj-098"/>
@@ -111,9 +106,7 @@
                             <constraint firstItem="IWX-7n-p0J" firstAttribute="leading" secondItem="5o3-7h-cPi" secondAttribute="leading" constant="40" id="bSt-Ef-ilV"/>
                             <constraint firstItem="xqz-cd-wxE" firstAttribute="leading" secondItem="5o3-7h-cPi" secondAttribute="leading" constant="40" id="bwZ-5u-fTb"/>
                             <constraint firstItem="ybf-km-ZLU" firstAttribute="leading" secondItem="5o3-7h-cPi" secondAttribute="leading" constant="40" id="jVB-Gx-nA0"/>
-                            <constraint firstAttribute="trailing" secondItem="BDD-sB-DVO" secondAttribute="trailing" id="lTE-qf-TeU"/>
                             <constraint firstItem="Gbf-XQ-zNQ" firstAttribute="leading" secondItem="5o3-7h-cPi" secondAttribute="leading" constant="40" id="mms-b6-apI"/>
-                            <constraint firstItem="BDD-sB-DVO" firstAttribute="top" secondItem="SYE-65-d5i" secondAttribute="top" id="t2E-So-e9e"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="5o3-7h-cPi"/>
                     </view>
@@ -793,9 +786,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.94999999999999996" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg6" translatesAutoresizingMaskIntoConstraints="NO" id="k8p-ij-0IO">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                            </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="CCW-P2-U7s">
                                 <rect key="frame" x="40" y="208" width="334" height="330"/>
                                 <subviews>
@@ -871,15 +861,11 @@
                             <constraint firstItem="KR5-Ng-9hv" firstAttribute="trailing" secondItem="z2g-vj-O4j" secondAttribute="trailing" constant="40" id="11l-hg-nQo"/>
                             <constraint firstItem="CCW-P2-U7s" firstAttribute="centerX" secondItem="goL-CI-EqQ" secondAttribute="centerX" id="8Yc-h5-35B"/>
                             <constraint firstItem="z2g-vj-O4j" firstAttribute="top" secondItem="4Ql-Z6-8Bu" secondAttribute="bottom" constant="50" id="9Un-fq-vBj"/>
-                            <constraint firstAttribute="bottom" secondItem="k8p-ij-0IO" secondAttribute="bottom" id="DJX-ls-Rik"/>
                             <constraint firstItem="CCW-P2-U7s" firstAttribute="top" secondItem="KR5-Ng-9hv" secondAttribute="top" constant="120" id="Dcs-39-yf7"/>
                             <constraint firstItem="4Ql-Z6-8Bu" firstAttribute="leading" secondItem="KR5-Ng-9hv" secondAttribute="leading" constant="40" id="JaK-Ha-8kn"/>
-                            <constraint firstItem="k8p-ij-0IO" firstAttribute="leading" secondItem="KR5-Ng-9hv" secondAttribute="leading" id="Lsk-MX-QAg"/>
                             <constraint firstItem="4Ql-Z6-8Bu" firstAttribute="top" secondItem="CCW-P2-U7s" secondAttribute="bottom" constant="100" id="RB2-0W-2bT"/>
                             <constraint firstItem="KR5-Ng-9hv" firstAttribute="trailing" secondItem="CCW-P2-U7s" secondAttribute="trailing" constant="40" id="TTc-0i-tQ7"/>
-                            <constraint firstItem="k8p-ij-0IO" firstAttribute="top" secondItem="goL-CI-EqQ" secondAttribute="top" id="UIu-qV-gTb"/>
                             <constraint firstItem="z2g-vj-O4j" firstAttribute="leading" secondItem="KR5-Ng-9hv" secondAttribute="leading" constant="40" id="Y70-cl-VkA"/>
-                            <constraint firstAttribute="trailing" secondItem="k8p-ij-0IO" secondAttribute="trailing" id="cNO-Hg-R8M"/>
                             <constraint firstItem="CCW-P2-U7s" firstAttribute="leading" secondItem="KR5-Ng-9hv" secondAttribute="leading" constant="40" id="fio-mA-Ikp"/>
                             <constraint firstItem="KR5-Ng-9hv" firstAttribute="trailing" secondItem="4Ql-Z6-8Bu" secondAttribute="trailing" constant="40" id="zuB-RR-dL4"/>
                         </constraints>
@@ -944,10 +930,9 @@
         <segue reference="DhE-rJ-CZg"/>
         <segue reference="6kL-0D-fLe"/>
         <segue reference="Wb9-iG-114"/>
-        <segue reference="XgH-MB-vT8"/>
+        <segue reference="fbp-du-W0T"/>
     </inferredMetricsTieBreakers>
     <resources>
-        <image name="bg6" width="1651" height="1101"/>
         <image name="mic.fill" catalog="system" width="108" height="128"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="xmark" catalog="system" width="128" height="113"/>

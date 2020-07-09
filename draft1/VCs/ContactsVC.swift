@@ -22,17 +22,14 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        Styling.styleHollowButton(doneBtn, 15)
         if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
+            Styling.styleHollowButton(doneBtn, 15)
             bgView = Styling.setUpBg(vc: self, imgName: "bg6")
-            navigationController?.navigationBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-            tabBarController?.tabBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
+            Styling.navDarkMode(vc: self)
         } else {
+            Styling.dayHollowButton(doneBtn, 15)
             bgView = Styling.setUpBg(vc: self, imgName: "bg5")
-            navigationController?.navigationBar.barTintColor = UIColor.white
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-            tabBarController?.tabBar.barTintColor = UIColor.white
+            Styling.navDayMode(vc: self)
         }
         contactsTable.delegate = self
         contactsTable.dataSource = self
@@ -53,7 +50,6 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             }
         }
     }
-    
     
     override func loadView() {
         super.loadView()
@@ -132,7 +128,6 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)!
         cell.accessoryType = .checkmark
-        // cell.accessoryView.hidden = false // if using a custom image
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {

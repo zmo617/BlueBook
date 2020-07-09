@@ -22,14 +22,10 @@ class SettingsVC: UIViewController {
         darkModeSwitch.isOn = UserDefaults.standard.bool(forKey: "isDarkMode")
         if (darkModeSwitch.isOn) {
             bgView = Styling.setUpBg(vc: self, imgName: "bg6")
-            navigationController?.navigationBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-            tabBarController?.tabBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
+            Styling.navDarkMode(vc: self)
         } else {
             bgView = Styling.setUpBg(vc: self, imgName: "bg5")
-            navigationController?.navigationBar.barTintColor = UIColor.white
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-            tabBarController?.tabBar.barTintColor = UIColor.white
+            Styling.navDayMode(vc: self)
         }
         Styling.styleFilledButton(signOutBtn, 0)
     }
@@ -40,14 +36,10 @@ class SettingsVC: UIViewController {
         NotificationCenter.default.post(name: name, object: nil)
         if (darkModeSwitch.isOn) {
             bgView.image = UIImage(named: "bg6")
-            navigationController?.navigationBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-            tabBarController?.tabBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
+            Styling.navDarkMode(vc: self)
         } else {
             bgView.image = UIImage(named: "bg5")
-            navigationController?.navigationBar.barTintColor = UIColor.white
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-            tabBarController?.tabBar.barTintColor = UIColor.white
+            Styling.navDayMode(vc: self)
         }
     }
 }

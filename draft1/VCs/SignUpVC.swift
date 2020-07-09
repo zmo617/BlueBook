@@ -21,18 +21,29 @@ class SignUpVC: UIViewController {
     @IBOutlet weak var errorLabel: UILabel!
     
     var cEmail: String!
+    var bgView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         errorLabel.alpha = 0
-        Styling.styleTextField(emailTF)
-        Styling.styleTextField(firstNameTF)
-        Styling.styleTextField(lastNameTF)
-        Styling.styleTextField(pwTF)
-        Styling.styleTextField(confirmPwTF)
-        Styling.styleHollowButton(signUpBtn, 20)
+        if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
+            bgView = Styling.setUpBg(vc: self, imgName: "bg6")
+            Styling.styleTextField(emailTF)
+            Styling.styleTextField(firstNameTF)
+            Styling.styleTextField(lastNameTF)
+            Styling.styleTextField(pwTF)
+            Styling.styleTextField(confirmPwTF)
+            Styling.styleHollowButton(signUpBtn, 20)
+        }else{
+            bgView = Styling.setUpBg(vc: self, imgName: "bg5")
+            Styling.dayTextField(emailTF)
+            Styling.dayTextField(firstNameTF)
+            Styling.dayTextField(lastNameTF)
+            Styling.dayTextField(pwTF)
+            Styling.dayTextField(confirmPwTF)
+            Styling.dayHollowButton(signUpBtn, 20)
+        }
         
-        // Do any additional setup after loading the view.
     }
     
     //if there's an error, return error msg
@@ -45,7 +56,6 @@ class SignUpVC: UIViewController {
             lastNameTF.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""{
             return "Please fill in all fields."
         }
-        
         return nil
     }
     
@@ -86,11 +96,10 @@ class SignUpVC: UIViewController {
                         print("Error writing newUser to Firestore: \(error)")
                     }
                     //create default favGroups -> default doc "sharedObject"
-                    do {
-                        try db.collection("users").document("\(self.cEmail!)").collection("favGroups").document("sharedObjects").setData(["title": "sharedObjects"])
-                        print("done creating user")
-                    } catch _ {
-                        self.showError(errMsg: "Error creating default favGroups -> sharedObjects.")
+                    db.collection("users").document("\(self.cEmail!)").collection("favGroups").document("sharedObjects").setData(["title": "sharedObjects"]){(error) in
+                        if error != nil{
+                            self.showError(errMsg: "Error creating default sharedObjects: \(error)")
+                        }
                     }
                     //go to mainVC "ViewController"
                     self.performSegue(withIdentifier: "toHome", sender: nil)

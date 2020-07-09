@@ -19,19 +19,18 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     @IBOutlet weak var addBtn: UIButton!
     
     //MARK:LOCAL PROPERTIES
-    var favObjects = [FavObject]()
+    var favObjects = [FavObject]()//data source for table view
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     let showObjectSegueIdentifier = "toShowObject"
-    var selectedGroup: String!
-    var objectPath: [String]!
-    var sharedPaths: [[String]]!
+    var selectedGroup: String! //parent group
+    var objectPath: [String]! //will be altered to pass to nextVC
+    var sharedPaths: [[String]]!//if parent group is "sharedObjects"
     var bgView: UIImageView!
     var userID: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("isShared: \(UserDefaults.standard.bool(forKey: "isShared"))")
         //styling
         groupTable.backgroundView = nil
         groupTable.backgroundColor = .clear
@@ -39,19 +38,18 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         self.title = selectedGroup
         if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
             bgView = Styling.setUpBg(vc: self, imgName: "bg6")
-            navigationController?.navigationBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-            tabBarController?.tabBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)
+            Styling.navDarkMode(vc: self)
         } else {
             bgView = Styling.setUpBg(vc: self, imgName: "bg5")
-            navigationController?.navigationBar.barTintColor = UIColor.white
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-            tabBarController?.tabBar.barTintColor = UIColor.white
+            Styling.navDayMode(vc: self)
         }
         
         UserDefaults.standard.set(selectedGroup == "sharedObjects", forKey: "isShared")
+        
+        //load data
         let ref = db.collection("users").document(objectPath[0]).collection("favGroups").document(selectedGroup)
         if UserDefaults.standard.bool(forKey: "isShared"){
+            //shared:
             let placeHolderFavObj = FavObject(title: "", coverImgPath: "", content: "")
             DispatchQueue.main.async {
                 //get shared object paths
@@ -64,15 +62,14 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                         //var tempPaths = [[String]]()
                         self.sharedPaths = [[String]](repeating: [], count: docsCount)//
                         self.favObjects = [FavObject](repeating: placeHolderFavObj, count: docsCount)
+                        
                         //and add each object to sharedObjects group, i.e. the favObjects list
                         var j = 0
                         for i in 0 ..< docsCount{
                             
                             let docData = docs![i].get("path") as! [String]
-                            print("\n docs[\(i)]: \(docData) \n")
-                            
                             let objRef = self.db.collection("users").document(docData[0]).collection("favGroups").document(docData[1]).collection("favObjects").document(docData[2])
-                            print("\n document: \(docData[1]),\(docData[2])")
+                            
                             objRef.getDocument{(document, error) in
                                 if error != nil{
                                     print(error?.localizedDescription ?? "Error loading sharedObject to reader")
@@ -84,12 +81,12 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                                             if error != nil{
                                                 Styling.errorAlert(vc: self, msg: "Error removing \(docData[2]) from sharedObjects")
                                             }else{
-                                                //reduce size
                                                 self.sharedPaths.remove(at: self.sharedPaths.count - 1)
                                                 self.favObjects.remove(at: self.favObjects.count - 1)
                                             }
                                         }
                                     }else{
+                                        //current object valid
                                         self.sharedPaths[j] = docData
                                         self.favObjects[j] = tempObj!
                                         self.groupTable.reloadData()
@@ -103,19 +100,18 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                     }
                 }
             }
-            
         }else{
+            //regular group
             let groupRef = ref.collection("favObjects")
             groupRef.getDocuments{(snapshot, error) in
                 if let error = error {
-                    print("Error getting documents: \(error)")
+                    Styling.errorAlert(vc: self, msg: "Error getting documents: \(error)")
                 } else {
                     let tempObjects: [FavObject] = try! snapshot!.decoded()
                     self.favObjects = tempObjects
                     self.groupTable.reloadData()
                 }
             }
-            print("will appear: objects.count = \(self.favObjects.count)")
         }
     }
     
@@ -154,7 +150,7 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             try docRef.collection("favGroups").document("\(self.selectedGroup!)").collection("favObjects").document("\(newObj.title)").setData(from: newObj)
             
         } catch let error {
-            print("Error writing to Firestore: \(error)")
+            Styling.errorAlert(vc: self, msg: "Error writing to Firestore: \(error)")
         }
         
         //add it to objects
@@ -175,7 +171,6 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         DispatchQueue.main.async {
             let imgRef = self.storageRef.child(curFavObject.coverImgPath)
             cell.coverImgView.sd_setImage(with: imgRef)
-            print("curFavObject name: \(curFavObject.title)")
         }
         cell.coverImgView.layer.borderColor = UIColor.white.cgColor
         cell.titleLabel.textColor = UIColor.white
@@ -188,10 +183,11 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         if UserDefaults.standard.bool(forKey: "isShared"){
             objectPath = sharedPaths[indexPath.row]
         }else{
-            
+            //haven't gone to showObjectVC, append object to show in path
             if(objectPath.count < 3){
                 objectPath.append(favObjects[indexPath.row].title)
             }else{
+            //has been to showObjectVC, reset object to show
                 objectPath[2] = favObjects[indexPath.row].title
             }
         }
@@ -200,20 +196,11 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     
     //swipe to delete object
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        //if shared, can swipe but delete would be disabled
         if !UserDefaults.standard.bool(forKey: "isShared"){
             if editingStyle == .delete{
                 let obj = favObjects[indexPath.row]
                 let userRef = self.db.collection("users").document(userID)
-                //                if isShared{
-                //                    print("userID: \(userID!), objTitle: \(obj.title)")
-                //                    userRef.collection("favGroups").document(self.selectedGroup!).collection("objectPaths").document(obj.title).delete(){err in
-                //                        if let err = err {
-                //                            print("Error removing document: \(err)")
-                //                        } else {
-                //                            print("Document successfully removed!")
-                //                        }
-                //                    }
-                //                }else{
                 userRef.collection("favGroups").document("\(self.selectedGroup!)").collection("favObjects").document(obj.title).delete() { err in
                     if let err = err {
                         print("Error removing document: \(err)")
@@ -221,7 +208,6 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                         print("Document successfully removed!")
                     }
                 }
-                
                 let imgsRef = self.storageRef.child("/images/\(objectPath[0])/\(objectPath[1])/\(obj.title)")
                 imgsRef.delete{ error in
                     if let error = error {
@@ -230,10 +216,8 @@ class GroupTableVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                         print("imgs deleted from Firebase Storage().")
                     }
                 }
-                //}
                 favObjects.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .bottom)
-                //}
             }
         }
     }

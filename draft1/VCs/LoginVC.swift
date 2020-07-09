@@ -23,16 +23,22 @@ class LoginVC: UIViewController {
     var cEmail: String!
     var cPw: String!
     var curUser: User!
+    var bgView: UIImageView!//background view
     
     override func viewDidLoad() {
         super.viewDidLoad()
         if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
-            navigationController?.navigationBar.barTintColor = .appBlue
-            navigationController?.navigationBar.tintColor = .white
-            navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+            bgView = Styling.setUpBg(vc: self, imgName: "bg6")
             Styling.styleTextField(emailTF)
             Styling.styleTextField(pwTF)
             Styling.styleHollowButton(signUpBtn, 20)
+            Styling.navDarkMode(vc: self)
+        }else{
+            bgView = Styling.setUpBg(vc: self, imgName: "bg5")
+            Styling.dayTextField(emailTF)
+            Styling.dayTextField(pwTF)
+            Styling.dayHollowButton(signUpBtn, 20)
+            Styling.navDayMode(vc: self)
         }
         errorLabel.alpha = 0
     }
