@@ -379,7 +379,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OJa-AM-BAA">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="objectCell" rowHeight="100" id="mEk-BP-fbS" customClass="ObjectCell" customModule="draft1" customModuleProvider="target">
@@ -466,7 +466,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tyG-lc-VQl">
-                                <rect key="frame" x="189.5" y="780" width="35" height="32"/>
+                                <rect key="frame" x="189.5" y="726" width="35" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Save"/>
                                 <connections>
@@ -474,7 +474,7 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Add text here.." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ZEK-8t-70Z">
-                                <rect key="frame" x="20" y="167" width="374" height="200"/>
+                                <rect key="frame" x="20" y="79" width="374" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="AHf-Lx-AEA"/>
                                 </constraints>
@@ -483,7 +483,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="S03-jt-o2N">
-                                <rect key="frame" x="20" y="113" width="374" height="34"/>
+                                <rect key="frame" x="20" y="25" width="374" height="34"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o8o-eV-cNu">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="34"/>
@@ -506,7 +506,7 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BwJ-Ng-6uW">
-                                <rect key="frame" x="30" y="387" width="58" height="25"/>
+                                <rect key="frame" x="30" y="299" width="58" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="yCl-3I-OgS"/>
                                 </constraints>
@@ -518,7 +518,7 @@
                                 </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="SkL-3g-ii3">
-                                <rect key="frame" x="20" y="492" width="374" height="235"/>
+                                <rect key="frame" x="20" y="404" width="374" height="235"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="235" id="1iU-uX-I9s"/>
                                 </constraints>
@@ -554,7 +554,7 @@
                                 </cells>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XCF-0j-G22">
-                                <rect key="frame" x="20" y="737" width="80" height="30"/>
+                                <rect key="frame" x="20" y="649" width="80" height="30"/>
                                 <state key="normal" title="Add Picture"/>
                                 <connections>
                                     <action selector="importImg:" destination="9IQ-Mp-Iy7" eventType="touchUpInside" id="sVi-Wn-kOw"/>
@@ -589,6 +589,8 @@
                         <outlet property="photoBook" destination="SkL-3g-ii3" id="EqP-iY-AWg"/>
                         <outlet property="recordBtn" destination="BwJ-Ng-6uW" id="XCK-lC-eYl"/>
                         <outlet property="titleTxtField" destination="Vor-aj-qaE" id="9qa-ff-d8F"/>
+                        <segue destination="5lQ-UD-B1i" kind="show" identifier="BackToTable" id="R7G-V4-lPa"/>
+                        <segue destination="6xK-tg-8R7" kind="show" identifier="BackToShow" id="m3Y-WJ-WAG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bd7-zo-cBc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -612,7 +614,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="boF-b6-oDS">
-                                <rect key="frame" x="20" y="108" width="374" height="23"/>
+                                <rect key="frame" x="20" y="64" width="374" height="23"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -683,7 +685,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="TmW-mV-mfn">
-                                <rect key="frame" x="20" y="93" width="374" height="709"/>
+                                <rect key="frame" x="20" y="49" width="374" height="753"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ContactCell" textLabel="TVD-Dj-Qt5" style="IBUITableViewCellStyleDefault" id="oAa-yZ-Njn" customClass="ContactCell" customModule="draft1" customModuleProvider="target">
@@ -897,7 +899,9 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="m3Y-WJ-WAG"/>
         <segue reference="x5Z-Lg-E00"/>
+        <segue reference="R7G-V4-lPa"/>
         <segue reference="XgH-MB-vT8"/>
     </inferredMetricsTieBreakers>
     <resources>

@@ -329,6 +329,7 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
     //create button pressed
     @IBAction func createObject(_ sender: Any) {
         objTitle = titleTxtField.text!
+        let newContent = contentTxtView.text!
         //upload imgs
         DispatchQueue.global(qos: .userInteractive).async{
             let downloadGroup = DispatchGroup()
@@ -346,20 +347,24 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
             downloadGroup.wait()
         }
         if self.coverImgPath == nil{
-            print("coverImgPath nil \n\n")
+            let controller = UIAlertController(title: "Save later", message: "Please wait a sec for image to upload and save again.", preferredStyle: .alert)
+            controller.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(controller, animated: true, completion: nil)
+            
         }else{
-            print("\n coverImgPath: \(self.coverImgPath!) \n" )
-            if self.editingObject{
+            if self.editingObject {
                 let showVC = self.showVCDelegate as! ShowObjectVC
-                showVC.editObject(newCoverImgPath: self.coverImgPath, newTitle: self.objTitle, newContent: self.contentTxtView.text)
+                showVC.editObject(newCoverImgPath: self.coverImgPath, newTitle: self.objTitle, newContent: newContent)
                 showVC.backFromEdit = true
-                
             }else{
                 let groupVC = self.groupTableDelegate as! GroupTableVC
-                groupVC.addObject(newCoverImgPath: self.coverImgPath, newTitle: self.objTitle, newContent: self.contentTxtView.text)
+                groupVC.addObject(newCoverImgPath: self.coverImgPath, newTitle: self.objTitle, newContent: newContent)
             }
+            print("\n coverImgPath: \(self.coverImgPath!) \n" )
             self.navigationController?.popViewController(animated: true)
         }
+        
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -373,7 +378,25 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
         return cell
     }
     
-    
+    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    //        if self.coverImgPath == nil{
+    //            print("coverImgPath nil \n\n")
+    //        }else{
+    //            print("\n coverImgPath: \(self.coverImgPath!) \n" )
+    //        }
+    //        if segue.identifier == "BackToShow" {
+    //            let showVC = self.showVCDelegate as! ShowObjectVC
+    //            showVC.editObject(newCoverImgPath: self.coverImgPath, newTitle: self.objTitle, newContent: self.contentTxtView.text)
+    //            showVC.backFromEdit = true
+    //            showVC.objectPath = objectPath
+    //            print("objectPath: \(objectPath)")
+    //        }else if segue.identifier == "BackToTable"{
+    //            let groupVC = self.groupTableDelegate as! GroupTableVC
+    //            groupVC.addObject(newCoverImgPath: self.coverImgPath, newTitle: self.objTitle, newContent: self.contentTxtView.text)
+    //            groupVC.objectPath = objectPath
+    //            print("objectPath: \(groupVC.objectPath)")
+    //        }
+    //    }
     /*
      // MARK: - Navigation
      
