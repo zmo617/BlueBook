@@ -87,9 +87,9 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
             print("photos.count: \(self.photos.count)")
         }
         
-        createBtn.setTitleColor(UIColor.systemBlue, for: .normal)
+        //createBtn.setTitleColor(UIColor.systemBlue, for: .normal)
         Styling.styleTextField(titleTxtField)
-        addPicBtn.setTitleColor(UIColor.systemBlue, for: .normal)
+        //addPicBtn.setTitleColor(UIColor.systemBlue, for: .normal)
         
         photoBook.delegate = self
         photoBook.dataSource = self
@@ -97,6 +97,9 @@ class AddObjectVC: UIViewController, UINavigationControllerDelegate, SFSpeechRec
         photoBook.backgroundView = nil
         photoBook.layer.borderColor = UIColor.white.cgColor
         photoBook.layer.borderWidth = 1
+        Styling.styleFilledButton(addPicBtn)
+        Styling.styleFilledButton(createBtn)
+        Styling.styleFilledButton(recordBtn)
         if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
             bgView = Styling.setUpBg(vc: self, imgName: "bg6")
             navigationController?.navigationBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)

@@ -12,6 +12,7 @@ import Firebase
 class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var contactsTable: UITableView!
+    @IBOutlet weak var doneBtn: UIButton!
     
     let db = Firestore.firestore()
     var userList = [User]()
@@ -21,6 +22,7 @@ class ContactsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Styling.styleFilledButton(doneBtn)
         if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
             bgView = Styling.setUpBg(vc: self, imgName: "bg6")
             navigationController?.navigationBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)

@@ -12,6 +12,7 @@ class AddGroupVC: UIViewController {
    
     @IBOutlet weak var newTitleLabel: UILabel!
     @IBOutlet weak var newGroupTF: UITextField!
+    @IBOutlet weak var createBtn: UIButton!
     
     //MARK:LOCAL PROPERTIES
     var mainVCDelegate: UIViewController!//homeVC
@@ -21,6 +22,7 @@ class AddGroupVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         Styling.styleTextField(newGroupTF)
+        Styling.styleFilledButton(createBtn)
         if (UserDefaults.standard.bool(forKey: "isDarkMode")) {
             bgView = Styling.setUpBg(vc: self, imgName: "bg6")
             navigationController?.navigationBar.barTintColor = UIColor(red: 0.2353, green: 0.5686, blue: 0.698, alpha: 1.0)

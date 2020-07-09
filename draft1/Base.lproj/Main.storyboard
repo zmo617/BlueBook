@@ -361,6 +361,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Nz7-LE-GhU"/>
                     <connections>
+                        <outlet property="createBtn" destination="raD-vU-vyZ" id="lRW-KX-ev1"/>
                         <outlet property="newGroupTF" destination="6rY-kf-fsS" id="76O-s1-pOj"/>
                         <outlet property="newTitleLabel" destination="qAl-1s-wkd" id="9oe-jr-JIf"/>
                     </connections>
@@ -510,7 +511,7 @@
                                     <constraint firstAttribute="height" constant="25" id="yCl-3I-OgS"/>
                                 </constraints>
                                 <state key="normal" title="Record">
-                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
                                     <action selector="recordPressed:" destination="9IQ-Mp-Iy7" eventType="touchUpInside" id="Uo2-u0-63H"/>
@@ -667,6 +668,7 @@
                         <outlet property="descriptionLabel" destination="VGe-sj-1yb" id="27G-uL-0DD"/>
                         <outlet property="pageCtrl" destination="58r-Ts-h38" id="OWF-UA-yAN"/>
                         <outlet property="scrollView" destination="96S-pN-t9T" id="70w-DN-Hxl"/>
+                        <outlet property="shareBtn" destination="WZm-Yi-aGj" id="JYC-vU-NYV"/>
                         <outlet property="titleLabel" destination="boF-b6-oDS" id="5HL-WO-4i1"/>
                     </connections>
                 </viewController>
@@ -734,6 +736,7 @@
                     <navigationItem key="navigationItem" title="Contacts" id="JdI-oJ-Fuj"/>
                     <connections>
                         <outlet property="contactsTable" destination="TmW-mV-mfn" id="Buf-6R-4iS"/>
+                        <outlet property="doneBtn" destination="M4G-oZ-Ls8" id="Urz-22-cj3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4hI-dG-8wL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
