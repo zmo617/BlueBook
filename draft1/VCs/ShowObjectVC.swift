@@ -109,7 +109,6 @@ class ShowObjectVC: UIViewController, UIScrollViewDelegate{
         setupView()
         descriptionLabel.text = currentObject.content
         descriptionLabel.sizeToFit()
-        bgView = Styling.setUpBg(vc: self, imgName: "bg6")
         titleLabel.textColor = UIColor.white
         descriptionLabel.textColor = UIColor.white
         print("\n\n done")
